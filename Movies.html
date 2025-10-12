@@ -186,7 +186,7 @@
 
 <section class="content">
   <h2>🔥 Trending Movies</h2>
-  <p>Click a movie to watch its trailer, then stream the full movie!</p>
+  <p>Click a movie to watch its trailer, then open it on YouTube!</p>
 
   <div class="search-bar">
     <input type="text" id="searchInput" placeholder="Search for movies...">
@@ -195,12 +195,12 @@
   <div id="movie-grid" class="movie-grid"></div>
 </section>
 
-<!-- Trailer & Full Movie Modal -->
+<!-- Trailer Modal -->
 <div id="movieModal" class="modal">
   <div class="modal-content">
     <span class="close">&times;</span>
     <iframe id="trailerFrame" src="" frameborder="0" allowfullscreen></iframe>
-    <button id="watchFullBtn">Watch Full Movie</button>
+    <button id="watchFullBtn">🎥 Watch Full Movie on YouTube</button>
   </div>
 </div>
 
@@ -240,7 +240,7 @@ function displayMovies(movies) {
       <img src="${IMG_PATH + movie.poster_path}" alt="${movie.title}">
       <h3>${movie.title}</h3>
     `;
-    card.addEventListener("click", () => openModal(movie.id));
+    card.addEventListener("click", () => openModal(movie.id, movie.title));
     movieGrid.appendChild(card);
   });
 }
@@ -251,7 +251,7 @@ const trailerFrame = document.getElementById("trailerFrame");
 const watchBtn = document.getElementById("watchFullBtn");
 const closeBtn = document.querySelector(".modal .close");
 
-async function openModal(movieId) {
+async function openModal(movieId, title) {
   try {
     const res = await fetch(`https://api.themoviedb.org/3/movie/${movieId}/videos`, {
       headers: { Authorization: `Bearer ${TOKEN}` }
@@ -260,7 +260,7 @@ async function openModal(movieId) {
     const trailer = data.results.find(v => v.type === "Trailer" && v.site === "YouTube");
     if(trailer) {
       trailerFrame.src = `https://www.youtube.com/embed/${trailer.key}?autoplay=1`;
-      watchBtn.setAttribute("data-movie", movieId);
+      watchBtn.setAttribute("data-trailer", trailer.key);
       modal.style.display = "flex";
     }
   } catch(err) {
@@ -268,9 +268,12 @@ async function openModal(movieId) {
   }
 }
 
+// 🎬 Open YouTube Full Movie Link
 watchBtn.onclick = () => {
-  const movieId = watchBtn.getAttribute("data-movie");
-  trailerFrame.src = `movies/${movieId}.mp4`;
+  const trailerKey = watchBtn.getAttribute("data-trailer");
+  if (trailerKey) {
+    window.open(`https://www.youtube.com/watch?v=${trailerKey}`, "_blank");
+  }
 };
 
 closeBtn.onclick = () => {
