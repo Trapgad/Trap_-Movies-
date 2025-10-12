@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TRAP MOVIES | Series</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+  body {
+    margin: 0;
+    font-family: 'Montserrat', sans-serif;
+    background-color: #0d0d0d;
+    color: #f1f1f1;
+  }
+  header {
+    background: linear-gradient(90deg, #b30000, #333);
+    text-align: center;
+    padding: 1.5rem;
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #fff;
+  }
+  nav {
+    background: #1a1a1a;
+    display: flex;
+    justify-content: center;
+    gap: 1.2rem;
+    padding: 0.8rem;
+    border-bottom: 2px solid #b30000;
+  }
+  nav a {
+    text-decoration: none;
+    color: #ccc;
+    font-weight: 600;
+  }
+  nav a:hover,
+  nav a.active { color: #fff; border-bottom: 2px solid #b30000; padding-bottom: 2px; }
+  .hero { text-align: center; padding: 3rem 1rem; color: #ff3333; font-size: 1.8rem; font-weight: bold; text-transform: uppercase; }
+  .series { display: grid; grid-template-columns: repeat(auto-fill,minmax(180px,1fr)); gap: 1.2rem; padding: 1.5rem; }
+  .series-card { background: #1f1f1f; border-radius: 10px; overflow: hidden; text-align: center; box-shadow: 0 0 10px rgba(179,0,0,0.4); cursor: pointer; transition: transform 0.3s; }
+  .series-card:hover { transform: scale(1.05); }
+  .series-card img { width: 100%; height: 260px; object-fit: cover; }
+  .series-card h3 { font-size: 1rem; margin: 0.5rem 0; color: #fff; }
+  footer { background: #1a1a1a; color: #aaa; text-align: center; padding: 1rem; border-top: 2px solid #b30000; }
+</style>
+</head>
+<body>
+
+<header>🎬 TRAP MOVIES</header>
+<nav>
+  <a href="Home.html">Home</a>
+  <a href="Movies.html">Movies</a>
+  <a href="Series.html" class="active">Series</a>
+  <a href="About.html">About</a>
+  <a href="Contact.html">Contact</a>
+</nav>
+
+<section class="hero">🔥 Popular Series</section>
+
+<section class="series" id="seriesContainer"></section>
+
+<footer>© 2025 TRAP MOVIES — Created by TRAP GAD 🔥</footer>
+
+<script>
+const TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxN2ExODM0ZTI3MzMyMGVlZjhhMmEzNmIzOGExMTk2NCIsIm5iZiI6MTc2MDE5MDU2OC4wOTQsInN1YiI6IjY4ZWE2MDY4ZmJjYjQxOTVlYjlmZDg2ZCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.iFV2N9KUPakJb_HWWY3eZbB3cUq_gMhM1H9hcnEWD7Q";
+const IMG_PATH = "https://image.tmdb.org/t/p/w500";
+const seriesContainer = document.getElementById("seriesContainer");
+
+async function getSeries() {
+  try {
+    const res = await fetch("https://api.themoviedb.org/3/tv/popular", { headers: { Authorization: `Bearer ${TOKEN}` }});
+    const data = await res.json();
+    displaySeries(data.results);
+  } catch(err){ console.error(err); }
+}
+
+function displaySeries(series) {
+  seriesContainer.innerHTML = "";
+  series.forEach(tv => {
+    const card = document.createElement("div");
+    card.classList.add("series-card");
+    card.innerHTML = `<img src="${IMG_PATH + tv.poster_path}" alt="${tv.name}"><h3>${tv.name}</h3>`;
+    seriesContainer.appendChild(card);
+  });
+}
+
+getSeries();
+</script>
+
+</body>
+</html>
