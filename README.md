@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TRAP MOVIES | About</title>
+<title>Welcome to TRAP MOVIES|</title>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 <style>
@@ -20,7 +20,7 @@ footer { background:#1a1a1a; color:#aaa; text-align:center; padding:1rem; border
 </head>
 <body>
 
-<header>ðŸŽ¬ TRAP MOVIES</header>
+<header>Welcome to TRAP MOVIES</header>
 <nav>
   <a href="Home.html">Home</a>
   <a href="Movies.html">Movies</a>
@@ -30,12 +30,12 @@ footer { background:#1a1a1a; color:#aaa; text-align:center; padding:1rem; border
 </nav>
 
 <section>
-  <h2>About TRAP MOVIES</h2>
-  <p>Welcome to TRAP MOVIES â€” your ultimate entertainment hub! ðŸŽ¬ðŸ”¥<br>
+  <h2>Welcome to TRAP MOVIES</h2>
+  <p>Welcome to TRAP MOVIES your ultimate entertainment hub! <br>
   Here you can explore the hottest trending movies and series every week. Our goal is to provide a sleek, professional, and fun platform where fans can easily discover new releases, check ratings, and watch trailers. Enjoy the latest blockbusters and fan-favorites all in one place.</p>
 </section>
 
-<footer>Â© 2025 TRAP MOVIES â€” Created by TRAP GAD ðŸ”¥</footer>
+<footer>Â© 2025 TRAP MOVIES  Created by TRAP GAD </footer>
 
 </body>
 </html>
