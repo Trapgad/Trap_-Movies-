@@ -15,8 +15,12 @@ nav a:hover, nav a.active { color:#fff; border-bottom:2px solid #b30000; padding
 .contact { max-width:600px; margin:3rem auto; padding:2rem; background:#1f1f1f; border-radius:12px; box-shadow:0 0 15px rgba(179,0,0,0.5); text-align:center; }
 .contact h2 { color:#ff3333; margin-bottom:1.5rem; }
 .contact input, .contact textarea { width:100%; padding:12px; margin-bottom:1rem; border-radius:8px; border:1px solid #444; background:#111; color:#f1f1f1; }
-.contact button { padding:12px 25px; border:none; border-radius:25px; background:#b30000; color:#fff; font-weight:600; cursor:pointer; transition:0.3s; }
-.contact button:hover { background:#ff3333; }
+.contact button { padding:12px 25px; border:none; border-radius:25px; background:#b30000; color:#fff; font-weight:600; cursor:pointer; transition:0.3s, box-shadow 0.3s; }
+.contact button:hover { background:#ff3333; box-shadow:0 0 10px #e50914; }
+/* Glowing animation while sending */
+.contact button.sending { animation: glow 1s infinite alternate; pointer-events:none; }
+@keyframes glow { 0% { box-shadow: 0 0 5px #e50914; } 50% { box-shadow: 0 0 20px #ff3333; } 100% { box-shadow: 0 0 10px #e50914; } }
+
 .contact-info { margin-top:1.5rem; color:#ddd; font-size:0.95rem; }
 .contact-info span { color:#ff3333; font-weight:600; }
 footer { background:#1a1a1a; color:#aaa; text-align:center; padding:1rem; border-top:2px solid #b30000; }
@@ -35,10 +39,10 @@ footer { background:#1a1a1a; color:#aaa; text-align:center; padding:1rem; border
 
 <section class="contact">
   <h2>Contact TRAP GAD</h2>
-  <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+  <form id="contactForm">
     <input type="text" name="name" placeholder="Your Name" required>
-    <input type="email" name="_replyto" placeholder="Your Email" required>
-    <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
+    <input type="email" name="email" placeholder="Your Email" required>
+    <textarea name="message" placeholder="Your Message" rows="5" required></textarea>
     <button type="submit">Send Message</button>
   </form>
   <div class="contact-info">
@@ -48,7 +52,28 @@ footer { background:#1a1a1a; color:#aaa; text-align:center; padding:1rem; border
   </div>
 </section>
 
-<footer>© 2025 TRAP MOVIES — Created by TRAP GAD 🔥</footer>
+<footer>© 2025 TRAP MOVIES — Created by TRAP GAD 🎬🔥</footer>
+
+<!-- ✅ EmailJS Integration -->
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+<script>
+(function(){ emailjs.init("nxHZMBsHUE7DW8m50"); })();
+document.getElementById("contactForm").addEventListener("submit", function(event){
+  event.preventDefault();
+  const btn = this.querySelector("button");
+  btn.classList.add("sending"); // start glowing
+  emailjs.sendForm("service_3arrlko", "template_6spwewd", this)
+    .then(() => {
+      alert("✅ Message sent successfully! TRAP GAD will reply soon.");
+      this.reset();
+      btn.classList.remove("sending");
+    }, (error) => {
+      alert("❌ Failed to send message. Please try again later.");
+      console.error(error);
+      btn.classList.remove("sending");
+    });
+});
+</script>
 
 </body>
 </html>
