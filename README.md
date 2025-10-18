@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -118,7 +117,7 @@
   </div>
 </section>
 
-<footer>Â© 2025 TRAP MOVIES â€” Created by TRAP GAD ðŸ”¥</footer>
+<footer>Â© 2025 TRAP MOVIES Created by TRAP GAD </footer>
 
 </body>
 </html>
