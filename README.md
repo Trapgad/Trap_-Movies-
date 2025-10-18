@@ -1,273 +1,124 @@
-<html></html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>TRAP MOVIES | Home</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TRAP MOVIES | Welcome</title>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
 <style>
-  /* ===== TRAP MOVIES THEME ===== */
   body {
     margin: 0;
     font-family: 'Montserrat', sans-serif;
-    background-color: #0d0d0d;
-    color: #f1f1f1;
+    background: linear-gradient(180deg, #0d0d0d 0%, #1a1a1a 100%);
+    color: #fff;
   }
 
   header {
     background: linear-gradient(90deg, #b30000, #333);
-    text-align: center;
     padding: 1.5rem;
-    font-size: 1.8rem;
-    font-weight: bold;
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 700;
     letter-spacing: 2px;
     color: #fff;
   }
 
-  nav {
-    background: #1a1a1a;
-    display: flex;
-    justify-content: center;
-    gap: 1.2rem;
-    padding: 0.8rem;
-    border-bottom: 2px solid #b30000;
-  }
-
-  nav a {
-    text-decoration: none;
-    color: #ccc;
-    font-weight: 600;
-    transition: 0.3s;
-  }
-
-  nav a:hover,
-  nav a.active {
-    color: #fff;
-    border-bottom: 2px solid #b30000;
-    padding-bottom: 2px;
-  }
-
   .hero {
-    text-align: center;
-    padding: 3rem 1rem;
-    background: linear-gradient(to right, #2b2b2b, #1a1a1a);
-    color: #ff3333;
-    font-size: 1.8rem;
-    font-weight: bold;
-    text-transform: uppercase;
-  }
-
-  .search-bar {
     display: flex;
+    flex-direction: column;
     justify-content: center;
-    margin: 1.5rem 0;
-  }
-
-  .search-bar input {
-    width: 70%;
-    max-width: 400px;
-    padding: 0.8rem;
-    border: 2px solid #b30000;
-    border-radius: 25px;
-    background: #111;
-    color: white;
-    font-size: 1rem;
+    align-items: center;
     text-align: center;
-    outline: none;
+    height: 80vh;
+    padding: 0 1rem;
+    background: url('https://images.unsplash.com/photo-1602524818670-3cf828b5e7f3?auto=format&fit=crop&w=1950&q=80') no-repeat center center/cover;
+    position: relative;
   }
 
-  .search-bar input::placeholder {
-    color: #777;
+  .hero::after {
+    content: '';
+    position: absolute;
+    top:0; left:0; right:0; bottom:0;
+    background: rgba(0,0,0,0.7);
   }
 
-  .movies {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    gap: 1.2rem;
-    padding: 1.5rem;
+  .hero-content {
+    position: relative;
+    z-index: 1;
+    color: #fff;
+    max-width: 900px;
   }
 
-  .movie-card {
-    background: #1f1f1f;
-    border-radius: 10px;
-    overflow: hidden;
-    text-align: center;
-    box-shadow: 0 0 10px rgba(179, 0, 0, 0.4);
-    transition: transform 0.3s;
-    cursor: pointer;
+  .hero-content h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #ff3333;
+    line-height: 1.4;
+    margin-bottom: 3rem;
   }
 
-  .movie-card:hover {
+  /* ===== Centered Buttons (Tabs) ===== */
+  .btn-group {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.5rem;
+  }
+
+  .btn-group a {
+    display: inline-block;
+    text-decoration: none;
+    background: #b30000;
+    color: #fff;
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 40px;
+    transition: all 0.3s;
+  }
+
+  .btn-group a:hover {
+    background: #ff3333;
     transform: scale(1.05);
   }
 
-  .movie-card img {
-    width: 100%;
-    height: 260px;
-    object-fit: cover;
-  }
-
-  .movie-card h3 {
-    font-size: 1rem;
-    margin: 0.5rem 0;
-    color: #fff;
-  }
-
   footer {
-    background: #1a1a1a;
-    color: #aaa;
     text-align: center;
     padding: 1rem;
     font-size: 0.9rem;
+    color: #aaa;
     border-top: 2px solid #b30000;
   }
 
-  /* ===== Modal ===== */
-  .modal {
-    display: none;
-    position: fixed;
-    z-index: 10;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(10, 10, 10, 0.9);
-    justify-content: center;
-    align-items: center;
+  @media (max-width: 768px) {
+    .hero-content h1 { font-size: 1.5rem; }
+    .btn-group a { padding: 0.8rem 1.5rem; font-size: 1rem; }
   }
 
-  .modal-content {
-    position: relative;
-    width: 80%;
-    max-width: 800px;
-  }
-
-  .modal-content iframe {
-    width: 100%;
-    height: 450px;
-    border-radius: 8px;
-  }
-
-  .close {
-    position: absolute;
-    top: -30px;
-    right: 0;
-    font-size: 2rem;
-    color: #fff;
-    cursor: pointer;
-  }
-
-  .close:hover {
-    color: #ff3333;
+  @media (max-width: 480px) {
+    .hero-content h1 { font-size: 1.2rem; }
+    .btn-group a { padding: 0.6rem 1.2rem; font-size: 0.9rem; }
   }
 </style>
 </head>
-
 <body>
-<header>🎬 WELCOME TO TRAP MOVIES</header>
+
+<header>WELCOME TO TRAP MOVIES</header>
+
 <section class="hero">
-  <h2>Welcome to Trap Movies Your Gateway to the Latest Movies & Series</h2>
-</section>
-<nav>
-  <a href="Home.html" class="active">Home</a>
-  <a href="Movies.html">Go To Movies</a>
-  <a href="Series.html">Go To Series</a>
-  <a href="About.html">About Trap Movies</a>
-  <a href="Contact.html">Contact Trap Gad</a>
-</nav>
-<div class="search-bar">
-  <input type="text" id="searchInput" placeholder="Search for movies...">
-</div>
+  <div class="hero-content">
+    <h1>WELCOME TO TRAP MOVIES  YOUR GATEWAY TO TRENDING MOVIES AND HOTTEST SERIES</h1>
 
-<section class="movies" id="movieContainer"></section>
-
-<!-- 🎥 Trailer Modal -->
-<div id="trailerModal" class="modal">
-  <div class="modal-content">
-    <span class="close">&times;</span>
-    <iframe id="trailerFrame" src="" frameborder="0" allowfullscreen></iframe>
+    <div class="btn-group">
+      <a href="Movies.html">Movies</a>
+      <a href="Series.html">Series</a>
+      <a href="About.html">About</a>
+      <a href="Contact.html">Contact</a>
+    </div>
   </div>
-</div>
+</section>
 
-<footer>© 2025 TRAP MOVIES — Created by TRAP GAD 🔥</footer>
+<footer>Â© 2025 TRAP MOVIES â€” Created by TRAP GAD ðŸ”¥</footer>
 
-<script>
-const TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxN2ExODM0ZTI3MzMyMGVlZjhhMmEzNmIzOGExMTk2NCIsIm5iZiI6MTc2MDE5MDU2OC4wOTQsInN1YiI6IjY4ZWE2MDY4ZmJjYjQxOTVlYjlmZDg2ZCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.iFV2N9KUPakJb_HWWY3eZbB3cUq_gMhM1H9hcnEWD7Q";
-const IMG_PATH = "https://image.tmdb.org/t/p/w500";
-const movieContainer = document.getElementById("movieContainer");
-const searchInput = document.getElementById("searchInput");
-
-async function getMovies(url = "https://api.themoviedb.org/3/trending/movie/week") {
-  try {
-    const res = await fetch(url, { headers: { Authorization: `Bearer ${TOKEN}` } });
-    const data = await res.json();
-    displayMovies(data.results);
-  } catch (err) {
-    console.error("Error:", err);
-  }
-}
-
-function displayMovies(movies) {
-  movieContainer.innerHTML = "";
-  movies.forEach(movie => {
-    const card = document.createElement("div");
-    card.classList.add("movie-card");
-    card.innerHTML = `
-      <img src="${IMG_PATH + movie.poster_path}" alt="${movie.title}">
-      <h3>${movie.title}</h3>
-    `;
-    card.addEventListener("click", () => openTrailer(movie.id));
-    movieContainer.appendChild(card);
-  });
-}
-
-// 🔍 Search movies
-searchInput.addEventListener("keyup", async (e) => {
-  const query = e.target.value.trim();
-  if (query.length > 2) {
-    const res = await fetch(`https://api.themoviedb.org/3/search/movie?query=${query}`, {
-      headers: { Authorization: `Bearer ${TOKEN}` }
-    });
-    const data = await res.json();
-    displayMovies(data.results);
-  } else {
-    getMovies();
-  }
-});
-
-// 🎞️ Fetch and open trailer
-async function openTrailer(movieId) {
-  try {
-    const res = await fetch(`https://api.themoviedb.org/3/movie/${movieId}/videos`, {
-      headers: { Authorization: `Bearer ${TOKEN}` }
-    });
-    const data = await res.json();
-    const trailer = data.results.find(v => v.type === "Trailer" && v.site === "YouTube");
-    if (trailer) {
-      const frame = document.getElementById("trailerFrame");
-      frame.src = `https://www.youtube.com/embed/${trailer.key}?autoplay=1`;
-      document.getElementById("trailerModal").style.display = "flex";
-    }
-  } catch (err) {
-    console.error("Error fetching trailer:", err);
-  }
-}
-
-// 🎬 Close Modal
-document.querySelector(".close").onclick = () => closeModal();
-window.onclick = (e) => {
-  if (e.target === document.getElementById("trailerModal")) closeModal();
-};
-
-function closeModal() {
-  const modal = document.getElementById("trailerModal");
-  modal.style.display = "none";
-  document.getElementById("trailerFrame").src = "";
-}
-
-      
-getMovies();
-</script>
 </body>
 </html>
