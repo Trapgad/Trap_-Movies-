@@ -166,15 +166,6 @@
 
 <body>
 <header>🎬 WELCOME TO TRAP MOVIES</header>
-
-<nav>
-  <a href="Home.html" class="active">Home</a>
-  <a href="Movies.html">Movies</a>
-  <a href="Series.html">Series</a>
-  <a href="About.html">About</a>
-  <a href="Contact.html">Contact</a>
-</nav>
-
 <section class="hero">
   <h2>Welcome to Trap Movies Your Gateway to the Latest Movies & Series</h2>
 </section>
@@ -268,7 +259,14 @@ function closeModal() {
   modal.style.display = "none";
   document.getElementById("trailerFrame").src = "";
 }
-
+<nav>
+  <a href="Home.html" class="active">Home</a>
+  <a href="Movies.html">Go To Movies</a>
+  <a href="Series.html">Go To Series</a>
+  <a href="About.html">About Trap Movies</a>
+  <a href="Contact.html">Contact Trap Gad</a>
+</nav>
+      
 getMovies();
 </script>
 </body>
