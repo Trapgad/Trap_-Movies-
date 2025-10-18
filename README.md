@@ -165,7 +165,7 @@
 </head>
 
 <body>
-<header>🎬 TRAP MOVIES</header>
+<header>🎬 WELCOME TO TRAP MOVIES</header>
 
 <nav>
   <a href="Home.html" class="active">Home</a>
@@ -176,7 +176,7 @@
 </nav>
 
 <section class="hero">
-  <h2>Your Gateway to the Latest Movies & Series</h2>
+  <h2>Welcome to Trap Movies Your Gateway to the Latest Movies & Series</h2>
 </section>
 
 <div class="search-bar">
