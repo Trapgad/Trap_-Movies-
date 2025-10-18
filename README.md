@@ -169,7 +169,13 @@
 <section class="hero">
   <h2>Welcome to Trap Movies Your Gateway to the Latest Movies & Series</h2>
 </section>
-
+<nav>
+  <a href="Home.html" class="active">Home</a>
+  <a href="Movies.html">Go To Movies</a>
+  <a href="Series.html">Go To Series</a>
+  <a href="About.html">About Trap Movies</a>
+  <a href="Contact.html">Contact Trap Gad</a>
+</nav>
 <div class="search-bar">
   <input type="text" id="searchInput" placeholder="Search for movies...">
 </div>
@@ -259,13 +265,7 @@ function closeModal() {
   modal.style.display = "none";
   document.getElementById("trailerFrame").src = "";
 }
-<nav>
-  <a href="Home.html" class="active">Home</a>
-  <a href="Movies.html">Go To Movies</a>
-  <a href="Series.html">Go To Series</a>
-  <a href="About.html">About Trap Movies</a>
-  <a href="Contact.html">Contact Trap Gad</a>
-</nav>
+
       
 getMovies();
 </script>
