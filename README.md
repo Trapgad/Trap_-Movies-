@@ -1,33 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
+html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TRAP MOVIES | Welcome</title>
-
-<!-- ✅ SEO Meta -->
-<meta name="description" content="Trap Movies — Your gateway to trending movies and the hottest series. Stream trailers, explore categories, build your watchlist and more.">
-<meta name="keywords" content="movies, series, trap movies, streaming, trailers, trending movies, hot series, watchlist">
-<meta name="author" content="Trap Gad">
-<meta name="robots" content="index, follow">
-
-<!-- ✅ Canonical -->
-<link rel="canonical" href="https://trapgad.github.io/Trap_-Movies-/Welcome.html">
-
-<!-- ✅ Open Graph (Social Share Preview) -->
-<meta property="og:title" content="TRAP MOVIES">
-<meta property="og:description" content="Your gateway to trending movies and hottest series.">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://trapgad.github.io/Trap_-Movies-/Welcome.html">
-<meta property="og:image" content="https://images.unsplash.com/photo-1517602302552-471fe67acf66?auto=format&fit=crop&w=1950&q=80">
-
-<!-- ✅ Favicon -->
-<link rel="icon" href="favicon.png">
-
-<!-- ✅ Preload Google Font (faster performance) -->
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
-
 <style>
   body {
     margin: 0;
@@ -152,7 +128,7 @@
   </div>
 </section>
 
-<footer>© 2025 TRAP MOVIES — Created by TRAP GAD</footer>
+<footer>© 2025 TRAP MOVIES  Created by TRAP GAD</footer>
 
 </body>
 </html>
