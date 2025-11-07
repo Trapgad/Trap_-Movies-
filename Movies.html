@@ -1,308 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TRAP MOVIES | Movies</title>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
-<style>
-  body {
-    margin: 0;
-    font-family: "Montserrat", sans-serif;
-    background-color: #0d0d0d;
-    color: #fff;
-  }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  header {
-    background: linear-gradient(90deg, #e50914, #6b0000);
-    padding: 20px 0;
-    text-align: center;
-    font-size: 1.8rem;
-    letter-spacing: 2px;
-    font-weight: bold;
-  }
+<title>TRAP MOVIES | Trending Movies, Trailers & Search</title>
 
-  nav {
-    display: flex;
-    justify-content: center;
-    gap: 25px;
-    background: #1a1a1a;
-    padding: 15px 0;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-  }
+<!-- Primary SEO -->
+<meta name="description" content="Watch trending movies, search titles, and view official trailers. Discover hot and newly released movies with TRAP MOVIES. Created by TRAP GAD." />
+<meta name="keywords" content="movies, trailers, trending movies, latest movies, Hollywood movies, action movies, movie search, Trap Gad, Trap Movies" />
+<meta name="author" content="TRAP GAD" />
 
-  nav a {
-    color: #ccc;
-    text-decoration: none;
-    font-weight: 500;
-    transition: color 0.3s, transform 0.3s;
-  }
+<!-- Robots -->
+<meta name="robots" content="index, follow" />
+<meta name="googlebot" content="index, follow" />
 
-  nav a:hover,
-  nav a.active {
-    color: #e50914;
-    transform: scale(1.1);
-  }
+<!-- Canonical -->
+<link rel="canonical" href="https://trapgad.github.io/Trap_-Movies-/Movies.html" />
 
-  .content {
-    max-width: 1100px;
-    margin: 40px auto;
-    text-align: center;
-    padding: 0 15px;
-  }
+<!-- Open Graph -->
+<meta property="og:title" content="TRAP MOVIES | Trending Movies & Trailers" />
+<meta property="og:description" content="Search for movies, watch trailers, discover the hottest releases instantly." />
+<meta property="og:image" content="https://image.tmdb.org/t/p/w500/9Gtg2DzBhmYamXBS1hKAhiwbBKS.jpg" />
+<meta property="og:url" content="https://trapgad.github.io/Trap_-Movies-/Movies.html" />
+<meta property="og:type" content="website" />
 
-  .content h2 {
-    font-size: 2rem;
-    color: #e50914;
-    margin-bottom: 10px;
-  }
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="TRAP MOVIES | Trending Movies">
+<meta name="twitter:description" content="Movie search engine with trailers and trending content.">
+<meta name="twitter:image" content="https://image.tmdb.org/t/p/w500/9Gtg2DzBhmYamXBS1hKAhiwbBKS.jpg" />
 
-  .content p {
-    color: #aaa;
-    margin-bottom: 20px;
-  }
+<!-- Favicon -->
+<link rel="icon" href="https://cdn-icons-png.flaticon.com/512/2798/2798007.png" type="image/png" />
 
-  .search-bar {
-    margin-bottom: 30px;
-  }
-
-  .search-bar input {
-    width: 100%;
-    max-width: 500px;
-    padding: 12px 20px;
-    border-radius: 25px;
-    border: none;
-    font-size: 1rem;
-    background: #1a1a1a;
-    color: #fff;
-    outline: none;
-  }
-
-  .movie-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 25px;
-  }
-
-  .movie-card {
-    background: #1a1a1a;
-    border-radius: 12px;
-    overflow: hidden;
-    transition: transform 0.3s, box-shadow 0.3s;
-    cursor: pointer;
-  }
-
-  .movie-card:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 15px rgba(229,9,20,0.5);
-  }
-
-  .movie-card img {
-    width: 100%;
-    height: 270px;
-    object-fit: cover;
-  }
-
-  .movie-card h3 {
-    font-size: 1rem;
-    margin: 10px 0 5px;
-    color: #fff;
-  }
-
-  footer {
-    background: #111;
-    text-align: center;
-    padding: 20px;
-    margin-top: 40px;
-    color: #aaa;
-    border-top: 1px solid #222;
-  }
-
-  footer span {
-    color: #e50914;
-    font-weight: 600;
-  }
-
-  /* Modal Styles */
-  .modal {
-    display: none;
-    position: fixed;
-    top:0; left:0;
-    width: 100%; height: 100%;
-    background: rgba(0,0,0,0.95);
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-  }
-
-  .modal-content {
-    max-width: 900px;
-    width: 90%;
-    position: relative;
-    text-align: center;
-  }
-
-  .modal .close {
-    position: absolute;
-    top: -20px; right: -20px;
-    color: #e50914;
-    font-size: 2rem;
-    cursor: pointer;
-  }
-
-  #trailerFrame {
-    width: 100%;
-    height: 500px;
-    margin-bottom: 15px;
-  }
-
-  #watchFullBtn {
-    padding: 12px 25px;
-    background: #e50914;
-    color: white;
-    border: none;
-    border-radius: 25px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: 0.3s;
-  }
-
-  #watchFullBtn:hover {
-    background: #b00610;
-  }
-</style>
-</head>
-<body>
-
-<header>🎬 TRAP MOVIES 🎥</header>
-
-<nav>
-  <a href="Home.html">Home</a>
-  <a href="Movies.html" class="active">Movies</a>
-  <a href="Series.html">Series</a>
-  <a href="About.html">About</a>
-  <a href="Contact.html">Contact</a>
-</nav>
-
-<section class="content">
-  <h2>🔥 Trending Movies</h2>
-  <p>Click a movie to watch its trailer, then open it on YouTube!</p>
-
-  <div class="search-bar">
-    <input type="text" id="searchInput" placeholder="Search for movies...">
-  </div>
-
-  <div id="movie-grid" class="movie-grid"></div>
-</section>
-
-<!-- Trailer Modal -->
-<div id="movieModal" class="modal">
-  <div class="modal-content">
-    <span class="close">&times;</span>
-    <iframe id="trailerFrame" src="" frameborder="0" allowfullscreen></iframe>
-    <button id="watchFullBtn">🎥 Watch Full Movie on YouTube</button>
-  </div>
-</div>
-
-<footer>© 2025 <span>TRAP MOVIES</span> — Created by <span>TRAP GAD</span></footer>
-
-<script>
-const TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxN2ExODM0ZTI3MzMyMGVlZjhhMmEzNmIzOGExMTk2NCIsIm5iZiI6MTc2MDE5MDU2OC4wOTQsInN1YiI6IjY4ZWE2MDY4ZmJjYjQxOTVlYjlmZDg2ZCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.iFV2N9KUPakJb_HWWY3eZbB3cUq_gMhM1H9hcnEWD7Q";
-const IMG_PATH = "https://image.tmdb.org/t/p/w500";
-const movieGrid = document.getElementById("movie-grid");
-const searchInput = document.getElementById("searchInput");
-
-async function fetchMovies(url) {
-  try {
-    const res = await fetch(url, {
-      headers: { Authorization: `Bearer ${TOKEN}` }
-    });
-    const data = await res.json();
-    return data.results;
-  } catch(err) {
-    console.error(err);
-    return [];
+<!-- Structured Data (Schema) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "TRAP MOVIES - Trending Movies",
+  "description": "Browse trending movies and watch trailers directly.",
+  "publisher": {
+    "@type": "Organization",
+    "name": "TRAP MOVIES",
+    "url": "https://trapgad.github.io/Trap_-Movies-/"
   }
 }
-
-async function loadTrending() {
-  const movies = await fetchMovies("https://api.themoviedb.org/3/trending/movie/week");
-  displayMovies(movies);
-}
-
-function displayMovies(movies) {
-  movieGrid.innerHTML = "";
-  movies.forEach(movie => {
-    const card = document.createElement("div");
-    card.classList.add("movie-card");
-    card.setAttribute("data-id", movie.id);
-    card.innerHTML = `
-      <img src="${IMG_PATH + movie.poster_path}" alt="${movie.title}">
-      <h3>${movie.title}</h3>
-    `;
-    card.addEventListener("click", () => openModal(movie.id, movie.title));
-    movieGrid.appendChild(card);
-  });
-}
-
-// 🎞️ Modal
-const modal = document.getElementById("movieModal");
-const trailerFrame = document.getElementById("trailerFrame");
-const watchBtn = document.getElementById("watchFullBtn");
-const closeBtn = document.querySelector(".modal .close");
-
-async function openModal(movieId, title) {
-  try {
-    const res = await fetch(`https://api.themoviedb.org/3/movie/${movieId}/videos`, {
-      headers: { Authorization: `Bearer ${TOKEN}` }
-    });
-    const data = await res.json();
-    const trailer = data.results.find(v => v.type === "Trailer" && v.site === "YouTube");
-    if(trailer) {
-      trailerFrame.src = `https://www.youtube.com/embed/${trailer.key}?autoplay=1`;
-      watchBtn.setAttribute("data-trailer", trailer.key);
-      modal.style.display = "flex";
-    }
-  } catch(err) {
-    console.error(err);
-  }
-}
-
-// 🎬 Open YouTube Full Movie Link
-watchBtn.onclick = () => {
-  const trailerKey = watchBtn.getAttribute("data-trailer");
-  if (trailerKey) {
-    window.open(`https://www.youtube.com/watch?v=${trailerKey}`, "_blank");
-  }
-};
-
-closeBtn.onclick = () => {
-  modal.style.display = "none";
-  trailerFrame.src = "";
-};
-
-window.onclick = (e) => {
-  if(e.target === modal) {
-    modal.style.display = "none";
-    trailerFrame.src = "";
-  }
-};
-
-// 🔎 Search Movies
-let searchTimeout;
-searchInput.addEventListener("input", async (e) => {
-  clearTimeout(searchTimeout);
-  const query = e.target.value.trim();
-  if(!query) return loadTrending();
-
-  searchTimeout = setTimeout(async () => {
-    const movies = await fetchMovies(`https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(query)}`);
-    displayMovies(movies);
-  }, 500);
-});
-
-loadTrending();
 </script>
 
-</body>
-</html>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet" />
