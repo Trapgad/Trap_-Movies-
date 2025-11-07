@@ -1,4 +1,6 @@
-html lang="en">
+<!DOCTYPE html>
+<html lang="en">
+<head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TRAP MOVIES | Welcome</title>
@@ -46,11 +48,10 @@ html lang="en">
     max-width: 900px;
   }
 
-  /* ===== Changed headline color to white ===== */
   .hero-content h1 {
     font-size: 2rem;
     font-weight: 700;
-    color: #ffffff;  /* White color */
+    color: #ffffff;
     line-height: 1.4;
     margin-bottom: 3rem;
   }
