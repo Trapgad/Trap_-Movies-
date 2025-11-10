@@ -119,7 +119,7 @@
     <h1>WELCOME TO TRAP MOVIES 
  YOUR GATEWAY TO TRENDING MOVIES AND HOTTEST SERIES</h1>
     <div class="btn-group">
-      <a href="Home.html">Movies</a>
+      <a href="Home.html">Home</a>
       <a href="Movies.html">Movies</a>
       <a href="Series.html">Series</a>
       <a href="About.html">About</a>
