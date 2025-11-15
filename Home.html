@@ -36,7 +36,11 @@
     transition: 0.3s;
   }
   nav a:hover,
-  nav a.active { color: #fff; border-bottom: 2px solid #b30000; padding-bottom: 2px; }
+  nav a.active {
+    color: #fff;
+    border-bottom: 2px solid #b30000;
+    padding-bottom: 2px;
+  }
   .hero {
     text-align: center;
     padding: 3rem 1rem;
@@ -54,9 +58,21 @@
     cursor: pointer;
     transition: 0.3s;
   }
-  .hero .signin { background: #ff003c; color: #fff; border: none; }
-  .hero .signup { background: #333; color: #fff; border: 2px solid #ff003c; }
-  .search-bar { display: flex; justify-content: center; margin: 1.5rem 0; }
+  .signin-btn {
+    background: #ff003c;
+    color: #fff;
+    border: none;
+  }
+  .signup-btn {
+    background: #333;
+    color: #fff;
+    border: 2px solid #ff003c;
+  }
+  .search-bar {
+    display: flex;
+    justify-content: center;
+    margin: 1.5rem 0;
+  }
   .search-bar input {
     width: 70%;
     max-width: 400px;
@@ -69,18 +85,78 @@
     text-align: center;
     outline: none;
   }
-  .search-bar input::placeholder { color: #777; }
-  .movies { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 1.2rem; padding: 1.5rem; }
-  .movie-card { background: #1f1f1f; border-radius: 10px; overflow: hidden; text-align: center; box-shadow: 0 0 10px rgba(179, 0, 0, 0.4); transition: transform 0.3s; cursor: pointer; }
-  .movie-card:hover { transform: scale(1.05); }
-  .movie-card img { width: 100%; aspect-ratio: 2/3; object-fit: cover; }
-  .movie-card h3 { font-size: 1rem; margin: 0.5rem 0; color: #fff; }
-  footer { background: #1a1a1a; color: #aaa; text-align: center; padding: 1rem; font-size: 0.9rem; border-top: 2px solid #b30000; }
-  .modal { display: none; position: fixed; z-index: 10; left: 0; top: 0; width: 100%; height: 100%; background: rgba(10, 10, 10, 0.9); justify-content: center; align-items: center; }
-  .modal-content { position: relative; width: 80%; max-width: 800px; }
-  .modal-content iframe { width: 100%; height: 450px; border-radius: 8px; }
-  .close { position: absolute; top: -30px; right: 0; font-size: 2rem; color: #fff; cursor: pointer; }
-  .close:hover { color: #ff3333; }
+  .search-bar input::placeholder {
+    color: #777;
+  }
+  .movies {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 1.2rem;
+    padding: 1.5rem;
+  }
+  .movie-card {
+    background: #1f1f1f;
+    border-radius: 10px;
+    overflow: hidden;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(179, 0, 0, 0.4);
+    transition: transform 0.3s;
+    cursor: pointer;
+  }
+  .movie-card:hover {
+    transform: scale(1.05);
+  }
+  .movie-card img {
+    width: 100%;
+    aspect-ratio: 2/3;
+    object-fit: cover;
+  }
+  .movie-card h3 {
+    font-size: 1rem;
+    margin: 0.5rem 0;
+    color: #fff;
+  }
+  footer {
+    background: #1a1a1a;
+    color: #aaa;
+    text-align: center;
+    padding: 1rem;
+    font-size: 0.9rem;
+    border-top: 2px solid #b30000;
+  }
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 10;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(10, 10, 10, 0.9);
+    justify-content: center;
+    align-items: center;
+  }
+  .modal-content {
+    position: relative;
+    width: 80%;
+    max-width: 800px;
+  }
+  .modal-content iframe {
+    width: 100%;
+    height: 450px;
+    border-radius: 8px;
+  }
+  .close {
+    position: absolute;
+    top: -30px;
+    right: 0;
+    font-size: 2rem;
+    color: #fff;
+    cursor: pointer;
+  }
+  .close:hover {
+    color: #ff3333;
+  }
 </style>
 </head>
 <body>
@@ -98,8 +174,8 @@
 <section class="hero">
   <h2>Your Gateway to the Latest Movies & Series</h2>
   <div style="margin-top:20px; display:flex; justify-content:center; gap:15px; flex-wrap:wrap;">
-    <a href="sign in.html"><button class="sing in.html">Sign In</button></a>
-    <a href="sign up.html"><button class="sign up.html">Sign Up</button></a>
+    <a href="sign in.html"><button class="signin-btn">Sign In</button></a>
+    <a href="sign up.html"><button class="signup-btn">Sign Up</button></a>
   </div>
 </section>
 
@@ -121,6 +197,7 @@
 
 <script>
 const TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxN2ExODM0ZTI3MzMyMGVlZjhhMmEzNmIzOGExMTk2NCIsIm5iZiI6MTc2MDE5MDU2OC4wOTQsInN1YiI6IjY4ZWE2MDY4ZmJjYjQxOTVlYjlmZDg2ZCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.iFV2N9KUPakJb_HWWY3eZbB3cUq_gMhM1H9hcnEWD7Q";
+
 const IMG_PATH = "https://image.tmdb.org/t/p/w500";
 const movieContainer = document.getElementById("movieContainer");
 const searchInput = document.getElementById("searchInput");
@@ -177,7 +254,11 @@ async function openTrailer(movieId) {
 document.querySelector(".close").onclick = () => closeModal();
 window.onclick = (e) => { if (e.target === document.getElementById("trailerModal")) closeModal(); };
 window.addEventListener("keydown", e => { if (e.key === "Escape") closeModal(); });
-function closeModal() { document.getElementById("trailerModal").style.display = "none"; document.getElementById("trailerFrame").src = ""; }
+
+function closeModal() {
+  document.getElementById("trailerModal").style.display = "none";
+  document.getElementById("trailerFrame").src = "";
+}
 
 getMovies();
 </script>
