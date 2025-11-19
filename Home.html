@@ -11,7 +11,12 @@
     font-family: 'Montserrat', sans-serif;
     background-color: #0d0d0d;
     color: #f1f1f1;
+    transition: 0.3s;
   }
+  body.modal-open {
+    overflow: hidden;
+  }
+
   header {
     background: linear-gradient(90deg, #b30000, #333);
     text-align: center;
@@ -21,6 +26,7 @@
     letter-spacing: 2px;
     color: #fff;
   }
+
   nav {
     background: #1a1a1a;
     display: flex;
@@ -29,6 +35,7 @@
     padding: 0.8rem;
     border-bottom: 2px solid #b30000;
   }
+
   nav a {
     text-decoration: none;
     color: #ccc;
@@ -41,6 +48,7 @@
     border-bottom: 2px solid #b30000;
     padding-bottom: 2px;
   }
+
   .hero {
     text-align: center;
     padding: 3rem 1rem;
@@ -50,29 +58,61 @@
     font-weight: bold;
     text-transform: uppercase;
   }
-  .hero button {
+
+  .hero-buttons {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+  }
+
+  /* Buttons */
+  button {
     padding: 12px 30px;
     font-size: 1rem;
     font-weight: bold;
-    border-radius: 6px;
+    border-radius: 8px;
     cursor: pointer;
-    transition: 0.3s;
-  }
-  .signin-btn {
-    background: #ff003c;
-    color: #fff;
     border: none;
+    transition: all 0.3s ease;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
   }
-  .signup-btn {
-    background: #333;
+
+  .signin-btn {
+    background: linear-gradient(45deg, #ff003c, #b30000);
     color: #fff;
-    border: 2px solid #ff003c;
   }
+  .signin-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.5);
+  }
+
+  .signup-btn {
+    background: linear-gradient(45deg, #00b300, #007a00);
+    color: #fff;
+  }
+  .signup-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.5);
+  }
+
+  .logout-btn {
+    background: linear-gradient(45deg, #ff3333, #cc0000);
+    color: #fff;
+  }
+  .logout-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.5);
+  }
+
   .search-bar {
     display: flex;
     justify-content: center;
     margin: 1.5rem 0;
   }
+
   .search-bar input {
     width: 70%;
     max-width: 400px;
@@ -85,15 +125,18 @@
     text-align: center;
     outline: none;
   }
+
   .search-bar input::placeholder {
     color: #777;
   }
+
   .movies {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
     gap: 1.2rem;
     padding: 1.5rem;
   }
+
   .movie-card {
     background: #1f1f1f;
     border-radius: 10px;
@@ -116,6 +159,7 @@
     margin: 0.5rem 0;
     color: #fff;
   }
+
   footer {
     background: #1a1a1a;
     color: #aaa;
@@ -124,6 +168,7 @@
     font-size: 0.9rem;
     border-top: 2px solid #b30000;
   }
+
   .modal {
     display: none;
     position: fixed;
@@ -173,39 +218,14 @@
 
 <section class="hero">
   <h2>Your Gateway to the Latest Movies & Series</h2>
-  <div style="margin-top:20px; display:flex; justify-content:center; gap:15px; flex-wrap:wrap;">
-    <button id="logoutBtn" style="
-  padding: 10px 20px;
-  background: red;
-  border: none;
-  border-radius: 5px;
-  color: white;
-  cursor: pointer;
-">
-  Sign Out
-</button>
-    <div style="text-align: center; margin-top: 50px;">
-  <a href="signin.html">
-    <button style="
-      padding: 12px 25px;
-      background: red;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      font-size: 16px;
-      cursor: pointer;
-      margin-right: 15px;
-    ">
-      Sign In
-    </button>
-  </a>
-
-<button id="logoutBtn" class="logout-btn" style="dis
-    ">
-      Sign Up
-    </button>
-  </a>
-</div>
+  <div class="hero-buttons">
+    <a href="signin.html">
+      <button class="signin-btn">Sign In</button>
+    </a>
+    <a href="signup.html">
+      <button class="signup-btn">Sign Up</button>
+    </a>
+    <button id="logoutBtn" class="logout-btn" style="display:none;">Sign Out</button>
   </div>
 </section>
 
@@ -227,7 +247,6 @@
 
 <script>
 const TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxN2ExODM0ZTI3MzMyMGVlZjhhMmEzNmIzOGExMTk2NCIsIm5iZiI6MTc2MDE5MDU2OC4wOTQsInN1YiI6IjY4ZWE2MDY4ZmJjYjQxOTVlYjlmZDg2ZCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.iFV2N9KUPakJb_HWWY3eZbB3cUq_gMhM1H9hcnEWD7Q";
-
 const IMG_PATH = "https://image.tmdb.org/t/p/w500";
 const movieContainer = document.getElementById("movieContainer");
 const searchInput = document.getElementById("searchInput");
@@ -250,7 +269,7 @@ function displayMovies(movies) {
     const card = document.createElement("div");
     card.classList.add("movie-card");
     card.innerHTML = `
-      <img src="${movie.poster_path ? IMG_PATH + movie.poster_path : 'placeholder.png'}" alt="${movie.title}">
+      <img src="${movie.poster_path ? IMG_PATH + movie.poster_path : 'https://via.placeholder.com/500x750?text=No+Image'}" alt="${movie.title}">
       <h3>${movie.title}</h3>
     `;
     card.addEventListener("click", () => openTrailer(movie.id));
@@ -258,15 +277,20 @@ function displayMovies(movies) {
   });
 }
 
+// Debounced search
+let debounceTimer;
 searchInput.addEventListener("keyup", async (e) => {
-  const query = e.target.value.trim();
-  if (query.length > 2) {
-    const res = await fetch(`https://api.themoviedb.org/3/search/movie?query=${query}`, { headers: { Authorization: `Bearer ${TOKEN}` } });
-    const data = await res.json();
-    displayMovies(data.results);
-  } else {
-    getMovies();
-  }
+  clearTimeout(debounceTimer);
+  debounceTimer = setTimeout(async () => {
+    const query = e.target.value.trim();
+    if (query.length > 2) {
+      const res = await fetch(`https://api.themoviedb.org/3/search/movie?query=${query}`, { headers: { Authorization: `Bearer ${TOKEN}` } });
+      const data = await res.json();
+      displayMovies(data.results);
+    } else {
+      getMovies();
+    }
+  }, 500);
 });
 
 async function openTrailer(movieId) {
@@ -277,56 +301,66 @@ async function openTrailer(movieId) {
     if (trailer) {
       document.getElementById("trailerFrame").src = `https://www.youtube.com/embed/${trailer.key}?autoplay=1`;
       document.getElementById("trailerModal").style.display = "flex";
+      document.body.classList.add('modal-open');
     }
   } catch (err) { console.error(err); }
 }
 
-document.querySelector(".close").onclick = () => closeModal();
+document.querySelector(".close").onclick = closeModal;
 window.onclick = (e) => { if (e.target === document.getElementById("trailerModal")) closeModal(); };
 window.addEventListener("keydown", e => { if (e.key === "Escape") closeModal(); });
 
 function closeModal() {
   document.getElementById("trailerModal").style.display = "none";
   document.getElementById("trailerFrame").src = "";
+  document.body.classList.remove('modal-open');
 }
 
 getMovies();
 </script>
+
 <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
-  import { getAuth, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+import { getAuth, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyBLHlSlMPvwSS5MB8JqG2JB1R-ANIopQZU",
-    authDomain: "trap-270792.firebaseapp.com",
-    projectId: "trap-270792",
-    storageBucket: "trap-270792.firebasestorage.app",
-    messagingSenderId: "248838190395",
-    appId: "1:248838190395:web:0dd11c0e4427f79470331e",
-    measurementId: "G-PG6GXVVKL9"
-  };
+const firebaseConfig = {
+  apiKey: "AIzaSyBLHlSlMPvwSS5MB8JqG2JB1R-ANIopQZU",
+  authDomain: "trap-270792.firebaseapp.com",
+  projectId: "trap-270792",
+  storageBucket: "trap-270792.firebasestorage.app",
+  messagingSenderId: "248838190395",
+  appId: "1:248838190395:web:0dd11c0e4427f79470331e",
+  measurementId: "G-PG6GXVVKL9"
+};
 
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
 
-  // --- REDIRECT IF USER IS NOT LOGGED IN ---
-  onAuthStateChanged(auth, (user) => {
-    if (!user) {
+onAuthStateChanged(auth, (user) => {
+  const buttons = document.querySelectorAll("a[href='signin.html'], a[href='signup.html']");
+  const logoutBtn = document.getElementById("logoutBtn");
+
+  if(user) {
+    buttons.forEach(btn => btn.style.display = "none");
+    logoutBtn.style.display = "inline-block";
+  } else {
+    buttons.forEach(btn => btn.style.display = "inline-block");
+    logoutBtn.style.display = "none";
+    window.location.href = "signin.html";
+  }
+});
+
+logoutBtn.onclick = () => {
+  signOut(auth)
+    .then(() => {
+      alert("Signed Out Successfully!");
       window.location.href = "signin.html";
-    }
-  });
-
-  // --- SIGN OUT BUTTON ---
-  document.getElementById("logoutBtn").onclick = () => {
-    signOut(auth)
-      .then(() => {
-        alert("Signed Out Successfully!");
-        window.location.href = "signin.html";
-      })
-      .catch((error) => {
-        alert(error.message);
-      });
-  };
+    })
+    .catch((error) => {
+      alert(error.message);
+    });
+};
 </script>
+
 </body>
 </html>
