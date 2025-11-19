@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TRAP MOVIES | Sign Up</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+  body {
+    margin: 0;
+    font-family: 'Montserrat', sans-serif;
+    background: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    color: white;
+  }
+
+  .container {
+    width: 90%;
+    max-width: 400px;
+    background: #111;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px #444;
+  }
+
+  h2 {
+    text-align: center;
+    font-weight: 700;
+  }
+
+  input, select {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 5px;
+    outline: none;
+  }
+
+  button {
+    width: 100%;
+    padding: 12px;
+    background: red;
+    border: none;
+    color: white;
+    font-size: 16px;
+    margin-top: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  a {
+    color: #aaa;
+    text-decoration: none;
+    display: block;
+    margin-top: 10px;
+    text-align: center;
+  }
+</style>
+
+</head>
+<body>
+
+<div class="container">
+  <h2>Create Account</h2>
+
+  <input id="fname" type="text" placeholder="First Name">
+  <input id="lname" type="text" placeholder="Last Name">
+  <input id="username" type="text" placeholder="Username">
+
+  <select id="location">
+    <option selected disabled>Select Location</option>
+    <option>Ghana</option>
+    <option>Nigeria</option>
+    <option>Kenya</option>
+    <option>South Africa</option>
+    <option>Other</option>
+  </select>
+
+  <input id="email" type="email" placeholder="Email">
+  <input id="password" type="password" placeholder="Password">
+
+  <button id="signupBtn">Create Account</button>
+
+  <a href="signin.html">Already have an account? Sign In</a>
+</div>
+
+
+<script type="module">
+
+  /* -------------------------------
+     Import Firebase v12.6.0 modules
+  --------------------------------*/
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-analytics.js";
+  import {
+    getAuth,
+    createUserWithEmailAndPassword
+  } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
+  import {
+    getFirestore,
+    setDoc,
+    doc
+  } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
+
+
+  /* -------------------------
+     Your Firebase Config
+  --------------------------*/
+  const firebaseConfig = {
+    apiKey: "AIzaSyBLHlSlMPvwSS5MB8JqG2JB1R-ANIopQZU",
+    authDomain: "trap-270792.firebaseapp.com",
+    projectId: "trap-270792",
+    storageBucket: "trap-270792.firebasestorage.app",
+    messagingSenderId: "248838190395",
+    appId: "1:248838190395:web:0dd11c0e4427f79470331e",
+    measurementId: "G-PG6GXVVKL9"
+  };
+
+  /* -------------------------
+     Initialize Firebase
+  --------------------------*/
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+
+  /* -------------------------
+     Sign Up Function
+  --------------------------*/
+  document.getElementById("signupBtn").addEventListener("click", async () => {
+    const fname = document.getElementById("fname").value;
+    const lname = document.getElementById("lname").value;
+    const username = document.getElementById("username").value;
+    const location = document.getElementById("location").value;
+    const email = document.getElementById("email").value;
+    const pass = document.getElementById("password").value;
+
+    try {
+      // Create user in Firebase Auth
+      const userCred = await createUserWithEmailAndPassword(auth, email, pass);
+
+      // Save extra user details to Firestore
+      await setDoc(doc(db, "users", userCred.user.uid), {
+        firstName: fname,
+        lastName: lname,
+        username: username,
+        location: location,
+        email: email,
+        uid: userCred.user.uid
+      });
+
+      alert("Account Created Successfully!");
+
+      // Redirect to sign in
+      window.location.href = "signin.html";
+
+    } catch (err) {
+      alert(err.message);
+    }
+  });
+
+</script>
+
+</body>
+</html>
