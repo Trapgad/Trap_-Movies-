@@ -214,7 +214,7 @@
   <a href="Series.html">Series</a>
   <a href="About.html">About</a>
   <a href="Contact.html">Contact</a>
-   <a href="Account Details.html>Accout</a>
+  <a href="Account Details.html">Account</a>
 </nav>
 
 <section class="hero">
@@ -271,7 +271,7 @@ function displayMovies(movies) {
     card.classList.add("movie-card");
     card.innerHTML = `
       <img src="${movie.poster_path ? IMG_PATH + movie.poster_path : 'https://via.placeholder.com/500x750?text=No+Image'}" alt="${movie.title}">
-      <h3>${movie.title}</h3>
+      <h3 title="${movie.title}">${movie.title}</h3>
     `;
     card.addEventListener("click", () => openTrailer(movie.id));
     movieContainer.appendChild(card);
@@ -284,7 +284,7 @@ searchInput.addEventListener("keyup", async (e) => {
   clearTimeout(debounceTimer);
   debounceTimer = setTimeout(async () => {
     const query = e.target.value.trim();
-    if (query.length > 2) {
+    if (query.length > 0) {
       const res = await fetch(`https://api.themoviedb.org/3/search/movie?query=${query}`, { headers: { Authorization: `Bearer ${TOKEN}` } });
       const data = await res.json();
       displayMovies(data.results);
@@ -336,19 +336,21 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+const logoutBtn = document.getElementById("logoutBtn");
 
-onAuthStateChanged(auth, (user) => {
+function updateAuthButtons(user) {
   const buttons = document.querySelectorAll("a[href='signin.html'], a[href='signup.html']");
-  const logoutBtn = document.getElementById("logoutBtn");
-
   if(user) {
     buttons.forEach(btn => btn.style.display = "none");
     logoutBtn.style.display = "inline-block";
   } else {
     buttons.forEach(btn => btn.style.display = "inline-block");
     logoutBtn.style.display = "none";
-    window.location.href = "signin.html";
   }
+}
+
+onAuthStateChanged(auth, (user) => {
+  updateAuthButtons(user);
 });
 
 logoutBtn.onclick = () => {
