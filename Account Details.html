@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Account Details | TRAP MOVIES</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+  body {
+    font-family: 'Montserrat', sans-serif;
+    background: #000;
+    color: white;
+    margin: 0;
+    padding: 20px;
+  }
+
+  .box {
+    background: #111;
+    padding: 25px;
+    border-radius: 10px;
+    max-width: 500px;
+    margin: auto;
+    box-shadow: 0 0 10px #333;
+    text-align: center;
+  }
+
+  h2 {
+    margin-bottom: 20px;
+  }
+
+  #profilePic {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid red;
+    margin-bottom: 15px;
+  }
+
+  input[type="file"] {
+    margin-top: 10px;
+    margin-bottom: 20px;
+  }
+
+  .info {
+    margin: 10px 0;
+    font-size: 16px;
+    text-align: left;
+  }
+
+  button {
+    width: 100%;
+    padding: 12px;
+    background: red;
+    border: none;
+    color: white;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+  }
+</style>
+
+</head>
+<body>
+
+<div class="box">
+  <h2>Your Account</h2>
+
+  <img id="profilePic" src="https://i.imgur.com/6VBx3io.png" alt="Profile Picture">
+
+  <br>
+  <input type="file" id="uploadPic" accept="image/*">
+
+  <div id="details"></div>
+
+  <button id="logoutBtn">Sign Out</button>
+</div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+  import {
+    getAuth,
+    onAuthStateChanged,
+    signOut
+  } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
+  import {
+    getStorage,
+    ref,
+    uploadBytes,
+    getDownloadURL
+  } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-storage.js";
+
+  // Firebase config (FIXED)
+  const firebaseConfig = {
+    apiKey: "AIzaSyBLHlSlMPvwSS5MB8JqG2JB1R-ANIopQZU",
+    authDomain: "trap-270792.firebaseapp.com",
+    projectId: "trap-270792",
+    storageBucket: "trap-270792.appspot.com",  // ✅ fixed
+    messagingSenderId: "248838190395",
+    appId: "1:248838190395:web:0dd11c0e4427f79470331e",
+    measurementId: "G-PG6GXVVKL9"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const storage = getStorage(app);
+
+  onAuthStateChanged(auth, async (user) => {
+    if (!user) {
+      window.location.href = "signin.html";
+      return;
+    }
+
+    document.getElementById("details").innerHTML = `
+      <div class="info"><strong>Email:</strong> ${user.email}</div>
+      <div class="info"><strong>User ID:</strong> ${user.uid}</div>
+      <div class="info"><strong>Created:</strong> ${user.metadata.creationTime}</div>
+      <div class="info"><strong>Last Login:</strong> ${user.metadata.lastSignInTime}</div>
+    `;
+
+    // Load saved profile picture
+    try {
+      const picRef = ref(storage, "profilePics/" + user.uid + ".jpg");
+      const url = await getDownloadURL(picRef);
+      document.getElementById("profilePic").src = url;
+    } catch (err) {
+      // No saved picture, default remains
+    }
+
+    // Upload new profile picture
+    document.getElementById("uploadPic").addEventListener("change", async (event) => {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const picRef = ref(storage, "profilePics/" + user.uid + ".jpg");
+
+      await uploadBytes(picRef, file);
+
+      const newURL = await getDownloadURL(picRef);
+      document.getElementById("profilePic").src = newURL;
+
+      alert("Profile picture updated!");
+    });
+  });
+
+  document.getElementById("logoutBtn").addEventListener("click", () => {
+    signOut(auth).then(() => {
+      window.location.href = "signin.html";
+    });
+  });
+</script>
+
+</body>
+</html>
