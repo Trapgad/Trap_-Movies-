@@ -209,7 +209,7 @@ footer {
   justify-content: center; align-items: center;
 }
 .modal-content { position: relative; width: 80%; max-width: 800px; }
-.modal-content iframe { width: 100%; height: 450px; border-radius: 8px; }
+.modal-content iframe { width: 100%; aspect-ratio: 16/9; border-radius: 8px; }
 .close {
   position: absolute; top: -30px; right: 0;
   font-size: 2rem; color: #fff; cursor: pointer;
@@ -278,53 +278,60 @@ function updateButtons() {
 window.addEventListener("load", updateButtons);
 window.addEventListener("resize", updateButtons);
 
-// TMDB MOVIES API
-const TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxN2ExODM0ZTI3MzMyMGVlZjhhMmEzNmIzOGExMTk2NCIsInN1YiI6IjY4ZWE2MDY4ZmJjYjQxOTVlYjlmZDg2ZCIsInNjb3BlcyI6WyJhcGlfcmVhCJdLCJ2ZXJzaW9uIjoxfQ.iFV2N9KUPakJb_HWWY3eZbB3cUq_gMhM1H9hcnEWD7Q";
+const TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxN2ExODM0ZTI3MzMyMGVlZjhhMmEzNmIzOGExMTk2NCIsIm5iZiI6MTc2MDE5MDU2OC4wOTQsInN1YiI6IjY4ZWE2MDY4ZmJjYjQxOTVlYjlmZDg2ZCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.iFV2N9KUPakJb_HWWY3eZbB3cUq_gMhM1H9hcnEWD7Q";
 const IMG_PATH = "https://image.tmdb.org/t/p/w500";
 const movieContainer = document.getElementById("movieContainer");
 const searchInput = document.getElementById("searchInput");
 
-async function getMovies(url="https://api.themoviedb.org/3/trending/movie/week") {
-  try {
-    const res = await fetch(url, { headers:{Authorization:`Bearer ${TOKEN}`}});
+async function getMovies(url="https://api.themoviedb.org/3/trending/movie/week"){
+  try{
+    const res = await fetch(url, { headers:{Authorization:`Bearer ${TOKEN}`} });
     const data = await res.json();
+    if(!data.results || data.results.length===0) throw new Error("No movies found.");
     displayMovies(data.results);
-  } catch(err){ console.error(err); }
+  } catch(err){
+    console.error(err);
+    movieContainer.innerHTML=`<p style="text-align:center;color:#ff33ff;">Failed to load movies 😢<br>Check your TMDB token.</p>`;
+  }
 }
 
 function displayMovies(movies){
   movieContainer.innerHTML="";
-  if(!movies||movies.length===0){
-    movieContainer.innerHTML=`<p style="text-align:center;color:#ff33ff;">No movies found 😢</p>`;
-    return;
-  }
   movies.forEach(movie=>{
     const card=document.createElement("div");
     card.classList.add("movie-card");
-    card.innerHTML=`<img src="${movie.poster_path?IMG_PATH+movie.poster_path:'https://via.placeholder.com/500x750?text=No+Image'}"><h3>${movie.title}</h3>`;
+    card.innerHTML=`<img src="${movie.poster_path?IMG_PATH+movie.poster_path:'https://via.placeholder.com/500x750?text=No+Image'}" alt="${movie.title}">
+    <h3>${movie.title}</h3>`;
     card.addEventListener("click",()=>openTrailer(movie.id));
     movieContainer.appendChild(card);
   });
 }
 
+// Search with debounce
 let debounceTimer;
 searchInput.addEventListener("keyup",(e)=>{
   clearTimeout(debounceTimer);
   debounceTimer=setTimeout(async()=>{
     const query=e.target.value.trim();
     if(query.length>0){
-      const res=await fetch(`https://api.themoviedb.org/3/search/movie?query=${query}`,{headers:{Authorization:`Bearer ${TOKEN}`}});
-      const data=await res.json();
-      displayMovies(data.results);
-    }else getMovies();
+      try{
+        const res = await fetch(`https://api.themoviedb.org/3/search/movie?query=${query}`, { headers:{Authorization:`Bearer ${TOKEN}`} });
+        const data = await res.json();
+        displayMovies(data.results || []);
+      }catch(err){
+        console.error(err);
+        movieContainer.innerHTML=`<p style="text-align:center;color:#ff33ff;">Search failed 😢</p>`;
+      }
+    } else getMovies();
   },500);
 });
 
+// Trailer Modal
 async function openTrailer(movieId){
   try{
-    const res=await fetch(`https://api.themoviedb.org/3/movie/${movieId}/videos`,{headers:{Authorization:`Bearer ${TOKEN}`}});
-    const data=await res.json();
-    const trailer=data.results.find(v=>v.type==="Trailer"&&v.site==="YouTube");
+    const res = await fetch(`https://api.themoviedb.org/3/movie/${movieId}/videos`, { headers:{Authorization:`Bearer ${TOKEN}`} });
+    const data = await res.json();
+    const trailer = data.results.find(v=>v.type==="Trailer" && v.site==="YouTube");
     if(trailer){
       document.getElementById("trailerFrame").src=`https://www.youtube.com/embed/${trailer.key}?autoplay=1`;
       document.getElementById("trailerModal").style.display="flex";
@@ -340,6 +347,8 @@ function closeModal(){
   document.getElementById("trailerFrame").src="";
   document.body.classList.remove("modal-open");
 }
+
+// Load movies
 getMovies();
 </script>
 
@@ -369,7 +378,12 @@ function updateAuthButtons(user){
 }
 
 onAuthStateChanged(auth,(user)=>updateAuthButtons(user));
-logoutBtn.onclick=()=>{ signOut(auth).then(()=>{ alert("Signed Out Successfully!"); window.location.href="signin.html"; }).catch(err=>alert(err.message)); }
+
+logoutBtn.onclick=()=>{ 
+  signOut(auth)
+    .then(()=>{ alert("Signed Out Successfully!"); window.location.href="signin.html"; })
+    .catch(err=>alert(err.message)); 
+}
 </script>
 
 </body>
