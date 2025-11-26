@@ -4,37 +4,52 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TRAP MOVIES | Contact</title>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
-body { margin:0; font-family:'Montserrat',sans-serif; background:#0d0d0d; color:#f1f1f1; }
-header { background: linear-gradient(90deg,#b30000,#333); text-align:center; padding:1.5rem; font-size:1.8rem; font-weight:bold; color:#fff; }
-nav { background:#1a1a1a; display:flex; justify-content:center; gap:1.2rem; padding:0.8rem; border-bottom:2px solid #b30000; }
-nav a { text-decoration:none; color:#ccc; font-weight:600; }
-nav a:hover, nav a.active { color:#fff; border-bottom:2px solid #b30000; padding-bottom:2px; }
-.contact { max-width:600px; margin:3rem auto; padding:2rem; background:#1f1f1f; border-radius:12px; box-shadow:0 0 15px rgba(179,0,0,0.5); text-align:center; }
-.contact h2 { color:#ff3333; margin-bottom:1.5rem; }
-.contact input, .contact textarea { width:100%; padding:12px; margin-bottom:1rem; border-radius:8px; border:1px solid #444; background:#111; color:#f1f1f1; }
-.contact button { padding:12px 25px; border:none; border-radius:25px; background:#b30000; color:#fff; font-weight:600; cursor:pointer; transition:0.3s, box-shadow 0.3s; }
-.contact button:hover { background:#ff3333; box-shadow:0 0 10px #e50914; }
-/* Glowing animation while sending */
-.contact button.sending { animation: glow 1s infinite alternate; pointer-events:none; }
-@keyframes glow { 0% { box-shadow: 0 0 5px #e50914; } 50% { box-shadow: 0 0 20px #ff3333; } 100% { box-shadow: 0 0 10px #e50914; } }
+/* -------------------- BASE -------------------- */
+body {margin:0;font-family:'Montserrat',sans-serif;background:#0d0d0d;color:#fff;transition:0.3s;}
+header{background:linear-gradient(90deg,#b30000,#2a0d2a);text-align:center;padding:1.5rem;font-size:1.8rem;font-weight:700;color:#fff;text-shadow:0 0 8px #ff33ff;letter-spacing:1px;}
 
-.contact-info { margin-top:1.5rem; color:#ddd; font-size:0.95rem; }
-.contact-info span { color:#ff3333; font-weight:600; }
-footer { background:#1a1a1a; color:#aaa; text-align:center; padding:1rem; border-top:2px solid #b30000; }
+/* -------------------- NAV -------------------- */
+nav{display:flex;overflow-x:auto;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);background:rgba(26,26,26,0.7);gap:1rem;padding:.7rem 1rem;border-bottom:2px solid #b30000;scroll-behavior:smooth;}
+nav::-webkit-scrollbar{height:6px;}
+nav::-webkit-scrollbar-thumb{background:#b30000;border-radius:10px;}
+nav a{color:#ccc;text-decoration:none;font-weight:600;display:flex;align-items:center;gap:4px;position:relative;padding:5px;}
+nav a i{font-size:1.1rem;}
+nav a:hover, nav a.active{color:#fff;}
+nav a::after{content:'';position:absolute;bottom:0;left:0;height:2px;width:0;background:linear-gradient(90deg,#b30000,#9b00ff);transition:0.3s;}
+nav a:hover::after, nav a.active::after{width:100%;}
+
+/* -------------------- CONTACT BOX -------------------- */
+.contact{max-width:600px;margin:3rem auto;padding:2rem;background:rgba(31,31,31,0.85);border-radius:12px;box-shadow:0 0 20px rgba(179,0,0,0.5);text-align:center;}
+.contact h2{color:#ff33ff;margin-bottom:1.5rem;}
+.contact input, .contact textarea{width:100%;padding:12px;margin-bottom:1rem;border-radius:8px;border:1px solid #444;background:#111;color:#fff;transition:0.3s;}
+.contact input:focus, .contact textarea:focus{border-color:#ff33ff;outline:none;box-shadow:0 0 10px rgba(255,51,255,0.5);}
+.contact button{padding:12px 25px;border:none;border-radius:25px;background:linear-gradient(45deg,#ff3333,#9b00ff);color:#fff;font-weight:700;cursor:pointer;transition:0.3s, box-shadow 0.3s;}
+.contact button:hover{transform:translateY(-3px);box-shadow:0 0 15px #ff33ff;}
+.contact button.sending{animation:glow 1s infinite alternate;pointer-events:none;}
+@keyframes glow{0%{box-shadow:0 0 5px #ff33ff;}50%{box-shadow:0 0 20px #ff33ff;}100%{box-shadow:0 0 10px #ff33ff;}}
+
+/* -------------------- CONTACT INFO -------------------- */
+.contact-info{margin-top:1.5rem;color:#ddd;font-size:0.95rem;}
+.contact-info span{color:#ff33ff;font-weight:600;}
+
+/* -------------------- FOOTER -------------------- */
+footer{text-align:center;background:#1a1a1a;color:#aaa;padding:1rem;border-top:2px solid #b30000;}
+footer span{color:#ff33ff;font-weight:600;}
 </style>
 </head>
 <body>
 
-<header>🎬 TRAP MOVIES</header>
+<header>🎬 TRAP MOVIES 🎬</header>
+
 <nav>
-  <a href="Home.html">Home</a>
-  <a href="Movies.html">Movies</a>
-  <a href="Series.html">Series</a>
-  <a href="About.html">About</a>
-  <a href="Contact.html" class="active">Contact</a>
+  <a href="Home.html"><i class="fas fa-home"></i>Home</a>
+  <a href="Movies.html"><i class="fas fa-film"></i>Movies</a>
+  <a href="Series.html"><i class="fas fa-tv"></i>Series</a>
+  <a href="About.html"><i class="fas fa-info-circle"></i>About</a>
+  <a href="Contact.html" class="active"><i class="fas fa-envelope"></i>Contact</a>
 </nav>
 
 <section class="contact">
@@ -52,7 +67,7 @@ footer { background:#1a1a1a; color:#aaa; text-align:center; padding:1rem; border
   </div>
 </section>
 
-<footer>© 2025 TRAP MOVIES — Created by TRAP GAD 🎬🔥</footer>
+<footer>© 2025 <span>TRAP MOVIES</span> — Created by <span>TRAP GAD</span> 🎬🔥</footer>
 
 <!-- ✅ EmailJS Integration -->
 <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
