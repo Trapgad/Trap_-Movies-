@@ -93,17 +93,26 @@ footer span {color:#ff33ff;font-weight:600;}
 <footer>© 2025 <span>TRAP MOVIES</span> — Created by <span>TRAP GAD</span></footer>
 
 <script>
-const TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxN2ExODM0ZTI3MzMyMGVlZjhhMmEzNmIzOGExMTk2NCIsInN1YiI6IjY4ZWE2MDY4ZmJjYjQxOTVlYjlmZDg2ZCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.iFV2N9KUPakJb_HWWY3eZbB3cUq_gMhM1H9hcnEWD7Q";
+/* ✅ YOUR UPDATED TOKENS */
+const TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxN2ExODM0ZTI3MzMyMGVlZjhhMmEzNmIzOGExMTk2NCIsIm5iZiI6MTc2MDE5MDU2OC4wOTQsInN1YiI6IjY4ZWE2MDY4ZmJjYjQxOTVlYjlmZDg2ZCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.iFV2N9KUPakJb_HWWY3eZbB3cUq_gMhM1H9hcnEWD7Q";
+
+const API_KEY = "17a1834e273320eef8a2a36b38a11964";
+
 const IMG_PATH = "https://image.tmdb.org/t/p/w500";
 const movieGrid = document.getElementById("movie-grid");
 const searchInput = document.getElementById("searchInput");
 
 async function fetchMovies(url) {
   try {
-    const res = await fetch(url, {headers:{Authorization:`Bearer ${TOKEN}`}});
+    const res = await fetch(url, {
+      headers: { Authorization: `Bearer ${TOKEN}` }
+    });
     const data = await res.json();
     return data.results;
-  } catch(err){console.error(err);return [];}
+  } catch (err) {
+    console.error(err);
+    return [];
+  }
 }
 
 async function loadTrending() {
@@ -117,48 +126,70 @@ function displayMovies(movies) {
     const card = document.createElement("div");
     card.classList.add("movie-card");
     card.setAttribute("data-id", movie.id);
-    card.innerHTML = `<img src="${IMG_PATH+movie.poster_path}" alt="${movie.title}"><h3>${movie.title}</h3>`;
-    card.addEventListener("click",()=>openModal(movie.id,movie.title));
+    card.innerHTML = `
+      <img src="${IMG_PATH + movie.poster_path}" alt="${movie.title}">
+      <h3>${movie.title}</h3>
+    `;
+    card.addEventListener("click", () => openModal(movie.id, movie.title));
     movieGrid.appendChild(card);
   });
 }
 
-// Modal
 const modal = document.getElementById("movieModal");
 const trailerFrame = document.getElementById("trailerFrame");
 const watchBtn = document.getElementById("watchFullBtn");
 const closeBtn = document.querySelector(".modal .close");
 
-async function openModal(movieId,title){
+async function openModal(movieId, title) {
   try {
-    const res = await fetch(`https://api.themoviedb.org/3/movie/${movieId}/videos`,{headers:{Authorization:`Bearer ${TOKEN}`}});
+    const res = await fetch(`https://api.themoviedb.org/3/movie/${movieId}/videos`, {
+      headers: { Authorization: `Bearer ${TOKEN}` }
+    });
     const data = await res.json();
-    const trailer = data.results.find(v=>v.type==="Trailer" && v.site==="YouTube");
-    if(trailer){trailerFrame.src=`https://www.youtube.com/embed/${trailer.key}?autoplay=1`;watchBtn.setAttribute("data-trailer",trailer.key);modal.style.display="flex";}
-  } catch(err){console.error(err);}
+    const trailer = data.results.find(v => v.type === "Trailer" && v.site === "YouTube");
+
+    if (trailer) {
+      trailerFrame.src = `https://www.youtube.com/embed/${trailer.key}?autoplay=1`;
+      watchBtn.setAttribute("data-trailer", trailer.key);
+      modal.style.display = "flex";
+    }
+  } catch (err) {
+    console.error(err);
+  }
 }
 
-watchBtn.onclick = ()=>{
+watchBtn.onclick = () => {
   const key = watchBtn.getAttribute("data-trailer");
-  if(key) window.open(`https://www.youtube.com/watch?v=${key}`,"_blank");
+  if (key) window.open(`https://www.youtube.com/watch?v=${key}`, "_blank");
 };
 
-closeBtn.onclick=()=>{modal.style.display="none";trailerFrame.src="";};
-window.onclick=(e)=>{if(e.target===modal){modal.style.display="none";trailerFrame.src="";}};
+closeBtn.onclick = () => {
+  modal.style.display = "none";
+  trailerFrame.src = "";
+};
 
-// Nav scroll arrows
-function scrollNav(amount){document.getElementById("navBar").scrollBy({left:amount,behavior:"smooth"});}
+window.onclick = (e) => {
+  if (e.target === modal) {
+    modal.style.display = "none";
+    trailerFrame.src = "";
+  }
+};
 
-// Search
+function scrollNav(amount) {
+  document.getElementById("navBar").scrollBy({ left: amount, behavior: "smooth" });
+}
+
 let searchTimeout;
-searchInput.addEventListener("input", async e=>{
+searchInput.addEventListener("input", async e => {
   clearTimeout(searchTimeout);
-  const query=e.target.value.trim();
-  if(!query) return loadTrending();
-  searchTimeout=setTimeout(async()=>{
-    const movies=await fetchMovies(`https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(query)}`);
+  const query = e.target.value.trim();
+  if (!query) return loadTrending();
+  searchTimeout = setTimeout(async () => {
+    const movies = await fetchMovies(
+      `https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(query)}&api_key=${API_KEY}`
+    );
     displayMovies(movies);
-  },500);
+  }, 500);
 });
 
 loadTrending();
