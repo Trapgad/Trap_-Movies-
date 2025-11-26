@@ -5,178 +5,111 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Account Details | TRAP MOVIES</title>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
-  body {
-    margin: 0;
-    font-family: 'Montserrat', sans-serif;
-    background-color: #0d0d0d;
-    color: #f1f1f1;
-    transition: 0.3s;
-  }
-  body.modal-open { overflow: hidden; }
+/* -------------------- BASE -------------------- */
+body {margin:0;font-family:'Montserrat',sans-serif;background:#0d0d0d;color:#fff;transition:0.3s;}
+body.modal-open{overflow:hidden;}
+header{background:linear-gradient(90deg,#b30000,#2a0d2a);text-align:center;padding:1.5rem;font-size:1.8rem;font-weight:700;color:#fff;text-shadow:0 0 8px #ff33ff;letter-spacing:1px;}
 
-  header {
-    background: linear-gradient(90deg, #b30000, #333);
-    text-align: center;
-    padding: 1.5rem;
-    font-size: 1.8rem;
-    font-weight: bold;
-    letter-spacing: 2px;
-    color: #fff;
-  }
+/* -------------------- NAV -------------------- */
+nav{display:flex;overflow-x:auto;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);background:rgba(26,26,26,0.7);gap:1rem;padding:.7rem 1rem;border-bottom:2px solid #b30000;scroll-behavior:smooth;}
+nav::-webkit-scrollbar{height:6px;}
+nav::-webkit-scrollbar-thumb{background:#b30000;border-radius:10px;}
+nav a{color:#ccc;text-decoration:none;font-weight:600;display:flex;align-items:center;gap:4px;position:relative;padding:5px;}
+nav a i{font-size:1.1rem;}
+nav a:hover, nav a.active{color:#fff;}
+nav a::after{content:'';position:absolute;bottom:0;left:0;height:2px;width:0;background:linear-gradient(90deg,#b30000,#9b00ff);transition:0.3s;}
+nav a:hover::after, nav a.active::after{width:100%;}
 
-  nav {
-    background: #1a1a1a;
-    display: flex;
-    justify-content: center;
-    gap: 1.2rem;
-    padding: 0.8rem;
-    border-bottom: 2px solid #b30000;
-  }
+/* -------------------- ACCOUNT BOX -------------------- */
+.account-box{background:rgba(31,31,31,0.85);padding:2rem;border-radius:12px;max-width:500px;margin:2rem auto;box-shadow:0 0 20px rgba(179,0,0,0.5);text-align:center;}
+.account-box h2{margin-bottom:1.5rem;color:#ff33ff;}
+#profilePic{width:130px;height:130px;border-radius:50%;object-fit:cover;border:3px solid #ff33ff;margin-bottom:15px;}
+input[type="file"]{margin:10px 0 20px 0;}
+.info{margin:10px 0;font-size:16px;text-align:left;color:#ddd;}
+button{width:100%;padding:12px;background:linear-gradient(45deg,#ff3333,#9b00ff);border:none;color:#fff;font-size:16px;border-radius:6px;cursor:pointer;margin-top:20px;transition:0.3s;}
+button:hover{transform:translateY(-3px);box-shadow:0 6px 12px rgba(0,0,0,0.5);}
 
-  nav a {
-    text-decoration: none;
-    color: #ccc;
-    font-weight: 600;
-    transition: 0.3s;
-  }
-  nav a:hover, nav a.active { color: #fff; border-bottom: 2px solid #b30000; padding-bottom: 2px; }
-
-  .box {
-    background: #111;
-    padding: 25px;
-    border-radius: 10px;
-    max-width: 500px;
-    margin: 2rem auto;
-    box-shadow: 0 0 10px #333;
-    text-align: center;
-  }
-
-  h2 { margin-bottom: 20px; }
-
-  #profilePic {
-    width: 130px;
-    height: 130px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 3px solid red;
-    margin-bottom: 15px;
-  }
-
-  input[type="file"] { margin: 10px 0 20px 0; }
-
-  .info {
-    margin: 10px 0;
-    font-size: 16px;
-    text-align: left;
-  }
-
-  button {
-    width: 100%;
-    padding: 12px;
-    background: red;
-    border: none;
-    color: white;
-    font-size: 16px;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-top: 20px;
-  }
-
-  /* Logout button style from Home page */
-  .logout-btn {
-    background: linear-gradient(45deg, #ff3333, #cc0000);
-    color: #fff;
-  }
-  .logout-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 12px rgba(0,0,0,0.5);
-  }
+/* -------------------- FOOTER -------------------- */
+footer{text-align:center;background:#1a1a1a;color:#aaa;padding:1rem;border-top:2px solid #b30000;}
+footer span{color:#ff33ff;font-weight:600;}
 </style>
 </head>
 <body>
 
-<header>🎬 TRAP MOVIES</header>
+<header>🎬 TRAP MOVIES 🎬</header>
 
 <nav>
-  <a href="index.html">Home</a>
-  <a href="Movies.html">Movies</a>
-  <a href="Series.html">Series</a>
-  <a href="About.html">About</a>
-  <a href="Contact.html">Contact</a>
-  <a href="account.html" class="active">Account</a>
+  <a href="Home.html"><i class="fas fa-home"></i>Home</a>
+  <a href="Movies.html"><i class="fas fa-film"></i>Movies</a>
+  <a href="Series.html"><i class="fas fa-tv"></i>Series</a>
+  <a href="About.html"><i class="fas fa-info-circle"></i>About</a>
+  <a href="Contact.html"><i class="fas fa-envelope"></i>Contact</a>
+  <a href="account.html" class="active"><i class="fas fa-user"></i>Account</a>
 </nav>
 
-<div class="box">
+<div class="account-box">
   <h2>Your Account</h2>
-
   <img id="profilePic" src="https://i.imgur.com/6VBx3io.png" alt="Profile Picture">
-
-  <br>
   <input type="file" id="uploadPic" accept="image/*">
-
   <div id="details"></div>
-
-  <button id="logoutBtn" class="logout-btn">Sign Out</button>
+  <button id="logoutBtn">Sign Out</button>
 </div>
 
+<footer>© 2025 <span>TRAP MOVIES</span> — Created by <span>TRAP GAD</span> 🔥</footer>
+
 <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
-  import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
-  import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-storage.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-storage.js";
 
-  // Firebase config
-  const firebaseConfig = {
-    apiKey: "AIzaSyBLHlSlMPvwSS5MB8JqG2JB1R-ANIopQZU",
-    authDomain: "trap-270792.firebaseapp.com",
-    projectId: "trap-270792",
-    storageBucket: "trap-270792.appspot.com",
-    messagingSenderId: "248838190395",
-    appId: "1:248838190395:web:0dd11c0e4427f79470331e",
-    measurementId: "G-PG6GXVVKL9"
-  };
+const firebaseConfig = {
+  apiKey: "AIzaSyBLHlSlMPvwSS5MB8JqG2JB1R-ANIopQZU",
+  authDomain: "trap-270792.firebaseapp.com",
+  projectId: "trap-270792",
+  storageBucket: "trap-270792.appspot.com",
+  messagingSenderId: "248838190395",
+  appId: "1:248838190395:web:0dd11c0e4427f79470331e",
+  measurementId: "G-PG6GXVVKL9"
+};
 
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const storage = getStorage(app);
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const storage = getStorage(app);
 
-  onAuthStateChanged(auth, async (user) => {
-    if (!user) { window.location.href = "signin.html"; return; }
+onAuthStateChanged(auth, async (user) => {
+  if (!user) { window.location.href = "signin.html"; return; }
 
-    document.getElementById("details").innerHTML = `
-      <div class="info"><strong>Email:</strong> ${user.email}</div>
-      <div class="info"><strong>User ID:</strong> ${user.uid}</div>
-      <div class="info"><strong>Created:</strong> ${user.metadata.creationTime}</div>
-      <div class="info"><strong>Last Login:</strong> ${user.metadata.lastSignInTime}</div>
-    `;
+  document.getElementById("details").innerHTML = `
+    <div class="info"><strong>Email:</strong> ${user.email}</div>
+    <div class="info"><strong>User ID:</strong> ${user.uid}</div>
+    <div class="info"><strong>Created:</strong> ${user.metadata.creationTime}</div>
+    <div class="info"><strong>Last Login:</strong> ${user.metadata.lastSignInTime}</div>
+  `;
 
-    // Load saved profile picture
-    try {
-      const picRef = ref(storage, "profilePics/" + user.uid + ".jpg");
-      const url = await getDownloadURL(picRef);
-      document.getElementById("profilePic").src = url;
-    } catch {}
+  try {
+    const picRef = ref(storage, "profilePics/" + user.uid + ".jpg");
+    const url = await getDownloadURL(picRef);
+    document.getElementById("profilePic").src = url;
+  } catch {}
 
-    // Upload new profile picture
-    document.getElementById("uploadPic").addEventListener("change", async (event) => {
-      const file = event.target.files[0];
-      if (!file) return;
+  document.getElementById("uploadPic").addEventListener("change", async (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
 
-      const picRef = ref(storage, "profilePics/" + user.uid + ".jpg");
-      await uploadBytes(picRef, file);
-      const url = await getDownloadURL(picRef);
-      document.getElementById("profilePic").src = url;
+    const picRef = ref(storage, "profilePics/" + user.uid + ".jpg");
+    await uploadBytes(picRef, file);
+    const url = await getDownloadURL(picRef);
+    document.getElementById("profilePic").src = url;
 
-      alert("Profile picture updated!");
-    });
+    alert("Profile picture updated!");
   });
+});
 
-  document.getElementById("logoutBtn").addEventListener("click", () => {
-    signOut(auth).then(() => {
-      window.location.href = "signin.html";
-    });
-  });
+document.getElementById("logoutBtn").addEventListener("click", () => {
+  signOut(auth).then(() => { window.location.href = "signin.html"; });
+});
 </script>
 
 </body>
