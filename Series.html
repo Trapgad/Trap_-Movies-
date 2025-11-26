@@ -3,9 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TRAP MOVIES | About</title>
+<title>TRAP MOVIES | Series</title>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
 /* -------------------- BASE -------------------- */
 body {margin:0;font-family:'Montserrat',sans-serif;background:#0d0d0d;color:#fff;transition:0.3s;}
@@ -22,20 +21,54 @@ nav a::after{content:'';position:absolute;bottom:0;left:0;height:2px;width:0;bac
 nav a:hover::after, nav a.active::after{width:100%;}
 
 /* -------------------- HERO -------------------- */
-.hero{text-align:center;padding:2rem 1rem;color:#ff33ff;font-weight:700;font-size:1.5rem;text-transform:uppercase;}
+.hero{text-align:center;padding:1.5rem 1rem;color:#ff33ff;font-weight:700;font-size:1.5rem;text-transform:uppercase;}
+.search-bar{display:flex;justify-content:center;gap:.5rem;margin-top:.5rem;}
+.search-bar input{padding:.6rem 1rem;border-radius:6px;border:none;width:250px;font-size:1rem;background:#111;color:#fff;}
+.search-bar button{background:#b30000;color:#fff;border:none;border-radius:6px;padding:.6rem 1rem;font-weight:700;cursor:pointer;}
+.search-bar button:hover{background:#9b00ff;}
 
-/* -------------------- CONTENT -------------------- */
-.about-section{max-width:900px;margin:2rem auto;padding:2rem;background:rgba(31,31,31,0.8);border-radius:12px;box-shadow:0 0 20px rgba(179,0,0,0.4);text-align:center;}
-.about-section h2{color:#ff33ff;margin-bottom:1rem;font-size:2rem;}
-.about-section p{color:#ddd;line-height:1.6;font-size:1rem;}
+/* -------------------- SERIES GRID -------------------- */
+.series-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:1rem;padding:1rem;}
+.card{background:#1f1f1f;border-radius:10px;overflow:hidden;text-align:center;transition:transform .3s,box-shadow .3s;cursor:pointer;box-shadow:0 0 10px rgba(179,0,0,.3);}
+.card:hover{transform:scale(1.05);box-shadow:0 0 20px #ff33ff;}
+.card img{width:100%;height:250px;object-fit:cover;border-bottom:2px solid #b30000;}
+.card h3{margin:.5rem 0;color:#fff;}
+
+/* -------------------- LOADER -------------------- */
+.loader{text-align:center;margin-top:2rem;}
+.loader div{width:30px;height:30px;border:4px solid #b30000;border-top:4px solid transparent;border-radius:50%;margin:auto;animation:spin 1s linear infinite;}
+@keyframes spin{100%{transform:rotate(360deg);}}
+
+/* -------------------- MODAL -------------------- */
+.modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.95);justify-content:center;align-items:flex-start;overflow-y:auto;z-index:999;transition:opacity .3s ease;}
+.modal.show{display:flex;opacity:1;}
+.modal-content{background:#1f1f1f;padding:1rem;border-radius:10px;width:90%;max-width:900px;margin:2rem auto;position:relative;animation:fadeIn .4s ease;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(-10px);}to{opacity:1;transform:translateY(0);}}
+.close{position:absolute;top:10px;right:15px;font-size:2rem;cursor:pointer;color:#ff33ff;}
+.close:hover{color:#ff4d4d;}
+.modal-content img{width:100%;border-radius:8px;margin-bottom:.7rem;}
+.modal-content h2{color:#ff33ff;margin-bottom:.3rem;}
+iframe{width:100%;height:400px;border:none;border-radius:8px;margin-top:.5rem;}
+.episodes{margin-top:1rem;background:#111;padding:1rem;border-radius:8px;}
+.episodes h3{color:#ff33ff;}
+.episode-list{overflow:hidden;transition:max-height .3s ease;}
+.season-header{cursor:pointer;color:#ff33ff;display:flex;align-items:center;gap:8px;}
+.season-header span{transition:transform .3s ease;}
+.season-header.open span{transform:rotate(180deg);}
+.episodes div:hover{background:#b30000;}
+
+/* -------------------- COMMENTS -------------------- */
+.comments{background:#0e0e0e;margin-top:1rem;padding:1rem;border-radius:8px;}
+.comments h3{color:#ff33ff;}
+.comments input, .comments textarea{width:100%;background:#1f1f1f;color:#fff;border:none;border-radius:6px;padding:.6rem;resize:none;margin-top:.3rem;}
+.comments button{background:#b30000;color:#fff;border:none;border-radius:6px;padding:.5rem 1rem;margin-top:.4rem;cursor:pointer;font-weight:700;}
+.comment-item{background:#1a1a1a;border-radius:6px;padding:.4rem;margin-top:.4rem;display:flex;justify-content:space-between;align-items:center;}
+.comment-item button{background:#ff3333;border:none;color:#fff;padding:.2rem .5rem;border-radius:4px;cursor:pointer;}
 
 /* -------------------- FOOTER -------------------- */
 footer{text-align:center;background:#1a1a1a;color:#aaa;padding:1rem;border-top:2px solid #b30000;}
-footer span{color:#ff33ff;font-weight:600;}
-
-/* -------------------- RESPONSIVE -------------------- */
-@media(max-width:768px){.about-section{padding:1.5rem;}}
 </style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
@@ -43,19 +76,179 @@ footer span{color:#ff33ff;font-weight:600;}
 <nav>
   <a href="Home.html"><i class="fas fa-home"></i>Home</a>
   <a href="Movies.html"><i class="fas fa-film"></i>Movies</a>
-  <a href="Series.html"><i class="fas fa-tv"></i>Series</a>
-  <a href="About.html" class="active"><i class="fas fa-info-circle"></i>About</a>
+  <a href="Series.html" class="active"><i class="fas fa-tv"></i>Series</a>
+  <a href="About.html"><i class="fas fa-info-circle"></i>About</a>
   <a href="Contact.html"><i class="fas fa-envelope"></i>Contact</a>
 </nav>
 
-<section class="hero">🔥 About TRAP MOVIES 🔥</section>
-
-<section class="about-section">
-  <h2>Welcome to TRAP MOVIES</h2>
-  <p>🎬🔥 Your ultimate entertainment hub! Here you can explore the hottest trending movies and series every week. Our goal is to provide a sleek, professional, and fun platform where fans can easily discover new releases, check ratings, and watch trailers. Enjoy the latest blockbusters and fan-favorites all in one place.</p>
+<section class="hero">🔥Popular Series
+  <div class="search-bar">
+    <input id="searchInput" placeholder="Search series...">
+    <button id="searchBtn">Search</button>
+  </div>
 </section>
 
-<footer>© 2025 <span>TRAP MOVIES</span> — Created by <span>TRAP GAD</span> 🔥</footer>
+<div class="loader" id="loader"><div></div></div>
+<div class="series-grid" id="seriesContainer"></div>
+
+<footer>© 2025 TRAP MOVIES — Created by TRAP GAD</footer>
+
+<!-- Modal -->
+<div class="modal" id="seriesModal">
+  <div class="modal-content">
+    <span class="close" id="closeModal">&times;</span>
+    <img id="modalPoster" src="">
+    <h2 id="modalTitle"></h2>
+    <p id="modalOverview"></p>
+    <p><strong>Year:</strong> <span id="modalYear"></span></p>
+    <p><strong>Rating:</strong> <span id="modalRating"></span>/10</p>
+    <iframe id="modalTrailer" src="" allowfullscreen></iframe>
+    <p id="noTrailerMsg" style="color:#999;text-align:center;display:none;">No trailer available.</p>
+    <div class="episodes" id="modalEpisodes"></div>
+
+    <div class="comments">
+      <h3>Comments</h3>
+      <input id="commentName" placeholder="Your name">
+      <textarea id="commentInput" rows="3" placeholder="Write a comment..."></textarea>
+      <button id="postComment">Post Comment</button>
+      <div id="commentsList"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ----- VARIABLES -----
+const API_KEY = "17a1834e273320eef8a2a36b38a11964";
+const IMG_PATH = "https://image.tmdb.org/t/p/w500";
+const container = document.getElementById("seriesContainer");
+const loader = document.getElementById("loader");
+const modal = document.getElementById("seriesModal");
+const closeModal = document.getElementById("closeModal");
+const modalPoster = document.getElementById("modalPoster");
+const modalTitle = document.getElementById("modalTitle");
+const modalOverview = document.getElementById("modalOverview");
+const modalYear = document.getElementById("modalYear");
+const modalRating = document.getElementById("modalRating");
+const modalTrailer = document.getElementById("modalTrailer");
+const modalEpisodes = document.getElementById("modalEpisodes");
+const noTrailerMsg = document.getElementById("noTrailerMsg");
+const commentName = document.getElementById("commentName");
+const commentInput = document.getElementById("commentInput");
+const postComment = document.getElementById("postComment");
+const commentsList = document.getElementById("commentsList");
+
+let currentSeriesId = null;
+let comments = JSON.parse(localStorage.getItem("trap_comments") || "[]");
+
+// ----- COMMENTS -----
+function displayComments(seriesId){
+  const filtered = comments.filter(c => c.seriesId === seriesId);
+  commentsList.innerHTML = filtered.length ? filtered.map(c => `
+    <div class="comment-item" data-id="${c.id}">
+      <span><b>${c.name}:</b> ${c.text}</span>
+      ${c.name===commentName.value?`<button onclick="deleteComment('${c.id}')">Delete</button>`:""}
+    </div>
+  `).join("") : "<p>No comments yet.</p>";
+}
+window.deleteComment = function(id){
+  comments = comments.filter(c => c.id!==id);
+  localStorage.setItem("trap_comments", JSON.stringify(comments));
+  displayComments(currentSeriesId);
+}
+postComment.onclick = () => {
+  const name = commentName.value.trim();
+  const text = commentInput.value.trim();
+  if(!name||!text) return alert("Enter name and comment!");
+  const newComment = {id:Date.now().toString(), seriesId:currentSeriesId, name, text};
+  comments.push(newComment);
+  localStorage.setItem("trap_comments", JSON.stringify(comments));
+  commentInput.value="";
+  displayComments(currentSeriesId);
+};
+
+// ----- FETCH SERIES -----
+async function fetchSeries(url){
+  loader.style.display="block";
+  try{
+    const res=await fetch(url);
+    const data=await res.json();
+    displaySeries(data.results);
+  }catch(err){console.error(err);}
+  finally{loader.style.display="none";}
+}
+function displaySeries(series){
+  container.innerHTML="";
+  series.forEach(tv=>{
+    const img=tv.poster_path?IMG_PATH+tv.poster_path:"https://via.placeholder.com/500x250?text=No+Image";
+    const card=document.createElement("div");
+    card.className="card";
+    card.innerHTML=`<img loading="lazy" src="${img}" alt="${tv.name}"><h3>${tv.name}</h3>`;
+    card.onclick=()=>openModal(tv.id);
+    container.appendChild(card);
+  });
+}
+
+// ----- MODAL -----
+async function openModal(seriesId){
+  currentSeriesId=seriesId;
+  modal.classList.add("show");
+  modalTrailer.src="";
+  noTrailerMsg.style.display="none";
+  modalEpisodes.innerHTML="<h3>Episodes</h3>";
+  try{
+    const res=await fetch(`https://api.themoviedb.org/3/tv/${seriesId}?api_key=${API_KEY}&append_to_response=videos`);
+    const data=await res.json();
+    modalPoster.src=data.poster_path?IMG_PATH+data.poster_path:"";
+    modalTitle.textContent=data.name;
+    modalOverview.textContent=data.overview||"No overview.";
+    modalYear.textContent=data.first_air_date?data.first_air_date.split("-")[0]:"N/A";
+    modalRating.textContent=data.vote_average||"N/A";
+    const trailer=data.videos.results.find(v=>v.type==="Trailer"&&v.site==="YouTube");
+    if(trailer) modalTrailer.src=`https://www.youtube.com/embed/${trailer.key}?autoplay=1`;
+    else noTrailerMsg.style.display="block";
+
+    for(const s of data.seasons){
+      if(s.episode_count===0) continue;
+      const seasonDiv=document.createElement("div");
+      const header=document.createElement("div");
+      header.className="season-header";
+      header.innerHTML=`<span>▼</span> Season ${s.season_number} (${s.episode_count} eps)`;
+      const list=document.createElement("div");
+      list.className="episode-list"; list.style.maxHeight="0px";
+      header.onclick=()=>{ const expanded=list.style.maxHeight!=="0px"; document.querySelectorAll(".episode-list").forEach(el=>el.style.maxHeight="0px"); document.querySelectorAll(".season-header").forEach(el=>el.classList.remove("open")); if(!expanded){ list.style.maxHeight=list.scrollHeight+"px"; header.classList.add("open"); } };
+      for(let i=1;i<=s.episode_count;i++){
+        const ep=document.createElement("div"); ep.textContent=`Episode ${i}`;
+        ep.onclick=async()=>{
+          try{
+            const epRes=await fetch(`https://api.themoviedb.org/3/tv/${seriesId}/season/${s.season_number}/episode/${i}/videos?api_key=${API_KEY}`);
+            const epData=await epRes.json();
+            const epTrailer=epData.results.find(v=>v.type==="Trailer"&&v.site==="YouTube");
+            if(epTrailer){ modalTrailer.src=`https://www.youtube.com/embed/${epTrailer.key}?autoplay=1`; noTrailerMsg.style.display="none"; }
+            else{ modalTrailer.src=""; noTrailerMsg.style.display="block"; }
+          }catch(err){console.error(err);}
+        };
+        list.appendChild(ep);
+      }
+      seasonDiv.appendChild(header); seasonDiv.appendChild(list); modalEpisodes.appendChild(seasonDiv);
+    }
+    displayComments(seriesId);
+  }catch(err){console.error(err);}
+}
+
+// Close modal
+closeModal.onclick=()=>{ modal.classList.remove("show"); modalTrailer.src=""; }
+window.onclick=e=>{if(e.target===modal){modal.classList.remove("show");modalTrailer.src="";}}
+
+// Search
+document.getElementById("searchBtn").onclick=()=>{
+  const query=document.getElementById("searchInput").value.trim();
+  if(!query) fetchSeries(`https://api.themoviedb.org/3/tv/popular?api_key=${API_KEY}`);
+  else fetchSeries(`https://api.themoviedb.org/3/search/tv?api_key=${API_KEY}&query=${encodeURIComponent(query)}`);
+}
+
+// Initial fetch
+fetchSeries(`https://api.themoviedb.org/3/tv/popular?api_key=${API_KEY}`);
+</script>
 
 </body>
 </html>
