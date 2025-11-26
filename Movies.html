@@ -1,197 +1,83 @@
-<DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TRAP MOVIES | Movies</title>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
-  body {
-    margin: 0;
-    font-family: "Montserrat", sans-serif;
-    background-color: #0d0d0d;
-    color: #fff;
-  }
+body {margin:0;font-family:'Montserrat',sans-serif;background:#0d0d0d;color:#fff;transition:.3s;}
+header {background:linear-gradient(90deg,#b30000,#6b006b);padding:20px 0;text-align:center;font-size:1.8rem;letter-spacing:2px;font-weight:bold;text-shadow:0 0 8px #ff33ff;}
+/* -------------------- NAV -------------------- */
+.nav-container {position:relative;display:flex;align-items:center;overflow:hidden;}
+nav {display:flex;overflow-x:auto;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);background:rgba(26,26,26,0.7);gap:1rem;padding:.7rem 2rem;border-bottom:2px solid #b30000;scroll-behavior:smooth;}
+nav::-webkit-scrollbar{height:6px;}
+nav::-webkit-scrollbar-thumb{background:#b30000;border-radius:10px;}
+nav a{color:#ccc;text-decoration:none;font-weight:600;display:flex;align-items:center;gap:4px;position:relative;padding:5px;}
+nav a i{font-size:1.1rem;}
+nav a:hover, nav a.active{color:#fff;}
+nav a::after{content:'';position:absolute;bottom:0;left:0;height:2px;width:0;background:linear-gradient(90deg,#b30000,#9b00ff);transition:.3s;}
+nav a:hover::after, nav a.active::after{width:100%;}
 
-  header {
-    background: linear-gradient(90deg, #e50914, #6b0000);
-    padding: 20px 0;
-    text-align: center;
-    font-size: 1.8rem;
-    letter-spacing: 2px;
-    font-weight: bold;
-  }
+/* Scroll arrows */
+.arrow {position:absolute;top:50%;transform:translateY(-50%);background:rgba(0,0,0,0.6);border:none;color:#fff;font-size:1.5rem;padding:.5rem;cursor:pointer;border-radius:50%;z-index:2;}
+.arrow-left {left:0;}
+.arrow-right {right:0;}
+.arrow:hover {background:rgba(179,0,0,0.8);color:#ff33ff;}
 
-  nav {
-    display: flex;
-    justify-content: center;
-    gap: 25px;
-    background: #1a1a1a;
-    padding: 15px 0;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-  }
+/* -------------------- CONTENT -------------------- */
+.content {max-width:1100px;margin:40px auto;text-align:center;padding:0 15px;}
+.content h2 {font-size:2rem;color:#ff33ff;margin-bottom:10px;}
+.content p {color:#aaa;margin-bottom:20px;}
+.search-bar {margin-bottom:30px;display:flex;justify-content:center;gap:.5rem;}
+.search-bar input {width:100%;max-width:500px;padding:12px 20px;border-radius:25px;border:none;font-size:1rem;background:#1a1a1a;color:#fff;outline:none;}
 
-  nav a {
-    color: #ccc;
-    text-decoration: none;
-    font-weight: 500;
-    transition: color 0.3s, transform 0.3s;
-  }
+/* -------------------- MOVIE GRID -------------------- */
+.movie-grid {display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:25px;}
+.movie-card {background:#1a1a1a;border-radius:12px;overflow:hidden;transition:transform .3s,box-shadow .3s;cursor:pointer;}
+.movie-card:hover {transform:scale(1.05);box-shadow:0 0 15px #ff33ff;}
+.movie-card img {width:100%;height:270px;object-fit:cover;}
+.movie-card h3 {font-size:1rem;margin:10px 0 5px;color:#fff;}
 
-  nav a:hover,
-  nav a.active {
-    color: #e50914;
-    transform: scale(1.1);
-  }
+/* -------------------- MODAL -------------------- */
+.modal {display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.95);justify-content:center;align-items:center;z-index:1000;}
+.modal-content {max-width:900px;width:90%;position:relative;text-align:center;}
+.modal .close {position:absolute;top:-20px;right:-20px;color:#ff33ff;font-size:2rem;cursor:pointer;}
+#trailerFrame {width:100%;height:500px;margin-bottom:15px;}
+#watchFullBtn {padding:12px 25px;background:#b30000;color:#fff;border:none;border-radius:25px;cursor:pointer;font-weight:bold;transition:.3s;}
+#watchFullBtn:hover {background:#9b00ff;}
 
-  .content {
-    max-width: 1100px;
-    margin: 40px auto;
-    text-align: center;
-    padding: 0 15px;
-  }
+/* -------------------- FOOTER -------------------- */
+footer {background:#111;text-align:center;padding:20px;margin-top:40px;color:#aaa;border-top:1px solid #222;}
+footer span {color:#ff33ff;font-weight:600;}
 
-  .content h2 {
-    font-size: 2rem;
-    color: #e50914;
-    margin-bottom: 10px;
-  }
-
-  .content p {
-    color: #aaa;
-    margin-bottom: 20px;
-  }
-
-  .search-bar {
-    margin-bottom: 30px;
-  }
-
-  .search-bar input {
-    width: 100%;
-    max-width: 500px;
-    padding: 12px 20px;
-    border-radius: 25px;
-    border: none;
-    font-size: 1rem;
-    background: #1a1a1a;
-    color: #fff;
-    outline: none;
-  }
-
-  .movie-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 25px;
-  }
-
-  .movie-card {
-    background: #1a1a1a;
-    border-radius: 12px;
-    overflow: hidden;
-    transition: transform 0.3s, box-shadow 0.3s;
-    cursor: pointer;
-  }
-
-  .movie-card:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 15px rgba(229,9,20,0.5);
-  }
-
-  .movie-card img {
-    width: 100%;
-    height: 270px;
-    object-fit: cover;
-  }
-
-  .movie-card h3 {
-    font-size: 1rem;
-    margin: 10px 0 5px;
-    color: #fff;
-  }
-
-  footer {
-    background: #111;
-    text-align: center;
-    padding: 20px;
-    margin-top: 40px;
-    color: #aaa;
-    border-top: 1px solid #222;
-  }
-
-  footer span {
-    color: #e50914;
-    font-weight: 600;
-  }
-
-  /* Modal Styles */
-  .modal {
-    display: none;
-    position: fixed;
-    top:0; left:0;
-    width: 100%; height: 100%;
-    background: rgba(0,0,0,0.95);
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-  }
-
-  .modal-content {
-    max-width: 900px;
-    width: 90%;
-    position: relative;
-    text-align: center;
-  }
-
-  .modal .close {
-    position: absolute;
-    top: -20px; right: -20px;
-    color: #e50914;
-    font-size: 2rem;
-    cursor: pointer;
-  }
-
-  #trailerFrame {
-    width: 100%;
-    height: 500px;
-    margin-bottom: 15px;
-  }
-
-  #watchFullBtn {
-    padding: 12px 25px;
-    background: #e50914;
-    color: white;
-    border: none;
-    border-radius: 25px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: 0.3s;
-  }
-
-  #watchFullBtn:hover {
-    background: #b00610;
-  }
+/* -------------------- RESPONSIVE -------------------- */
+@media(max-width:768px){.search-bar input{width:70%;}}
 </style>
 </head>
 <body>
 
 <header>🎬 TRAP MOVIES 🎥</header>
 
-<nav>
-  <a href="Home.html">Home</a>
-  <a href="Movies.html" class="active">Movies</a>
-  <a href="Series.html">Series</a>
-  <a href="About.html">About</a>
-  <a href="Contact.html">Contact</a>
-</nav>
+<div class="nav-container">
+  <button class="arrow arrow-left" onclick="scrollNav(-200)"><i class="fas fa-chevron-left"></i></button>
+  <nav id="navBar">
+    <a href="Home.html"><i class="fas fa-home"></i>Home</a>
+    <a href="Movies.html" class="active"><i class="fas fa-film"></i>Movies</a>
+    <a href="Series.html"><i class="fas fa-tv"></i>Series</a>
+    <a href="About.html"><i class="fas fa-info-circle"></i>About</a>
+    <a href="Contact.html"><i class="fas fa-envelope"></i>Contact</a>
+  </nav>
+  <button class="arrow arrow-right" onclick="scrollNav(200)"><i class="fas fa-chevron-right"></i></button>
+</div>
 
 <section class="content">
   <h2>🔥 Trending Movies</h2>
   <p>Click a movie to watch its trailer, then open it on YouTube!</p>
-
   <div class="search-bar">
     <input type="text" id="searchInput" placeholder="Search for movies...">
   </div>
-
   <div id="movie-grid" class="movie-grid"></div>
 </section>
 
@@ -207,22 +93,17 @@
 <footer>© 2025 <span>TRAP MOVIES</span> — Created by <span>TRAP GAD</span></footer>
 
 <script>
-const TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxN2ExODM0ZTI3MzMyMGVlZjhhMmEzNmIzOGExMTk2NCIsIm5iZiI6MTc2MDE5MDU2OC4wOTQsInN1YiI6IjY4ZWE2MDY4ZmJjYjQxOTVlYjlmZDg2ZCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.iFV2N9KUPakJb_HWWY3eZbB3cUq_gMhM1H9hcnEWD7Q";
+const TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxN2ExODM0ZTI3MzMyMGVlZjhhMmEzNmIzOGExMTk2NCIsInN1YiI6IjY4ZWE2MDY4ZmJjYjQxOTVlYjlmZDg2ZCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.iFV2N9KUPakJb_HWWY3eZbB3cUq_gMhM1H9hcnEWD7Q";
 const IMG_PATH = "https://image.tmdb.org/t/p/w500";
 const movieGrid = document.getElementById("movie-grid");
 const searchInput = document.getElementById("searchInput");
 
 async function fetchMovies(url) {
   try {
-    const res = await fetch(url, {
-      headers: { Authorization: `Bearer ${TOKEN}` }
-    });
+    const res = await fetch(url, {headers:{Authorization:`Bearer ${TOKEN}`}});
     const data = await res.json();
     return data.results;
-  } catch(err) {
-    console.error(err);
-    return [];
-  }
+  } catch(err){console.error(err);return [];}
 }
 
 async function loadTrending() {
@@ -236,69 +117,48 @@ function displayMovies(movies) {
     const card = document.createElement("div");
     card.classList.add("movie-card");
     card.setAttribute("data-id", movie.id);
-    card.innerHTML = `
-      <img src="${IMG_PATH + movie.poster_path}" alt="${movie.title}">
-      <h3>${movie.title}</h3>
-    `;
-    card.addEventListener("click", () => openModal(movie.id, movie.title));
+    card.innerHTML = `<img src="${IMG_PATH+movie.poster_path}" alt="${movie.title}"><h3>${movie.title}</h3>`;
+    card.addEventListener("click",()=>openModal(movie.id,movie.title));
     movieGrid.appendChild(card);
   });
 }
 
-// 🎞️ Modal
+// Modal
 const modal = document.getElementById("movieModal");
 const trailerFrame = document.getElementById("trailerFrame");
 const watchBtn = document.getElementById("watchFullBtn");
 const closeBtn = document.querySelector(".modal .close");
 
-async function openModal(movieId, title) {
+async function openModal(movieId,title){
   try {
-    const res = await fetch(`https://api.themoviedb.org/3/movie/${movieId}/videos`, {
-      headers: { Authorization: `Bearer ${TOKEN}` }
-    });
+    const res = await fetch(`https://api.themoviedb.org/3/movie/${movieId}/videos`,{headers:{Authorization:`Bearer ${TOKEN}`}});
     const data = await res.json();
-    const trailer = data.results.find(v => v.type === "Trailer" && v.site === "YouTube");
-    if(trailer) {
-      trailerFrame.src = `https://www.youtube.com/embed/${trailer.key}?autoplay=1`;
-      watchBtn.setAttribute("data-trailer", trailer.key);
-      modal.style.display = "flex";
-    }
-  } catch(err) {
-    console.error(err);
-  }
+    const trailer = data.results.find(v=>v.type==="Trailer" && v.site==="YouTube");
+    if(trailer){trailerFrame.src=`https://www.youtube.com/embed/${trailer.key}?autoplay=1`;watchBtn.setAttribute("data-trailer",trailer.key);modal.style.display="flex";}
+  } catch(err){console.error(err);}
 }
 
-// 🎬 Open YouTube Full Movie Link
-watchBtn.onclick = () => {
-  const trailerKey = watchBtn.getAttribute("data-trailer");
-  if (trailerKey) {
-    window.open(`https://www.youtube.com/watch?v=${trailerKey}`, "_blank");
-  }
+watchBtn.onclick = ()=>{
+  const key = watchBtn.getAttribute("data-trailer");
+  if(key) window.open(`https://www.youtube.com/watch?v=${key}`,"_blank");
 };
 
-closeBtn.onclick = () => {
-  modal.style.display = "none";
-  trailerFrame.src = "";
-};
+closeBtn.onclick=()=>{modal.style.display="none";trailerFrame.src="";};
+window.onclick=(e)=>{if(e.target===modal){modal.style.display="none";trailerFrame.src="";}};
 
-window.onclick = (e) => {
-  if(e.target === modal) {
-    modal.style.display = "none";
-    trailerFrame.src = "";
-  }
-};
+// Nav scroll arrows
+function scrollNav(amount){document.getElementById("navBar").scrollBy({left:amount,behavior:"smooth"});}
 
-// 🔎 Search Movies
+// Search
 let searchTimeout;
-searchInput.addEventListener("input", async (e) => {
+searchInput.addEventListener("input", async e=>{
   clearTimeout(searchTimeout);
-  const query = e.target.value.trim();
+  const query=e.target.value.trim();
   if(!query) return loadTrending();
-
-  searchTimeout = setTimeout(async () => {
-    const movies = await fetchMovies(`https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(query)}`);
+  searchTimeout=setTimeout(async()=>{
+    const movies=await fetchMovies(`https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(query)}`);
     displayMovies(movies);
-  }, 500);
+  },500);
 });
 
 loadTrending();
