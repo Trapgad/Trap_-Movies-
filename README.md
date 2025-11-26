@@ -152,12 +152,6 @@ footer {
     </div>
   </div>
 </section>
-
-<!-- SEARCH -->
-<div class="search-bar">
-  <input type="text" id="searchInput" placeholder="Search for movies...">
-</div>
-
 <!-- MOVIES GRID -->
 <section class="movies" id="movieContainer"></section>
 
@@ -170,81 +164,5 @@ footer {
 </div>
 
 <footer>© 2025 TRAP MOVIES — Created by TRAP GAD 🔥</footer>
-
-<!-- -------------------- SCRIPTS -------------------- -->
-<script>
-// TMDB MOVIES API
-const TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxN2ExODM0ZTI3MzMyMGVlZjhhMmEzNmIzOGExMTk2NCIsInN1YiI6IjY4ZWE2MDY4ZmJjYjQxOTVlYjlmZDg2ZCIsInNjb3BlcyI6WyJhcGlfcmVhCJdLCJ2ZXJzaW9uIjoxfQ.iFV2N9KUPakJb_HWWY3eZbB3cUq_gMhM1H9hcnEWD7Q";
-const IMG_PATH = "https://image.tmdb.org/t/p/w500";
-const movieContainer = document.getElementById("movieContainer");
-const searchInput = document.getElementById("searchInput");
-
-async function getMovies(url="https://api.themoviedb.org/3/trending/movie/week"){
-  try{ const res=await fetch(url,{headers:{Authorization:`Bearer ${TOKEN}`}}); const data=await res.json(); displayMovies(data.results);}
-  catch(err){ console.error(err);}
-}
-function displayMovies(movies){
-  movieContainer.innerHTML="";
-  if(!movies||movies.length===0){ movieContainer.innerHTML=`<p style="text-align:center;color:#ff33ff;">No movies found 😢</p>`; return;}
-  movies.forEach(movie=>{
-    const card=document.createElement("div"); card.classList.add("movie-card");
-    card.innerHTML=`<img src="${movie.poster_path?IMG_PATH+movie.poster_path:'https://via.placeholder.com/500x750?text=No+Image'}"><h3>${movie.title}</h3>`;
-    card.addEventListener("click",()=>openTrailer(movie.id));
-    movieContainer.appendChild(card);
-  });
-}
-let debounceTimer;
-searchInput.addEventListener("keyup",(e)=>{ clearTimeout(debounceTimer); debounceTimer=setTimeout(async()=>{
-  const query=e.target.value.trim();
-  if(query.length>0){
-    const res=await fetch(`https://api.themoviedb.org/3/search/movie?query=${query}`,{headers:{Authorization:`Bearer ${TOKEN}`}});
-    const data=await res.json(); displayMovies(data.results);
-  }else getMovies();
-},500);});
-async function openTrailer(movieId){
-  try{ const res=await fetch(`https://api.themoviedb.org/3/movie/${movieId}/videos`,{headers:{Authorization:`Bearer ${TOKEN}`}});
-    const data=await res.json();
-    const trailer=data.results.find(v=>v.type==="Trailer"&&v.site==="YouTube");
-    if(trailer){ document.getElementById("trailerFrame").src=`https://www.youtube.com/embed/${trailer.key}?autoplay=1`; document.getElementById("trailerModal").style.display="flex"; document.body.classList.add("modal-open"); }
-  }catch(err){console.error(err);}
-}
-document.querySelector(".close").onclick=()=>{ document.getElementById("trailerModal").style.display="none"; document.getElementById("trailerFrame").src=""; document.body.classList.remove("modal-open"); };
-window.addEventListener("keydown",e=>{ if(e.key==="Escape"){ document.getElementById("trailerModal").style.display="none"; document.getElementById("trailerFrame").src=""; document.body.classList.remove("modal-open"); }});
-getMovies();
-</script>
-
-<!-- FIREBASE AUTH -->
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
-import { getAuth, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyBLHlSlMPvwSS5MB8JqG2JB1R-ANIopQZU",
-  authDomain: "trap-270792.firebaseapp.com",
-  projectId: "trap-270792",
-  storageBucket: "trap-270792.firebasestorage.app",
-  messagingSenderId: "248838190395",
-  appId: "1:248838190395:web:0dd11c0e4427f79470331e",
-  measurementId: "G-PG6GXVVKL9"
-};
-
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const logoutBtn = document.createElement("button");
-logoutBtn.id = "logoutBtn";
-logoutBtn.textContent = "Sign Out";
-logoutBtn.style.display = "none";
-document.body.appendChild(logoutBtn);
-
-function updateAuthButtons(user){
-  const buttons = document.querySelectorAll(".btn-group a");
-  if(user){ buttons.forEach(btn=>btn.style.display="none"); logoutBtn.style.display="inline-block"; }
-  else{ buttons.forEach(btn=>btn.style.display="inline-block"); logoutBtn.style.display="none"; }
-}
-
-onAuthStateChanged(auth,(user)=>updateAuthButtons(user));
-logoutBtn.onclick=()=>{ signOut(auth).then(()=>{ alert("Signed Out Successfully!"); window.location.href="signin.html"; }).catch(err=>alert(err.message)); }
-</script>
-
 </body>
 </html>
