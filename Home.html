@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TRAP MOVIES | Home</title>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+
 <style>
   body {
     margin: 0;
@@ -27,20 +28,55 @@
     color: #fff;
   }
 
-  nav {
+  
+  /* -------------------- SCROLL NAVIGATION -------------------- */
+
+  .nav-wrapper {
+    position: relative;
     background: #1a1a1a;
-    display: flex;
-    justify-content: center;
-    gap: 1.2rem;
-    padding: 0.8rem;
     border-bottom: 2px solid #b30000;
   }
+
+  .scroll-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #b30000;
+    border: none;
+    color: white;
+    font-size: 1.2rem;
+    padding: 5px 10px;
+    cursor: pointer;
+    z-index: 10;
+    border-radius: 6px;
+    display: none;
+  }
+
+  .scroll-left { left: 5px; }
+  .scroll-right { right: 5px; }
+
+  nav {
+    overflow-x: auto;
+    white-space: nowrap;
+    display: flex;
+    gap: 1.2rem;
+    padding: 0.8rem 2.5rem;
+    scrollbar-width: thin;
+    scrollbar-color: #b30000 #1a1a1a;
+    scroll-behavior: smooth;
+    scroll-snap-type: x mandatory;
+  }
+
+  nav::-webkit-scrollbar { height: 6px; }
+  nav::-webkit-scrollbar-track { background: #1a1a1a; }
+  nav::-webkit-scrollbar-thumb { background: #b30000; border-radius: 10px; }
 
   nav a {
     text-decoration: none;
     color: #ccc;
     font-weight: 600;
     transition: 0.3s;
+    scroll-snap-align: start;
   }
   nav a:hover,
   nav a.active {
@@ -48,6 +84,9 @@
     border-bottom: 2px solid #b30000;
     padding-bottom: 2px;
   }
+
+
+  /* -------------------- PAGE SECTIONS -------------------- */
 
   .hero {
     text-align: center;
@@ -67,7 +106,6 @@
     flex-wrap: wrap;
   }
 
-  /* Buttons */
   button {
     padding: 12px 30px;
     font-size: 1rem;
@@ -124,10 +162,6 @@
     font-size: 1rem;
     text-align: center;
     outline: none;
-  }
-
-  .search-bar input::placeholder {
-    color: #777;
   }
 
   .movies {
@@ -208,24 +242,28 @@
 
 <header>🎬 TRAP MOVIES</header>
 
-<nav>
-  <a href="index.html" class="active">Home</a>
-  <a href="Movies.html">Movies</a>
-  <a href="Series.html">Series</a>
-  <a href="About.html">About</a>
-  <a href="Contact.html">Contact</a>
-  <a href="Account Details.html">Account</a>
-</nav>
+<!-- ★★★ SCROLL NAVIGATION ★★★ -->
+<div class="nav-wrapper">
+  <button class="scroll-btn scroll-left">&#9664;</button>
+
+  <nav id="tabNav">
+    <a href="index.html" class="active">Home</a>
+    <a href="Movies.html">Movies</a>
+    <a href="Series.html">Series</a>
+    <a href="About.html">About</a>
+    <a href="Contact.html">Contact</a>
+    <a href="Account Details.html">Account</a>
+  </nav>
+
+  <button class="scroll-btn scroll-right">&#9654;</button>
+</div>
+
 
 <section class="hero">
   <h2>Your Gateway to the Latest Movies & Series</h2>
   <div class="hero-buttons">
-    <a href="signin.html">
-      <button class="signin-btn">Sign In</button>
-    </a>
-    <a href="signup.html">
-      <button class="signup-btn">Sign Up</button>
-    </a>
+    <a href="signin.html"><button class="signin-btn">Sign In</button></a>
+    <a href="signup.html"><button class="signup-btn">Sign Up</button></a>
     <button id="logoutBtn" class="logout-btn" style="display:none;">Sign Out</button>
   </div>
 </section>
@@ -235,6 +273,7 @@
 </div>
 
 <section class="movies" id="movieContainer"></section>
+
 
 <!-- Trailer Modal -->
 <div id="trailerModal" class="modal">
@@ -246,6 +285,8 @@
 
 <footer>© 2025 TRAP MOVIES — Created by TRAP GAD 🔥</footer>
 
+
+<!-- -------------------- MOVIE SCRIPT -------------------- -->
 <script>
 const TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxN2ExODM0ZTI3MzMyMGVlZjhhMmEzNmIzOGExMTk2NCIsIm5iZiI6MTc2MDE5MDU2OC4wOTQsInN1YiI6IjY4ZWE2MDY4ZmJjYjQxOTVlYjlmZDg2ZCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.iFV2N9KUPakJb_HWWY3eZbB3cUq_gMhM1H9hcnEWD7Q";
 const IMG_PATH = "https://image.tmdb.org/t/p/w500";
@@ -254,7 +295,7 @@ const searchInput = document.getElementById("searchInput");
 
 async function getMovies(url = "https://api.themoviedb.org/3/trending/movie/week") {
   try {
-    const res = await fetch(url, { headers: { Authorization: `Bearer ${TOKEN}` } });
+    const res = await fetch(url, { headers: { Authorization: `Bearer ${TOKEN}` }});
     const data = await res.json();
     displayMovies(data.results);
   } catch (err) { console.error(err); }
@@ -266,26 +307,27 @@ function displayMovies(movies) {
     movieContainer.innerHTML = `<p style="text-align:center;color:#ff3333;">No movies found 😢</p>`;
     return;
   }
+
   movies.forEach(movie => {
     const card = document.createElement("div");
     card.classList.add("movie-card");
     card.innerHTML = `
-      <img src="${movie.poster_path ? IMG_PATH + movie.poster_path : 'https://via.placeholder.com/500x750?text=No+Image'}" alt="${movie.title}">
-      <h3 title="${movie.title}">${movie.title}</h3>
+      <img src="${movie.poster_path ? IMG_PATH + movie.poster_path : 'https://via.placeholder.com/500x750?text=No+Image'}">
+      <h3>${movie.title}</h3>
     `;
     card.addEventListener("click", () => openTrailer(movie.id));
     movieContainer.appendChild(card);
   });
 }
 
-// Debounced search
+// Search debounce
 let debounceTimer;
-searchInput.addEventListener("keyup", async (e) => {
+searchInput.addEventListener("keyup", (e) => {
   clearTimeout(debounceTimer);
   debounceTimer = setTimeout(async () => {
     const query = e.target.value.trim();
     if (query.length > 0) {
-      const res = await fetch(`https://api.themoviedb.org/3/search/movie?query=${query}`, { headers: { Authorization: `Bearer ${TOKEN}` } });
+      const res = await fetch(`https://api.themoviedb.org/3/search/movie?query=${query}`, { headers: { Authorization: `Bearer ${TOKEN}` }});
       const data = await res.json();
       displayMovies(data.results);
     } else {
@@ -296,13 +338,14 @@ searchInput.addEventListener("keyup", async (e) => {
 
 async function openTrailer(movieId) {
   try {
-    const res = await fetch(`https://api.themoviedb.org/3/movie/${movieId}/videos`, { headers: { Authorization: `Bearer ${TOKEN}` } });
+    const res = await fetch(`https://api.themoviedb.org/3/movie/${movieId}/videos`, { headers: { Authorization: `Bearer ${TOKEN}` }});
     const data = await res.json();
     const trailer = data.results.find(v => v.type === "Trailer" && v.site === "YouTube");
+
     if (trailer) {
       document.getElementById("trailerFrame").src = `https://www.youtube.com/embed/${trailer.key}?autoplay=1`;
       document.getElementById("trailerModal").style.display = "flex";
-      document.body.classList.add('modal-open');
+      document.body.classList.add("modal-open");
     }
   } catch (err) { console.error(err); }
 }
@@ -314,12 +357,14 @@ window.addEventListener("keydown", e => { if (e.key === "Escape") closeModal(); 
 function closeModal() {
   document.getElementById("trailerModal").style.display = "none";
   document.getElementById("trailerFrame").src = "";
-  document.body.classList.remove('modal-open');
+  document.body.classList.remove("modal-open");
 }
 
 getMovies();
 </script>
 
+
+<!-- -------------------- FIREBASE AUTH -------------------- -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
 import { getAuth, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
@@ -340,7 +385,7 @@ const logoutBtn = document.getElementById("logoutBtn");
 
 function updateAuthButtons(user) {
   const buttons = document.querySelectorAll("a[href='signin.html'], a[href='signup.html']");
-  if(user) {
+  if (user) {
     buttons.forEach(btn => btn.style.display = "none");
     logoutBtn.style.display = "inline-block";
   } else {
@@ -359,10 +404,34 @@ logoutBtn.onclick = () => {
       alert("Signed Out Successfully!");
       window.location.href = "signin.html";
     })
-    .catch((error) => {
-      alert(error.message);
-    });
+    .catch((error) => alert(error.message));
 };
+</script>
+
+
+<!-- -------------------- SCROLL NAV BUTTON SCRIPT -------------------- -->
+<script>
+const nav = document.getElementById("tabNav");
+const btnLeft = document.querySelector(".scroll-left");
+const btnRight = document.querySelector(".scroll-right");
+
+const scrollAmount = 150;
+
+function updateButtons() {
+  if (nav.scrollWidth > nav.clientWidth) {
+    btnLeft.style.display = "block";
+    btnRight.style.display = "block";
+  } else {
+    btnLeft.style.display = "none";
+    btnRight.style.display = "none";
+  }
+}
+
+btnLeft.onclick = () => nav.scrollBy({ left: -scrollAmount, behavior: "smooth" });
+btnRight.onclick = () => nav.scrollBy({ left: scrollAmount, behavior: "smooth" });
+
+window.addEventListener("load", updateButtons);
+window.addEventListener("resize", updateButtons);
 </script>
 
 </body>
