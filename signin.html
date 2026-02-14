@@ -3,175 +3,178 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TRAP MOVIES | Sign Up</title>
+<title>Sign In | TRAP MOVIES</title>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
+/* -------------------- BASE -------------------- */
 body {
-  margin: 0;
-  font-family: 'Montserrat', sans-serif;
-  background: linear-gradient(135deg, #0d0d0d, #1a1a1a);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  color: #fff;
-}
-
-.container {
-  width: 90%;
-  max-width: 400px;
-  background: rgba(28,28,28,0.95);
-  padding: 40px 30px;
-  border-radius: 16px;
-  box-shadow: 0 8px 30px rgba(0,0,0,0.7);
-  text-align: center;
-  backdrop-filter: blur(12px);
-  transition: transform 0.3s ease;
-}
-.container:hover { transform: translateY(-3px); }
-
-.container h2 {
-  font-size: 2rem;
-  color: #ff33ff;
-  margin-bottom: 2rem;
-  text-shadow: 0 0 12px #b300ff;
-}
-
-/* Floating Labels */
-.form-group { position: relative; margin-bottom: 20px; text-align:left; }
-input {
-  width: 100%;
-  padding: 16px 12px;
-  border-radius: 8px;
-  border: 1px solid #333;
-  background:#111;
+  margin:0;
+  font-family:'Montserrat',sans-serif;
+  background:#0d0d0d;
   color:#fff;
-  font-size:1rem;
-  outline:none;
   transition:0.3s;
 }
-input:focus { border-color:#ff33ff; box-shadow:0 0 12px #ff33ff; }
-input::placeholder { color:transparent; }
-label {
-  position:absolute;
-  left:12px;
-  top:16px;
-  color:#aaa;
-  pointer-events:none;
-  transition:0.3s;
-  background:rgba(28,28,28,0.95);
-  padding:0 4px;
-}
-input:focus + label,
-input:not(:placeholder-shown) + label {
-  top:-8px;
-  font-size:0.8rem;
-  color:#ff33ff;
-}
-
-/* Button */
-button {
-  width: 100%;
-  padding: 14px;
-  margin-top: 15px;
-  background: linear-gradient(135deg, #ff33ff, #9b00ff);
-  border: none;
-  border-radius: 30px;
-  color: #fff;
-  font-size: 16px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: 0.3s, box-shadow 0.3s, transform 0.3s;
-}
-button:hover { transform: translateY(-3px); box-shadow: 0 0 20px #ff33ff; }
-
-/* Google button */
-.google-btn {
-  width: 100%;
-  padding: 12px;
-  margin-top: 10px;
-  border-radius: 30px;
-  border:1px solid #fff;
-  background:#222;
+body.modal-open { overflow:hidden; }
+header {
+  background:linear-gradient(90deg,#b30000,#2a0d2a);
+  text-align:center;
+  padding:1.8rem;
+  font-size:2rem;
+  font-weight:700;
   color:#fff;
+  text-shadow:0 0 12px #ff33ff;
+  letter-spacing:1.2px;
+  box-shadow:0 4px 15px rgba(0,0,0,0.5);
+}
+
+/* -------------------- NAV -------------------- */
+nav {
+  display:flex;
+  overflow-x:auto;
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+  background:rgba(26,26,26,0.8);
+  gap:1rem;
+  padding:.8rem 1rem;
+  border-bottom:2px solid #b30000;
+  scroll-behavior:smooth;
+}
+nav::-webkit-scrollbar { height:6px; }
+nav::-webkit-scrollbar-thumb { background:#b30000; border-radius:10px; }
+nav a {
+  color:#ccc;
+  text-decoration:none;
   font-weight:600;
-  cursor:pointer;
   display:flex;
   align-items:center;
-  justify-content:center;
+  gap:6px;
+  position:relative;
+  padding:6px 8px;
+  border-radius:6px;
   transition:0.3s;
 }
-.google-btn i { margin-right:8px; }
-.google-btn:hover { background:#333; box-shadow:0 0 12px #fff; }
-
-a {
-  color: #aaa;
-  display: block;
-  text-align: center;
-  margin-top: 18px;
-  text-decoration: none;
-  transition: 0.3s;
+nav a i { font-size:1.2rem; }
+nav a:hover, nav a.active {
+  color:#fff;
+  background:rgba(179,0,0,0.3);
 }
-a:hover { color: #ff33ff; text-shadow:0 0 8px #ff33ff; }
+nav a::after {
+  content:'';
+  position:absolute;
+  bottom:0;
+  left:0;
+  height:2px;
+  width:0;
+  background:linear-gradient(90deg,#ff3333,#9b00ff);
+  transition:0.3s;
+}
+nav a:hover::after, nav a.active::after { width:100%; }
+
+/* -------------------- LOGIN BOX -------------------- */
+.login-box {
+  background:rgba(31,31,31,0.9);
+  padding:2.5rem;
+  border-radius:15px;
+  max-width:400px;
+  margin:3rem auto;
+  box-shadow:0 0 25px rgba(179,0,0,0.6);
+  text-align:center;
+  transition:0.3s;
+}
+.login-box:hover { transform:translateY(-2px); }
+.login-box h2 {
+  margin-bottom:1.8rem;
+  color:#ff33ff;
+  font-size:1.8rem;
+}
+.input-group {
+  margin-bottom:15px;
+  text-align:left;
+}
+.input-group label {
+  display:block;
+  margin-bottom:5px;
+  color:#ddd;
+}
+.input-group input {
+  width:100%;
+  padding:12px;
+  border-radius:8px;
+  border:none;
+  outline:none;
+  font-size:16px;
+}
+button {
+  width:100%;
+  padding:14px;
+  background:linear-gradient(45deg,#ff3333,#9b00ff);
+  border:none;
+  color:#fff;
+  font-size:16px;
+  border-radius:8px;
+  cursor:pointer;
+  margin-top:12px;
+  transition:0.3s;
+}
+button:hover {
+  transform:translateY(-3px);
+  box-shadow:0 8px 16px rgba(0,0,0,0.5);
+}
+.forgot-password {
+  margin-top:12px;
+}
+.forgot-password a {
+  color:#ff33ff;
+  text-decoration:none;
+  font-size:14px;
+}
+.forgot-password a:hover { text-decoration:underline; }
+
+/* -------------------- FOOTER -------------------- */
+footer {
+  text-align:center;
+  background:#1a1a1a;
+  color:#aaa;
+  padding:1rem;
+  border-top:2px solid #b30000;
+  font-size:0.9rem;
+}
+footer span { color:#ff33ff; font-weight:600; }
 </style>
 </head>
 <body>
 
-<div class="container">
-  <h2><i class="fas fa-user-plus"></i> Sign Up</h2>
+<header>🎬 TRAP MOVIES 🎬</header>
 
-  <div class="form-group">
-    <input id="email" type="email" placeholder=" " required>
-    <label for="email">Email</label>
-  </div>
+<nav>
+  <a href="Home.html"><i class="fas fa-home"></i>Home</a>
+  <a href="Movies.html"><i class="fas fa-film"></i>Movies</a>
+  <a href="Series.html"><i class="fas fa-tv"></i>Series</a>
+  <a href="About.html"><i class="fas fa-info-circle"></i>About</a>
+  <a href="Contact.html"><i class="fas fa-envelope"></i>Contact</a>
+  <a href="signin.html" class="active"><i class="fas fa-user"></i>Sign In</a>
+</nav>
 
-  <div class="form-group">
-    <input id="password" type="password" placeholder=" " required>
-    <label for="password">Password</label>
-  </div>
-
-  <button type="button" id="signupBtn">Sign Up</button>
-
-  <button type="button" class="google-btn"><i class="fab fa-google"></i> Continue with Google</button>
-
-  <a href="signin.html"><i class="fas fa-sign-in-alt"></i> Already have an account? Sign In</a>
+<div class="login-box">
+  <h2>Sign In</h2>
+  <form action="/login" method="POST">
+    <div class="input-group">
+      <label for="username">Username:</label>
+      <input type="text" id="username" name="username" required>
+    </div>
+    <div class="input-group">
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" required>
+    </div>
+    <button type="submit">Login</button>
+    <div class="forgot-password">
+      <a href="#">Forgot password?</a>
+    </div>
+  </form>
 </div>
 
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyBLHlSlMPvwSS5MB8JqG2JB1R-ANIopQZU",
-  authDomain: "trap-270792.firebaseapp.com",
-  projectId: "trap-270792",
-  storageBucket: "trap-270792.firebasestorage.app",
-  messagingSenderId: "248838190395",
-  appId: "1:248838190395:web:0dd11c0e4427f79470331e",
-  measurementId: "G-PG6GXVVKL9"
-};
-
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-
-document.getElementById("signupBtn").addEventListener("click", () => {
-  const email = document.getElementById("email").value;
-  const pass = document.getElementById("password").value;
-
-  if(!email || !pass){
-    alert("Please enter both email and password!");
-    return;
-  }
-
-  createUserWithEmailAndPassword(auth, email, pass)
-    .then(() => {
-      alert("✅ Account Created Successfully!");
-      window.location.href = "Home.html";
-    })
-    .catch(err => alert("❌ "+err.message));
-});
-</script>
+<footer>© 2025 <span>TRAP MOVIES</span> — Created by <span>TRAP GAD</span> 🔥</footer>
 
 </body>
 </html>
