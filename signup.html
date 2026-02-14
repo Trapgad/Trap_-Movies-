@@ -24,44 +24,58 @@ body {
   width:90%;
   max-width:400px;
   background:rgba(31,31,31,0.85);
-  padding:30px;
-  border-radius:12px;
-  box-shadow:0 0 20px rgba(179,0,0,0.5);
+  padding:40px 30px;
+  border-radius:16px;
+  box-shadow:0 0 25px rgba(179,0,0,0.5);
   text-align:center;
-  backdrop-filter:blur(8px);
+  backdrop-filter:blur(12px);
 }
 
 /* -------------------- HEADERS -------------------- */
 .container h2 {
   font-size:1.8rem;
   color:#ff33ff;
-  margin-bottom:1.5rem;
-  text-shadow:0 0 6px #b300ff;
+  margin-bottom:2rem;
+  text-shadow:0 0 8px #b300ff;
 }
 
-/* -------------------- INPUTS -------------------- */
+/* -------------------- FLOATING INPUTS -------------------- */
+.form-group { position: relative; margin-bottom:20px; text-align:left; }
 input {
   width:100%;
-  padding:12px;
-  margin:10px 0;
-  border:none;
-  border-radius:6px;
+  padding:14px 12px;
+  border-radius:8px;
+  border:1px solid #333;
   background:#111;
   color:#fff;
   font-size:1rem;
-  transition:0.3s, box-shadow 0.3s;
-}
-input:focus {
   outline:none;
-  box-shadow:0 0 12px #ff33ff;
-  border:1px solid #ff33ff;
+  transition:0.3s;
+}
+input:focus { border-color:#ff33ff; box-shadow:0 0 12px #ff33ff; }
+input::placeholder { color:transparent; }
+label {
+  position:absolute;
+  left:12px;
+  top:14px;
+  color:#aaa;
+  pointer-events:none;
+  transition:0.3s;
+  background:rgba(31,31,31,0.85);
+  padding:0 4px;
+}
+input:focus + label,
+input:not(:placeholder-shown) + label {
+  top:-8px;
+  font-size:0.8rem;
+  color:#ff33ff;
 }
 
 /* -------------------- BUTTON -------------------- */
 button {
   width:100%;
-  padding:12px;
-  margin-top:10px;
+  padding:14px;
+  margin-top:15px;
   background: linear-gradient(45deg,#ff3333,#9b00ff);
   border:none;
   border-radius:25px;
@@ -76,6 +90,25 @@ button:hover {
   box-shadow:0 0 15px #ff33ff;
 }
 
+/* -------------------- GOOGLE BUTTON -------------------- */
+.google-btn {
+  width:100%;
+  padding:12px;
+  margin-top:12px;
+  border-radius:25px;
+  border:1px solid #fff;
+  background:#222;
+  color:#fff;
+  font-weight:600;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  transition:0.3s;
+}
+.google-btn i { margin-right:8px; }
+.google-btn:hover { background:#333; box-shadow:0 0 12px #fff; }
+
 /* -------------------- LINK -------------------- */
 a {
   color:#aaa;
@@ -85,9 +118,7 @@ a {
   text-decoration:none;
   transition:0.3s;
 }
-a:hover {
-  color:#ff33ff;
-}
+a:hover { color:#ff33ff; }
 </style>
 </head>
 <body>
@@ -95,10 +126,19 @@ a:hover {
 <div class="container">
   <h2><i class="fas fa-user-plus"></i> Create Account</h2>
 
-  <input id="email" type="email" placeholder="Email">
-  <input id="password" type="password" placeholder="Password">
+  <div class="form-group">
+    <input id="email" type="email" placeholder=" " required>
+    <label for="email">Email</label>
+  </div>
+
+  <div class="form-group">
+    <input id="password" type="password" placeholder=" " required>
+    <label for="password">Password</label>
+  </div>
 
   <button id="signupBtn">Sign Up</button>
+
+  <button class="google-btn"><i class="fab fa-google"></i> Continue with Google</button>
 
   <a href="signin.html"><i class="fas fa-sign-in-alt"></i> Already have an account? Sign In</a>
 </div>
@@ -133,7 +173,7 @@ document.getElementById("signupBtn").addEventListener("click", () => {
   createUserWithEmailAndPassword(auth, email, pass)
     .then(() => {
       alert("✅ Account Created Successfully!");
-      window.location.href = "signin.html"; // redirect to Sign In
+      window.location.href = "signin.html";
     })
     .catch(err => alert("❌ "+err.message));
 });
