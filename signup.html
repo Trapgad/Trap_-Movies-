@@ -7,7 +7,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
-/* -------------------- BASE -------------------- */
 body {
   margin:0;
   font-family:'Montserrat',sans-serif;
@@ -18,8 +17,6 @@ body {
   min-height:100vh;
   color:#fff;
 }
-
-/* -------------------- CONTAINER -------------------- */
 .container {
   width:90%;
   max-width:400px;
@@ -30,16 +27,12 @@ body {
   text-align:center;
   backdrop-filter:blur(12px);
 }
-
-/* -------------------- HEADERS -------------------- */
 .container h2 {
   font-size:1.8rem;
   color:#ff33ff;
   margin-bottom:2rem;
   text-shadow:0 0 8px #b300ff;
 }
-
-/* -------------------- FLOATING INPUTS -------------------- */
 .form-group { position: relative; margin-bottom:20px; text-align:left; }
 input {
   width:100%;
@@ -70,8 +63,6 @@ input:not(:placeholder-shown) + label {
   font-size:0.8rem;
   color:#ff33ff;
 }
-
-/* -------------------- BUTTON -------------------- */
 button {
   width:100%;
   padding:14px;
@@ -85,12 +76,7 @@ button {
   cursor:pointer;
   transition:0.3s, box-shadow 0.3s, transform 0.3s;
 }
-button:hover {
-  transform:translateY(-3px);
-  box-shadow:0 0 15px #ff33ff;
-}
-
-/* -------------------- GOOGLE BUTTON -------------------- */
+button:hover { transform:translateY(-3px); box-shadow:0 0 15px #ff33ff; }
 .google-btn {
   width:100%;
   padding:12px;
@@ -108,23 +94,24 @@ button:hover {
 }
 .google-btn i { margin-right:8px; }
 .google-btn:hover { background:#333; box-shadow:0 0 12px #fff; }
-
-/* -------------------- LINK -------------------- */
-a {
-  color:#aaa;
-  display:block;
-  text-align:center;
-  margin-top:12px;
-  text-decoration:none;
-  transition:0.3s;
-}
+.error { color: red; font-size:0.85rem; margin-top:4px; }
+.password-strength { margin-top:5px; height:5px; border-radius:4px; }
+.password-strength div { height:100%; border-radius:4px; }
+.weak { width:33%; background-color:red; }
+.medium { width:66%; background-color:orange; }
+.strong { width:100%; background-color:green; }
+a { color:#aaa; display:block; text-align:center; margin-top:12px; text-decoration:none; transition:0.3s; }
 a:hover { color:#ff33ff; }
 </style>
 </head>
 <body>
-
 <div class="container">
   <h2><i class="fas fa-user-plus"></i> Create Account</h2>
+
+  <div class="form-group">
+    <input id="username" type="text" placeholder=" " required>
+    <label for="username">Username</label>
+  </div>
 
   <div class="form-group">
     <input id="email" type="email" placeholder=" " required>
@@ -134,25 +121,30 @@ a:hover { color:#ff33ff; }
   <div class="form-group">
     <input id="password" type="password" placeholder=" " required>
     <label for="password">Password</label>
+    <div class="password-strength" id="passwordStrength"></div>
+    <span class="error" id="passwordError"></span>
+  </div>
+
+  <div class="form-group">
+    <input id="confirmPassword" type="password" placeholder=" " required>
+    <label for="confirmPassword">Confirm Password</label>
+    <span class="error" id="confirmPasswordError"></span>
   </div>
 
   <button id="signupBtn">Sign Up</button>
-
   <button class="google-btn"><i class="fab fa-google"></i> Continue with Google</button>
-
   <a href="signin.html"><i class="fas fa-sign-in-alt"></i> Already have an account? Sign In</a>
 </div>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
+import { getAuth, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
 
-// Firebase config
 const firebaseConfig = {
   apiKey: "AIzaSyBLHlSlMPvwSS5MB8JqG2JB1R-ANIopQZU",
   authDomain: "trap-270792.firebaseapp.com",
   projectId: "trap-270792",
-  storageBucket: "trap-270792.firebasestorage.app",
+  storageBucket: "trap-270792.appspot.com",
   messagingSenderId: "248838190395",
   appId: "1:248838190395:web:0dd11c0e4427f79470331e",
   measurementId: "G-PG6GXVVKL9"
@@ -160,24 +152,51 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+const provider = new GoogleAuthProvider();
 
+// Password strength
+const passwordInput = document.getElementById("password");
+const passwordStrength = document.getElementById("passwordStrength");
+
+passwordInput.addEventListener("input", () => {
+  const val = passwordInput.value;
+  passwordStrength.innerHTML = "";
+  const div = document.createElement("div");
+  if (val.length < 8) div.className = "weak";
+  else if (/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])/.test(val)) div.className = "strong";
+  else div.className = "medium";
+  passwordStrength.appendChild(div);
+});
+
+// Sign up with email/password
 document.getElementById("signupBtn").addEventListener("click", () => {
   const email = document.getElementById("email").value.trim();
   const pass = document.getElementById("password").value.trim();
+  const confirmPass = document.getElementById("confirmPassword").value.trim();
+  const username = document.getElementById("username").value.trim();
 
-  if(!email || !pass){
-    alert("Please enter both email and password!");
-    return;
-  }
+  const passwordError = document.getElementById("passwordError");
+  const confirmPasswordError = document.getElementById("confirmPasswordError");
+  passwordError.textContent = "";
+  confirmPasswordError.textContent = "";
+
+  if (!email || !pass || !username) { alert("All fields required"); return; }
+
+  const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/;
+  if (!regex.test(pass)) { passwordError.textContent = "Password must be 8+ chars with upper, lower, number & special"; return; }
+  if (pass !== confirmPass) { confirmPasswordError.textContent = "Passwords do not match"; return; }
 
   createUserWithEmailAndPassword(auth, email, pass)
-    .then(() => {
-      alert("✅ Account Created Successfully!");
-      window.location.href = "signin.html";
-    })
+    .then(() => { alert("✅ Account Created Successfully!"); window.location.href = "signin.html"; })
+    .catch(err => alert("❌ "+err.message));
+});
+
+// Google signup
+document.querySelector(".google-btn").addEventListener("click", () => {
+  signInWithPopup(auth, provider)
+    .then(() => { alert("✅ Signed in with Google!"); window.location.href = "Home.html"; })
     .catch(err => alert("❌ "+err.message));
 });
 </script>
-
 </body>
 </html>
