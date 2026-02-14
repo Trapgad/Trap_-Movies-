@@ -8,32 +8,148 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
 /* -------------------- BASE -------------------- */
-body {margin:0;font-family:'Montserrat',sans-serif;background:#0d0d0d;color:#fff;transition:0.3s;}
-body.modal-open{overflow:hidden;}
-header{background:linear-gradient(90deg,#b30000,#2a0d2a);text-align:center;padding:1.5rem;font-size:1.8rem;font-weight:700;color:#fff;text-shadow:0 0 8px #ff33ff;letter-spacing:1px;}
+body {
+  margin:0;
+  font-family:'Montserrat',sans-serif;
+  background:#0d0d0d;
+  color:#fff;
+  transition:0.3s;
+}
+body.modal-open { overflow:hidden; }
+header {
+  background:linear-gradient(90deg,#b30000,#2a0d2a);
+  text-align:center;
+  padding:1.8rem;
+  font-size:2rem;
+  font-weight:700;
+  color:#fff;
+  text-shadow:0 0 12px #ff33ff;
+  letter-spacing:1.2px;
+  box-shadow:0 4px 15px rgba(0,0,0,0.5);
+}
 
 /* -------------------- NAV -------------------- */
-nav{display:flex;overflow-x:auto;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);background:rgba(26,26,26,0.7);gap:1rem;padding:.7rem 1rem;border-bottom:2px solid #b30000;scroll-behavior:smooth;}
-nav::-webkit-scrollbar{height:6px;}
-nav::-webkit-scrollbar-thumb{background:#b30000;border-radius:10px;}
-nav a{color:#ccc;text-decoration:none;font-weight:600;display:flex;align-items:center;gap:4px;position:relative;padding:5px;}
-nav a i{font-size:1.1rem;}
-nav a:hover, nav a.active{color:#fff;}
-nav a::after{content:'';position:absolute;bottom:0;left:0;height:2px;width:0;background:linear-gradient(90deg,#b30000,#9b00ff);transition:0.3s;}
-nav a:hover::after, nav a.active::after{width:100%;}
+nav {
+  display:flex;
+  overflow-x:auto;
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+  background:rgba(26,26,26,0.8);
+  gap:1rem;
+  padding:.8rem 1rem;
+  border-bottom:2px solid #b30000;
+  scroll-behavior:smooth;
+}
+nav::-webkit-scrollbar { height:6px; }
+nav::-webkit-scrollbar-thumb { background:#b30000; border-radius:10px; }
+nav a {
+  color:#ccc;
+  text-decoration:none;
+  font-weight:600;
+  display:flex;
+  align-items:center;
+  gap:6px;
+  position:relative;
+  padding:6px 8px;
+  border-radius:6px;
+  transition:0.3s;
+}
+nav a i { font-size:1.2rem; }
+nav a:hover, nav a.active {
+  color:#fff;
+  background:rgba(179,0,0,0.3);
+}
+nav a::after {
+  content:'';
+  position:absolute;
+  bottom:0;
+  left:0;
+  height:2px;
+  width:0;
+  background:linear-gradient(90deg,#ff3333,#9b00ff);
+  transition:0.3s;
+}
+nav a:hover::after, nav a.active::after { width:100%; }
 
 /* -------------------- ACCOUNT BOX -------------------- */
-.account-box{background:rgba(31,31,31,0.85);padding:2rem;border-radius:12px;max-width:500px;margin:2rem auto;box-shadow:0 0 20px rgba(179,0,0,0.5);text-align:center;}
-.account-box h2{margin-bottom:1.5rem;color:#ff33ff;}
-#profilePic{width:130px;height:130px;border-radius:50%;object-fit:cover;border:3px solid #ff33ff;margin-bottom:15px;}
-input[type="file"]{margin:10px 0 20px 0;}
-.info{margin:10px 0;font-size:16px;text-align:left;color:#ddd;}
-button{width:100%;padding:12px;background:linear-gradient(45deg,#ff3333,#9b00ff);border:none;color:#fff;font-size:16px;border-radius:6px;cursor:pointer;margin-top:20px;transition:0.3s;}
-button:hover{transform:translateY(-3px);box-shadow:0 6px 12px rgba(0,0,0,0.5);}
+.account-box {
+  background:rgba(31,31,31,0.9);
+  padding:2.5rem;
+  border-radius:15px;
+  max-width:500px;
+  margin:3rem auto;
+  box-shadow:0 0 25px rgba(179,0,0,0.6);
+  text-align:center;
+  transition:0.3s;
+}
+.account-box:hover { transform:translateY(-2px); }
+.account-box h2 {
+  margin-bottom:1.8rem;
+  color:#ff33ff;
+  font-size:1.8rem;
+}
+#profilePic {
+  width:140px;
+  height:140px;
+  border-radius:50%;
+  object-fit:cover;
+  border:3px solid #ff33ff;
+  margin-bottom:20px;
+  transition:0.3s;
+}
+#profilePic:hover { transform:scale(1.05); }
+input[type="file"] {
+  margin:12px 0 22px 0;
+  width:100%;
+}
+.info-card {
+  background: rgba(255, 51, 255, 0.1);
+  padding: 12px 15px;
+  margin: 10px 0;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 15px;
+  transition: 0.3s;
+}
+.info-card i {
+  color: #ff33ff;
+  min-width: 22px;
+  text-align: center;
+}
+.info-card:hover {
+  background: rgba(255, 51, 255, 0.2);
+}
+
+/* -------------------- BUTTON -------------------- */
+button {
+  width:100%;
+  padding:14px;
+  background:linear-gradient(45deg,#ff3333,#9b00ff);
+  border:none;
+  color:#fff;
+  font-size:16px;
+  border-radius:8px;
+  cursor:pointer;
+  margin-top:22px;
+  transition:0.3s;
+}
+button:hover {
+  transform:translateY(-3px);
+  box-shadow:0 8px 16px rgba(0,0,0,0.5);
+}
 
 /* -------------------- FOOTER -------------------- */
-footer{text-align:center;background:#1a1a1a;color:#aaa;padding:1rem;border-top:2px solid #b30000;}
-footer span{color:#ff33ff;font-weight:600;}
+footer {
+  text-align:center;
+  background:#1a1a1a;
+  color:#aaa;
+  padding:1rem;
+  border-top:2px solid #b30000;
+  font-size:0.9rem;
+}
+footer span { color:#ff33ff; font-weight:600; }
 </style>
 </head>
 <body>
@@ -81,28 +197,33 @@ const storage = getStorage(app);
 onAuthStateChanged(auth, async (user) => {
   if (!user) { window.location.href = "signin.html"; return; }
 
-  document.getElementById("details").innerHTML = `
-    <div class="info"><strong>Email:</strong> ${user.email}</div>
-    <div class="info"><strong>User ID:</strong> ${user.uid}</div>
-    <div class="info"><strong>Created:</strong> ${user.metadata.creationTime}</div>
-    <div class="info"><strong>Last Login:</strong> ${user.metadata.lastSignInTime}</div>
-  `;
-
   try {
     const picRef = ref(storage, "profilePics/" + user.uid + ".jpg");
     const url = await getDownloadURL(picRef);
     document.getElementById("profilePic").src = url;
   } catch {}
 
+  const provider = user.providerData[0]?.providerId || 'Unknown';
+  const role = user.customClaims?.role || 'User'; // If you use custom claims for roles
+
+  document.getElementById("details").innerHTML = `
+    <div class="info-card"><i class="fas fa-user"></i> <strong>Display Name:</strong> ${user.displayName || 'Not set'}</div>
+    <div class="info-card"><i class="fas fa-envelope"></i> <strong>Email:</strong> ${user.email}</div>
+    <div class="info-card"><i class="fas fa-check-circle"></i> <strong>Email Verified:</strong> ${user.emailVerified ? 'Yes' : 'No'}</div>
+    <div class="info-card"><i class="fas fa-id-badge"></i> <strong>User ID:</strong> ${user.uid}</div>
+    <div class="info-card"><i class="fas fa-calendar-plus"></i> <strong>Account Created:</strong> ${user.metadata.creationTime}</div>
+    <div class="info-card"><i class="fas fa-sign-in-alt"></i> <strong>Last Login:</strong> ${user.metadata.lastSignInTime}</div>
+    <div class="info-card"><i class="fas fa-key"></i> <strong>Sign-in Provider:</strong> ${provider}</div>
+    <div class="info-card"><i class="fas fa-user-shield"></i> <strong>Account Role:</strong> ${role}</div>
+  `;
+
   document.getElementById("uploadPic").addEventListener("change", async (event) => {
     const file = event.target.files[0];
     if (!file) return;
-
     const picRef = ref(storage, "profilePics/" + user.uid + ".jpg");
     await uploadBytes(picRef, file);
     const url = await getDownloadURL(picRef);
     document.getElementById("profilePic").src = url;
-
     alert("Profile picture updated!");
   });
 });
