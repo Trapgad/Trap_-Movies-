@@ -7,16 +7,113 @@
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
-/* Use the same styles as your Sign-In page */
-body { margin:0; font-family:'Montserrat',sans-serif; background:#0d0d0d; display:flex; justify-content:center; align-items:center; min-height:100vh; color:#fff; }
-.container { width:90%; max-width:400px; background:rgba(31,31,31,0.85); padding:30px; border-radius:12px; box-shadow:0 0 20px rgba(179,0,0,0.5); text-align:center; backdrop-filter:blur(8px); }
-.container h2 { font-size:1.8rem; color:#ff33ff; margin-bottom:1.5rem; text-shadow:0 0 6px #b300ff; }
-input { width:100%; padding:12px; margin:10px 0; border:none; border-radius:6px; background:#111; color:#fff; font-size:1rem; transition:0.3s, box-shadow 0.3s; }
-input:focus { outline:none; box-shadow:0 0 12px #ff33ff; border:1px solid #ff33ff; }
-button { width:100%; padding:12px; margin-top:10px; background: linear-gradient(45deg,#ff3333,#9b00ff); border:none; border-radius:25px; color:#fff; font-size:16px; font-weight:700; cursor:pointer; transition:0.3s, box-shadow 0.3s, transform 0.3s; }
-button:hover { transform:translateY(-3px); box-shadow:0 0 15px #ff33ff; }
-a { color:#aaa; display:block; text-align:center; margin-top:12px; text-decoration:none; transition:0.3s; }
-a:hover { color:#ff33ff; }
+body {
+  margin: 0;
+  font-family: 'Montserrat', sans-serif;
+  background: linear-gradient(135deg, #0d0d0d, #1a1a1a);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  color: #fff;
+}
+
+.container {
+  width: 90%;
+  max-width: 400px;
+  background: rgba(28,28,28,0.95);
+  padding: 40px 30px;
+  border-radius: 16px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.7);
+  text-align: center;
+  backdrop-filter: blur(12px);
+  transition: transform 0.3s ease;
+}
+.container:hover { transform: translateY(-3px); }
+
+.container h2 {
+  font-size: 2rem;
+  color: #ff33ff;
+  margin-bottom: 2rem;
+  text-shadow: 0 0 12px #b300ff;
+}
+
+/* Floating Labels */
+.form-group { position: relative; margin-bottom: 20px; text-align:left; }
+input {
+  width: 100%;
+  padding: 16px 12px;
+  border-radius: 8px;
+  border: 1px solid #333;
+  background:#111;
+  color:#fff;
+  font-size:1rem;
+  outline:none;
+  transition:0.3s;
+}
+input:focus { border-color:#ff33ff; box-shadow:0 0 12px #ff33ff; }
+input::placeholder { color:transparent; }
+label {
+  position:absolute;
+  left:12px;
+  top:16px;
+  color:#aaa;
+  pointer-events:none;
+  transition:0.3s;
+  background:rgba(28,28,28,0.95);
+  padding:0 4px;
+}
+input:focus + label,
+input:not(:placeholder-shown) + label {
+  top:-8px;
+  font-size:0.8rem;
+  color:#ff33ff;
+}
+
+/* Button */
+button {
+  width: 100%;
+  padding: 14px;
+  margin-top: 15px;
+  background: linear-gradient(135deg, #ff33ff, #9b00ff);
+  border: none;
+  border-radius: 30px;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.3s, box-shadow 0.3s, transform 0.3s;
+}
+button:hover { transform: translateY(-3px); box-shadow: 0 0 20px #ff33ff; }
+
+/* Google button */
+.google-btn {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  border-radius: 30px;
+  border:1px solid #fff;
+  background:#222;
+  color:#fff;
+  font-weight:600;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  transition:0.3s;
+}
+.google-btn i { margin-right:8px; }
+.google-btn:hover { background:#333; box-shadow:0 0 12px #fff; }
+
+a {
+  color: #aaa;
+  display: block;
+  text-align: center;
+  margin-top: 18px;
+  text-decoration: none;
+  transition: 0.3s;
+}
+a:hover { color: #ff33ff; text-shadow:0 0 8px #ff33ff; }
 </style>
 </head>
 <body>
@@ -24,10 +121,19 @@ a:hover { color:#ff33ff; }
 <div class="container">
   <h2><i class="fas fa-user-plus"></i> Sign Up</h2>
 
-  <input id="email" type="email" placeholder="Email">
-  <input id="password" type="password" placeholder="Password">
+  <div class="form-group">
+    <input id="email" type="email" placeholder=" " required>
+    <label for="email">Email</label>
+  </div>
+
+  <div class="form-group">
+    <input id="password" type="password" placeholder=" " required>
+    <label for="password">Password</label>
+  </div>
 
   <button type="button" id="signupBtn">Sign Up</button>
+
+  <button type="button" class="google-btn"><i class="fab fa-google"></i> Continue with Google</button>
 
   <a href="signin.html"><i class="fas fa-sign-in-alt"></i> Already have an account? Sign In</a>
 </div>
@@ -49,7 +155,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-document.getElementById("signinBtn").addEventListener("click", () => {
+document.getElementById("signupBtn").addEventListener("click", () => {
   const email = document.getElementById("email").value;
   const pass = document.getElementById("password").value;
 
@@ -61,7 +167,7 @@ document.getElementById("signinBtn").addEventListener("click", () => {
   createUserWithEmailAndPassword(auth, email, pass)
     .then(() => {
       alert("✅ Account Created Successfully!");
-      window.location.href = "Home.html"; // redirect after signin 
+      window.location.href = "Home.html";
     })
     .catch(err => alert("❌ "+err.message));
 });
