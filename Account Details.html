@@ -1,156 +1,137 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Account Details | TRAP MOVIES</title>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<style>
-/* -------------------- BASE -------------------- */
-body {
-  margin:0;
-  font-family:'Montserrat',sans-serif;
-  background:#0d0d0d;
-  color:#fff;
-  transition:0.3s;
-}
-body.modal-open { overflow:hidden; }
-header {
-  background:linear-gradient(90deg,#b30000,#2a0d2a);
-  text-align:center;
-  padding:1.8rem;
-  font-size:2rem;
-  font-weight:700;
-  color:#fff;
-  text-shadow:0 0 12px #ff33ff;
-  letter-spacing:1.2px;
-  box-shadow:0 4px 15px rgba(0,0,0,0.5);
-}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Account Details | TRAP MOVIES</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* -------------------- BASE -------------------- */
+    body {
+      margin: 0;
+      font-family: 'Montserrat', sans-serif;
+      background: #0d0d0d;
+      color: #fff;
+    }
+    header {
+      background: linear-gradient(90deg, #b30000, #2a0d2a);
+      text-align: center;
+      padding: 1.8rem;
+      font-size: 2rem;
+      font-weight: 700;
+      text-shadow: 0 0 12px #ff33ff;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    }
 
-/* -------------------- NAV -------------------- */
-nav {
-  display:flex;
-  overflow-x:auto;
-  backdrop-filter:blur(10px);
-  -webkit-backdrop-filter:blur(10px);
-  background:rgba(26,26,26,0.8);
-  gap:1rem;
-  padding:.8rem 1rem;
-  border-bottom:2px solid #b30000;
-  scroll-behavior:smooth;
-}
-nav::-webkit-scrollbar { height:6px; }
-nav::-webkit-scrollbar-thumb { background:#b30000; border-radius:10px; }
-nav a {
-  color:#ccc;
-  text-decoration:none;
-  font-weight:600;
-  display:flex;
-  align-items:center;
-  gap:6px;
-  position:relative;
-  padding:6px 8px;
-  border-radius:6px;
-  transition:0.3s;
-}
-nav a i { font-size:1.2rem; }
-nav a:hover, nav a.active {
-  color:#fff;
-  background:rgba(179,0,0,0.3);
-}
-nav a::after {
-  content:'';
-  position:absolute;
-  bottom:0;
-  left:0;
-  height:2px;
-  width:0;
-  background:linear-gradient(90deg,#ff3333,#9b00ff);
-  transition:0.3s;
-}
-nav a:hover::after, nav a.active::after { width:100%; }
+    /* -------------------- NAV -------------------- */
+    nav {
+      display: flex;
+      overflow-x: auto;
+      background: rgba(26, 26, 26, 0.9);
+      gap: 1rem;
+      padding: .8rem 1rem;
+      border-bottom: 2px solid #b30000;
+    }
+    nav a {
+      color: #ccc;
+      text-decoration: none;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 6px;
+      transition: 0.3s;
+    }
+    nav a:hover, nav a.active {
+      color: #fff;
+      background: rgba(179, 0, 0, 0.3);
+    }
 
-/* -------------------- ACCOUNT BOX -------------------- */
-.account-box {
-  background:rgba(31,31,31,0.9);
-  padding:2.5rem;
-  border-radius:15px;
-  max-width:500px;
-  margin:3rem auto;
-  box-shadow:0 0 25px rgba(179,0,0,0.6);
-  text-align:center;
-  transition:0.3s;
-}
-.account-box:hover { transform:translateY(-2px); }
-.account-box h2 {
-  margin-bottom:1.8rem;
-  color:#ff33ff;
-  font-size:1.8rem;
-}
-#profilePic {
-  width:140px;
-  height:140px;
-  border-radius:50%;
-  object-fit:cover;
-  border:3px solid #ff33ff;
-  margin-bottom:20px;
-  transition:0.3s;
-}
-#profilePic:hover { transform:scale(1.05); }
-input[type="file"] {
-  margin:12px 0 22px 0;
-  width:100%;
-}
-.info-card {
-  background: rgba(255, 51, 255, 0.1);
-  padding: 12px 15px;
-  margin: 10px 0;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 15px;
-  transition: 0.3s;
-}
-.info-card i {
-  color: #ff33ff;
-  min-width: 22px;
-  text-align: center;
-}
-.info-card:hover {
-  background: rgba(255, 51, 255, 0.2);
-}
+    /* -------------------- ACCOUNT BOX -------------------- */
+    .account-box {
+      background: rgba(31, 31, 31, 0.9);
+      padding: 2.5rem;
+      border-radius: 15px;
+      max-width: 500px;
+      margin: 3rem auto;
+      box-shadow: 0 0 25px rgba(179, 0, 0, 0.6);
+      text-align: center;
+    }
+    .account-box h2 {
+      margin-bottom: 1.2rem;
+      color: #ff33ff;
+      font-size: 1.8rem;
+    }
+    
+    /* Profile Image & Custom Upload */
+    .profile-container {
+      position: relative;
+      display: inline-block;
+      margin-bottom: 20px;
+    }
+    #profilePic {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #ff33ff;
+      transition: 0.3s;
+    }
+    .upload-label {
+      display: block;
+      margin-top: 10px;
+      cursor: pointer;
+      background: rgba(255, 51, 255, 0.15);
+      padding: 8px 15px;
+      border-radius: 20px;
+      font-size: 14px;
+      border: 1px solid #ff33ff;
+      transition: 0.3s;
+    }
+    .upload-label:hover {
+      background: #ff33ff;
+      color: #000;
+    }
 
-/* -------------------- BUTTON -------------------- */
-button {
-  width:100%;
-  padding:14px;
-  background:linear-gradient(45deg,#ff3333,#9b00ff);
-  border:none;
-  color:#fff;
-  font-size:16px;
-  border-radius:8px;
-  cursor:pointer;
-  margin-top:22px;
-  transition:0.3s;
-}
-button:hover {
-  transform:translateY(-3px);
-  box-shadow:0 8px 16px rgba(0,0,0,0.5);
-}
+    .info-card {
+      background: rgba(255, 51, 255, 0.05);
+      padding: 12px 15px;
+      margin: 8px 0;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+      text-align: left;
+      border: 1px solid rgba(255, 51, 255, 0.1);
+    }
+    .info-card i { color: #ff33ff; width: 20px; text-align: center; }
 
-/* -------------------- FOOTER -------------------- */
-footer {
-  text-align:center;
-  background:#1a1a1a;
-  color:#aaa;
-  padding:1rem;
-  border-top:2px solid #b30000;
-  font-size:0.9rem;
-}
-footer span { color:#ff33ff; font-weight:600; }
-</style>
+    button {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(45deg, #ff3333, #9b00ff);
+      border: none;
+      color: #fff;
+      font-size: 16px;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 20px;
+      transition: 0.3s;
+    }
+    button:hover { transform: scale(1.02); }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      color: #aaa;
+      font-size: 0.9rem;
+    }
+    footer span { color: #ff33ff; }
+  </style>
 </head>
 <body>
 
@@ -160,77 +141,98 @@ footer span { color:#ff33ff; font-weight:600; }
   <a href="Home.html"><i class="fas fa-home"></i>Home</a>
   <a href="Movies.html"><i class="fas fa-film"></i>Movies</a>
   <a href="Series.html"><i class="fas fa-tv"></i>Series</a>
-  <a href="About.html"><i class="fas fa-info-circle"></i>About</a>
-  <a href="Contact.html"><i class="fas fa-envelope"></i>Contact</a>
   <a href="account.html" class="active"><i class="fas fa-user"></i>Account</a>
 </nav>
 
 <div class="account-box">
-  <h2>Your Account</h2>
-  <img id="profilePic" src="https://i.imgur.com/6VBx3io.png" alt="Profile Picture">
-  <input type="file" id="uploadPic" accept="image/*">
-  <div id="details"></div>
+  <h2 id="welcomeMsg">Your Account</h2>
+  
+  <div class="profile-container">
+    <img id="profilePic" src="https://i.imgur.com/6VBx3io.png" alt="Profile">
+    <label for="uploadPic" class="upload-label">
+      <i class="fas fa-camera"></i> Change Photo
+    </label>
+    <input type="file" id="uploadPic" accept="image/*" style="display:none;">
+  </div>
+
+  <div id="details">
+    <p>Loading user data...</p>
+  </div>
+  
   <button id="logoutBtn">Sign Out</button>
 </div>
 
 <footer>© 2025 <span>TRAP MOVIES</span> — Created by <span>TRAP GAD</span> 🔥</footer>
 
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
-import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
-import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-storage.js";
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+  import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
+  import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-storage.js";
 
-const firebaseConfig = {
-  apiKey: "AIzaSyBLHlSlMPvwSS5MB8JqG2JB1R-ANIopQZU",
-  authDomain: "trap-270792.firebaseapp.com",
-  projectId: "trap-270792",
-  storageBucket: "trap-270792.appspot.com",
-  messagingSenderId: "248838190395",
-  appId: "1:248838190395:web:0dd11c0e4427f79470331e",
-  measurementId: "G-PG6GXVVKL9"
-};
+  const firebaseConfig = {
+    apiKey: "AIzaSyBLHlSlMPvwSS5MB8JqG2JB1R-ANIopQZU",
+    authDomain: "trap-270792.firebaseapp.com",
+    projectId: "trap-270792",
+    storageBucket: "trap-270792.appspot.com",
+    messagingSenderId: "248838190395",
+    appId: "1:248838190395:web:0dd11c0e4427f79470331e"
+  };
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const storage = getStorage(app);
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const storage = getStorage(app);
 
-onAuthStateChanged(auth, async (user) => {
-  if (!user) { window.location.href = "signin.html"; return; }
+  onAuthStateChanged(auth, async (user) => {
+    if (!user) {
+      window.location.href = "signin.html";
+      return;
+    }
 
-  try {
-    const picRef = ref(storage, "profilePics/" + user.uid + ".jpg");
-    const url = await getDownloadURL(picRef);
-    document.getElementById("profilePic").src = url;
-  } catch {}
+    // Personalized Welcome
+    const name = user.displayName || "User";
+    document.getElementById("welcomeMsg").innerText = `Welcome, ${name.split(' ')[0]}!`;
 
-  const provider = user.providerData[0]?.providerId || 'Unknown';
-  const role = user.customClaims?.role || 'User'; // If you use custom claims for roles
+    // Load Profile Picture
+    try {
+      const picRef = ref(storage, `profilePics/${user.uid}.jpg`);
+      const url = await getDownloadURL(picRef);
+      document.getElementById("profilePic").src = url;
+    } catch (e) {
+      console.log("No custom photo found.");
+    }
 
-  document.getElementById("details").innerHTML = `
-    <div class="info-card"><i class="fas fa-user"></i> <strong>Display Name:</strong> ${user.displayName || 'Not set'}</div>
-    <div class="info-card"><i class="fas fa-envelope"></i> <strong>Email:</strong> ${user.email}</div>
-    <div class="info-card"><i class="fas fa-check-circle"></i> <strong>Email Verified:</strong> ${user.emailVerified ? 'Yes' : 'No'}</div>
-    <div class="info-card"><i class="fas fa-id-badge"></i> <strong>User ID:</strong> ${user.uid}</div>
-    <div class="info-card"><i class="fas fa-calendar-plus"></i> <strong>Account Created:</strong> ${user.metadata.creationTime}</div>
-    <div class="info-card"><i class="fas fa-sign-in-alt"></i> <strong>Last Login:</strong> ${user.metadata.lastSignInTime}</div>
-    <div class="info-card"><i class="fas fa-key"></i> <strong>Sign-in Provider:</strong> ${provider}</div>
-    <div class="info-card"><i class="fas fa-user-shield"></i> <strong>Account Role:</strong> ${role}</div>
-  `;
+    // Display User Details
+    document.getElementById("details").innerHTML = `
+      <div class="info-card"><i class="fas fa-envelope"></i> <strong>Email:</strong> ${user.email}</div>
+      <div class="info-card"><i class="fas fa-id-badge"></i> <strong>User ID:</strong> ${user.uid.substring(0,12)}...</div>
+      <div class="info-card"><i class="fas fa-calendar-alt"></i> <strong>Joined:</strong> ${new Date(user.metadata.creationTime).toLocaleDateString()}</div>
+    `;
 
-  document.getElementById("uploadPic").addEventListener("change", async (event) => {
-    const file = event.target.files[0];
-    if (!file) return;
-    const picRef = ref(storage, "profilePics/" + user.uid + ".jpg");
-    await uploadBytes(picRef, file);
-    const url = await getDownloadURL(picRef);
-    document.getElementById("profilePic").src = url;
-    alert("Profile picture updated!");
+    // Handle Upload
+    document.getElementById("uploadPic").addEventListener("change", async (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      
+      const label = document.querySelector(".upload-label");
+      label.innerText = "Uploading...";
+      
+      try {
+        const picRef = ref(storage, `profilePics/${user.uid}.jpg`);
+        await uploadBytes(picRef, file);
+        const url = await getDownloadURL(picRef);
+        document.getElementById("profilePic").src = url;
+        label.innerHTML = '<i class="fas fa-camera"></i> Change Photo';
+        alert("Profile updated!");
+      } catch (err) {
+        alert("Upload failed. Check Firebase rules.");
+        label.innerHTML = '<i class="fas fa-camera"></i> Change Photo';
+      }
+    });
   });
-});
 
-document.getElementById("logoutBtn").addEventListener("click", () => {
-  signOut(auth).then(() => { window.location.href = "signin.html"; });
-});
+  document.getElementById("logoutBtn").addEventListener("click", () => {
+    signOut(auth).then(() => { window.location.href = "signin.html"; });
+  });
 </script>
 
 </body>
