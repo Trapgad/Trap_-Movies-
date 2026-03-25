@@ -147,7 +147,7 @@
         .medium { width: 66%; background: #ffa500; }
         .strong { width: 100%; background: #2ecc71; }
         
-        .error { color: #ff4d4d; font-size: 0.75rem; margin-top: 5px; display: block; font-weight: 600; }
+        .error { color: #ff4d4d; font-size: 0.75rem; margin-top: 5px; display: block; font-weight: 600; min-height: 15px; }
 
         /* --- BUTTONS --- */
         .primary-btn {
@@ -215,31 +215,34 @@
         <div class="container">
             <h2><i class="fas fa-user-plus"></i> Create Account</h2>
 
-            <div class="form-group">
-                <input id="username" type="text" placeholder=" " required>
-                <label for="username">Username</label>
-            </div>
+            <form id="signupForm">
+                <div class="form-group">
+                    <input id="username" type="text" placeholder=" " required>
+                    <label for="username">Username</label>
+                </div>
 
-            <div class="form-group">
-                <input id="email" type="email" placeholder=" " required>
-                <label for="email">Email</label>
-            </div>
+                <div class="form-group">
+                    <input id="email" type="email" placeholder=" " required>
+                    <label for="email">Email</label>
+                </div>
 
-            <div class="form-group">
-                <input id="password" type="password" placeholder=" " required>
-                <label for="password">Password</label>
-                <div class="password-strength" id="passwordStrength"></div>
-                <span class="error" id="passwordError"></span>
-            </div>
+                <div class="form-group">
+                    <input id="password" type="password" placeholder=" " required>
+                    <label for="password">Password</label>
+                    <div class="password-strength" id="passwordStrength"></div>
+                    <span class="error" id="passwordError"></span>
+                </div>
 
-            <div class="form-group">
-                <input id="confirmPassword" type="password" placeholder=" " required>
-                <label for="confirmPassword">Confirm Password</label>
-                <span class="error" id="confirmPasswordError"></span>
-            </div>
+                <div class="form-group">
+                    <input id="confirmPassword" type="password" placeholder=" " required>
+                    <label for="confirmPassword">Confirm Password</label>
+                    <span class="error" id="confirmPasswordError"></span>
+                </div>
 
-            <button id="signupBtn" class="primary-btn">Sign Up</button>
-            <button class="google-btn"><i class="fab fa-google"></i> Continue with Google</button>
+                <button type="submit" id="signupBtn" class="primary-btn">Sign Up</button>
+            </form>
+
+            <button class="google-btn" id="googleBtn"><i class="fab fa-google"></i> Continue with Google</button>
             
             <div class="login-link">
                 Already have an account? <a href="signin.html">Sign In</a>
@@ -249,7 +252,7 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
-        import { getAuth, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
+        import { getAuth, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, updateProfile } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyBLHlSlMPvwSS5MB8JqG2JB1R-ANIopQZU",
@@ -265,7 +268,7 @@
         const auth = getAuth(app);
         const provider = new GoogleAuthProvider();
 
-        // Password strength logic
+        // --- PASSWORD STRENGTH LOGIC ---
         const passwordInput = document.getElementById("password");
         const passwordStrength = document.getElementById("passwordStrength");
 
@@ -273,45 +276,81 @@
             const val = passwordInput.value;
             passwordStrength.innerHTML = "";
             const div = document.createElement("div");
+            
             if (val.length === 0) return;
-            if (val.length < 8) div.className = "weak";
-            else if (/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])/.test(val)) div.className = "strong";
-            else div.className = "medium";
+            
+            // Criteria: 8+ chars, Upper, Lower, Number, Special
+            const strongRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/;
+            
+            if (val.length < 6) {
+                div.className = "weak";
+            } else if (strongRegex.test(val)) {
+                div.className = "strong";
+            } else {
+                div.className = "medium";
+            }
             passwordStrength.appendChild(div);
         });
 
-        // Sign up logic
-        document.getElementById("signupBtn").addEventListener("click", () => {
+        // --- SIGN UP LOGIC ---
+        const signupForm = document.getElementById("signupForm");
+
+        signupForm.addEventListener("submit", (e) => {
+            e.preventDefault();
+
             const email = document.getElementById("email").value.trim();
             const pass = document.getElementById("password").value.trim();
             const confirmPass = document.getElementById("confirmPassword").value.trim();
             const username = document.getElementById("username").value.trim();
+            const btn = document.getElementById("signupBtn");
 
+            // Reset errors
             document.getElementById("passwordError").textContent = "";
             document.getElementById("confirmPasswordError").textContent = "";
 
-            if (!email || !pass || !username) { alert("All fields required"); return; }
-
-            const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/;
-            if (!regex.test(pass)) { 
-                document.getElementById("passwordError").textContent = "Must be 8+ chars with upper, lower, number & special"; 
-                return; 
-            }
+            // Simple Validation
             if (pass !== confirmPass) { 
                 document.getElementById("confirmPasswordError").textContent = "Passwords do not match"; 
                 return; 
             }
 
+            if (pass.length < 6) {
+                document.getElementById("passwordError").textContent = "Password must be at least 6 characters";
+                return;
+            }
+
+            btn.disabled = true;
+            btn.innerText = "Creating Account...";
+
             createUserWithEmailAndPassword(auth, email, pass)
-                .then(() => { alert("✅ Account Created Successfully!"); window.location.href = "signin.html"; })
-                .catch(err => alert("❌ "+err.message));
+                .then((userCredential) => {
+                    // Update the Firebase user profile with the username
+                    return updateProfile(userCredential.user, {
+                        displayName: username
+                    });
+                })
+                .then(() => {
+                    alert("✅ Account Created Successfully!");
+                    window.location.href = "signin.html";
+                })
+                .catch(err => {
+                    alert("❌ " + err.message);
+                    btn.disabled = false;
+                    btn.innerText = "Sign Up";
+                });
         });
 
-        // Google logic
-        document.querySelector(".google-btn").addEventListener("click", () => {
+        // --- GOOGLE LOGIC ---
+        document.getElementById("googleBtn").addEventListener("click", () => {
             signInWithPopup(auth, provider)
-                .then(() => { alert("✅ Signed in with Google!"); window.location.href = "Home.html"; })
-                .catch(err => alert("❌ "+err.message));
+                .then(() => {
+                    window.location.href = "Home.html";
+                })
+                .catch(err => {
+                    if(err.code !== 'auth/popup-closed-by-user') {
+                        alert("❌ Google Sign-in Error: " + err.message);
+                    }
+                });
         });
     </script>
 </body>
