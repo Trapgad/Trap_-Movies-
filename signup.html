@@ -1,202 +1,318 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TRAP MOVIES | Sign Up</title>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<style>
-body {
-  margin:0;
-  font-family:'Montserrat',sans-serif;
-  background:#0d0d0d;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  min-height:100vh;
-  color:#fff;
-}
-.container {
-  width:90%;
-  max-width:400px;
-  background:rgba(31,31,31,0.85);
-  padding:40px 30px;
-  border-radius:16px;
-  box-shadow:0 0 25px rgba(179,0,0,0.5);
-  text-align:center;
-  backdrop-filter:blur(12px);
-}
-.container h2 {
-  font-size:1.8rem;
-  color:#ff33ff;
-  margin-bottom:2rem;
-  text-shadow:0 0 8px #b300ff;
-}
-.form-group { position: relative; margin-bottom:20px; text-align:left; }
-input {
-  width:100%;
-  padding:14px 12px;
-  border-radius:8px;
-  border:1px solid #333;
-  background:#111;
-  color:#fff;
-  font-size:1rem;
-  outline:none;
-  transition:0.3s;
-}
-input:focus { border-color:#ff33ff; box-shadow:0 0 12px #ff33ff; }
-input::placeholder { color:transparent; }
-label {
-  position:absolute;
-  left:12px;
-  top:14px;
-  color:#aaa;
-  pointer-events:none;
-  transition:0.3s;
-  background:rgba(31,31,31,0.85);
-  padding:0 4px;
-}
-input:focus + label,
-input:not(:placeholder-shown) + label {
-  top:-8px;
-  font-size:0.8rem;
-  color:#ff33ff;
-}
-button {
-  width:100%;
-  padding:14px;
-  margin-top:15px;
-  background: linear-gradient(45deg,#ff3333,#9b00ff);
-  border:none;
-  border-radius:25px;
-  color:#fff;
-  font-size:16px;
-  font-weight:700;
-  cursor:pointer;
-  transition:0.3s, box-shadow 0.3s, transform 0.3s;
-}
-button:hover { transform:translateY(-3px); box-shadow:0 0 15px #ff33ff; }
-.google-btn {
-  width:100%;
-  padding:12px;
-  margin-top:12px;
-  border-radius:25px;
-  border:1px solid #fff;
-  background:#222;
-  color:#fff;
-  font-weight:600;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  cursor:pointer;
-  transition:0.3s;
-}
-.google-btn i { margin-right:8px; }
-.google-btn:hover { background:#333; box-shadow:0 0 12px #fff; }
-.error { color: red; font-size:0.85rem; margin-top:4px; }
-.password-strength { margin-top:5px; height:5px; border-radius:4px; }
-.password-strength div { height:100%; border-radius:4px; }
-.weak { width:33%; background-color:red; }
-.medium { width:66%; background-color:orange; }
-.strong { width:100%; background-color:green; }
-a { color:#aaa; display:block; text-align:center; margin-top:12px; text-decoration:none; transition:0.3s; }
-a:hover { color:#ff33ff; }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TRAP MOVIES | Sign Up</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --accent: #E50914;
+            --bg-dark: #080808;
+            --bg-surface: #121212;
+            --border: rgba(255, 255, 255, 0.1);
+            --text-main: #FFFFFF;
+            --text-dim: #999999;
+            --transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* --- NAVIGATION --- */
+        .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 1.2rem 6%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(8, 8, 8, 0.9);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--text-main);
+            text-decoration: none;
+        }
+        .logo span { color: var(--accent); }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-dim);
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover, .nav-links a.active { 
+            color: white; 
+            border-bottom: 2px solid var(--accent);
+        }
+
+        /* --- FORM CONTAINER --- */
+        .signup-wrapper {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 100px 20px 40px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 420px;
+            background: var(--bg-surface);
+            padding: 40px;
+            border-radius: 24px;
+            border: 1px solid var(--border);
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+
+        .container h2 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 2rem;
+        }
+
+        .form-group { position: relative; margin-bottom: 20px; text-align: left; }
+        
+        input {
+            width: 100%;
+            padding: 16px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            background: #1a1a1a;
+            color: #fff;
+            font-size: 1rem;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        input:focus { border-color: var(--accent); }
+        
+        label {
+            position: absolute;
+            left: 16px;
+            top: 16px;
+            color: var(--text-dim);
+            pointer-events: none;
+            transition: 0.3s;
+            background: #1a1a1a;
+            padding: 0 5px;
+        }
+
+        input:focus + label,
+        input:not(:placeholder-shown) + label {
+            top: -10px;
+            font-size: 0.75rem;
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        /* --- STRENGTH BAR & ERRORS --- */
+        .password-strength { margin-top: 8px; height: 4px; background: #333; border-radius: 4px; overflow: hidden; }
+        .password-strength div { height: 100%; transition: width 0.3s ease; }
+        .weak { width: 33%; background: #ff4d4d; }
+        .medium { width: 66%; background: #ffa500; }
+        .strong { width: 100%; background: #2ecc71; }
+        
+        .error { color: #ff4d4d; font-size: 0.75rem; margin-top: 5px; display: block; font-weight: 600; }
+
+        /* --- BUTTONS --- */
+        .primary-btn {
+            width: 100%;
+            padding: 16px;
+            background: var(--accent);
+            border: none;
+            border-radius: 12px;
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 10px;
+        }
+
+        .primary-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(229, 9, 20, 0.3);
+        }
+
+        .google-btn {
+            width: 100%;
+            padding: 14px;
+            margin-top: 12px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--text-main);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .google-btn:hover { background: rgba(255,255,255,0.05); }
+
+        .login-link { margin-top: 20px; font-size: 0.9rem; color: var(--text-dim); }
+        .login-link a { color: var(--accent); text-decoration: none; font-weight: 700; }
+
+        @media (max-width: 768px) { .nav-links { display: none; } }
+    </style>
 </head>
 <body>
-<div class="container">
-  <h2><i class="fas fa-user-plus"></i> Create Account</h2>
 
-  <div class="form-group">
-    <input id="username" type="text" placeholder=" " required>
-    <label for="username">Username</label>
-  </div>
+    <header class="header">
+        <a href="index.html" class="logo">TRAP<span>MOVIES</span></a>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="movies.html">Movies</a></li>
+                <li><a href="series.html">Series</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="account.html" class="active">Account</a></li>
+            </ul>
+        </nav>
+    </header>
 
-  <div class="form-group">
-    <input id="email" type="email" placeholder=" " required>
-    <label for="email">Email</label>
-  </div>
+    <div class="signup-wrapper">
+        <div class="container">
+            <h2><i class="fas fa-user-plus"></i> Create Account</h2>
 
-  <div class="form-group">
-    <input id="password" type="password" placeholder=" " required>
-    <label for="password">Password</label>
-    <div class="password-strength" id="passwordStrength"></div>
-    <span class="error" id="passwordError"></span>
-  </div>
+            <div class="form-group">
+                <input id="username" type="text" placeholder=" " required>
+                <label for="username">Username</label>
+            </div>
 
-  <div class="form-group">
-    <input id="confirmPassword" type="password" placeholder=" " required>
-    <label for="confirmPassword">Confirm Password</label>
-    <span class="error" id="confirmPasswordError"></span>
-  </div>
+            <div class="form-group">
+                <input id="email" type="email" placeholder=" " required>
+                <label for="email">Email</label>
+            </div>
 
-  <button id="signupBtn">Sign Up</button>
-  <button class="google-btn"><i class="fab fa-google"></i> Continue with Google</button>
-  <a href="signin.html"><i class="fas fa-sign-in-alt"></i> Already have an account? Sign In</a>
-</div>
+            <div class="form-group">
+                <input id="password" type="password" placeholder=" " required>
+                <label for="password">Password</label>
+                <div class="password-strength" id="passwordStrength"></div>
+                <span class="error" id="passwordError"></span>
+            </div>
 
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
+            <div class="form-group">
+                <input id="confirmPassword" type="password" placeholder=" " required>
+                <label for="confirmPassword">Confirm Password</label>
+                <span class="error" id="confirmPasswordError"></span>
+            </div>
 
-const firebaseConfig = {
-  apiKey: "AIzaSyBLHlSlMPvwSS5MB8JqG2JB1R-ANIopQZU",
-  authDomain: "trap-270792.firebaseapp.com",
-  projectId: "trap-270792",
-  storageBucket: "trap-270792.appspot.com",
-  messagingSenderId: "248838190395",
-  appId: "1:248838190395:web:0dd11c0e4427f79470331e",
-  measurementId: "G-PG6GXVVKL9"
-};
+            <button id="signupBtn" class="primary-btn">Sign Up</button>
+            <button class="google-btn"><i class="fab fa-google"></i> Continue with Google</button>
+            
+            <div class="login-link">
+                Already have an account? <a href="signin.html">Sign In</a>
+            </div>
+        </div>
+    </div>
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const provider = new GoogleAuthProvider();
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
 
-// Password strength
-const passwordInput = document.getElementById("password");
-const passwordStrength = document.getElementById("passwordStrength");
+        const firebaseConfig = {
+            apiKey: "AIzaSyBLHlSlMPvwSS5MB8JqG2JB1R-ANIopQZU",
+            authDomain: "trap-270792.firebaseapp.com",
+            projectId: "trap-270792",
+            storageBucket: "trap-270792.appspot.com",
+            messagingSenderId: "248838190395",
+            appId: "1:248838190395:web:0dd11c0e4427f79470331e",
+            measurementId: "G-PG6GXVVKL9"
+        };
 
-passwordInput.addEventListener("input", () => {
-  const val = passwordInput.value;
-  passwordStrength.innerHTML = "";
-  const div = document.createElement("div");
-  if (val.length < 8) div.className = "weak";
-  else if (/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])/.test(val)) div.className = "strong";
-  else div.className = "medium";
-  passwordStrength.appendChild(div);
-});
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const provider = new GoogleAuthProvider();
 
-// Sign up with email/password
-document.getElementById("signupBtn").addEventListener("click", () => {
-  const email = document.getElementById("email").value.trim();
-  const pass = document.getElementById("password").value.trim();
-  const confirmPass = document.getElementById("confirmPassword").value.trim();
-  const username = document.getElementById("username").value.trim();
+        // Password strength logic
+        const passwordInput = document.getElementById("password");
+        const passwordStrength = document.getElementById("passwordStrength");
 
-  const passwordError = document.getElementById("passwordError");
-  const confirmPasswordError = document.getElementById("confirmPasswordError");
-  passwordError.textContent = "";
-  confirmPasswordError.textContent = "";
+        passwordInput.addEventListener("input", () => {
+            const val = passwordInput.value;
+            passwordStrength.innerHTML = "";
+            const div = document.createElement("div");
+            if (val.length === 0) return;
+            if (val.length < 8) div.className = "weak";
+            else if (/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])/.test(val)) div.className = "strong";
+            else div.className = "medium";
+            passwordStrength.appendChild(div);
+        });
 
-  if (!email || !pass || !username) { alert("All fields required"); return; }
+        // Sign up logic
+        document.getElementById("signupBtn").addEventListener("click", () => {
+            const email = document.getElementById("email").value.trim();
+            const pass = document.getElementById("password").value.trim();
+            const confirmPass = document.getElementById("confirmPassword").value.trim();
+            const username = document.getElementById("username").value.trim();
 
-  const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/;
-  if (!regex.test(pass)) { passwordError.textContent = "Password must be 8+ chars with upper, lower, number & special"; return; }
-  if (pass !== confirmPass) { confirmPasswordError.textContent = "Passwords do not match"; return; }
+            document.getElementById("passwordError").textContent = "";
+            document.getElementById("confirmPasswordError").textContent = "";
 
-  createUserWithEmailAndPassword(auth, email, pass)
-    .then(() => { alert("✅ Account Created Successfully!"); window.location.href = "signin.html"; })
-    .catch(err => alert("❌ "+err.message));
-});
+            if (!email || !pass || !username) { alert("All fields required"); return; }
 
-// Google signup
-document.querySelector(".google-btn").addEventListener("click", () => {
-  signInWithPopup(auth, provider)
-    .then(() => { alert("✅ Signed in with Google!"); window.location.href = "Home.html"; })
-    .catch(err => alert("❌ "+err.message));
-});
-</script>
+            const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/;
+            if (!regex.test(pass)) { 
+                document.getElementById("passwordError").textContent = "Must be 8+ chars with upper, lower, number & special"; 
+                return; 
+            }
+            if (pass !== confirmPass) { 
+                document.getElementById("confirmPasswordError").textContent = "Passwords do not match"; 
+                return; 
+            }
+
+            createUserWithEmailAndPassword(auth, email, pass)
+                .then(() => { alert("✅ Account Created Successfully!"); window.location.href = "signin.html"; })
+                .catch(err => alert("❌ "+err.message));
+        });
+
+        // Google logic
+        document.querySelector(".google-btn").addEventListener("click", () => {
+            signInWithPopup(auth, provider)
+                .then(() => { alert("✅ Signed in with Google!"); window.location.href = "Home.html"; })
+                .catch(err => alert("❌ "+err.message));
+        });
+    </script>
 </body>
 </html>
