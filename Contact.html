@@ -30,6 +30,7 @@
             background-color: var(--bg-dark);
             color: var(--text-main);
             padding-top: 100px;
+            line-height: 1.6;
         }
 
         /* --- NAVIGATION --- */
@@ -80,7 +81,7 @@
 
         /* --- CONTACT CONTENT --- */
         .container {
-            max-width: 900px;
+            max-width: 1000px;
             margin: 4rem auto;
             padding: 0 6%;
             display: grid;
@@ -89,10 +90,12 @@
         }
 
         .contact-info h1 {
-            font-size: 3rem;
+            font-size: 3.5rem;
             font-weight: 800;
             margin-bottom: 1.5rem;
+            line-height: 1.1;
         }
+        .contact-info h1 span { color: var(--accent); }
 
         .info-item {
             margin-bottom: 1.5rem;
@@ -102,7 +105,7 @@
             color: var(--text-dim);
         }
 
-        .info-item i { color: var(--accent); font-size: 1.2rem; }
+        .info-item i { color: var(--accent); font-size: 1.2rem; width: 25px; }
         .info-item span { color: white; font-weight: 600; }
 
         .contact-card {
@@ -110,23 +113,31 @@
             padding: 3rem;
             border-radius: 24px;
             border: 1px solid var(--border);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
         }
 
         .form-group { margin-bottom: 1.5rem; }
 
         input, textarea {
             width: 100%;
-            padding: 1rem;
+            padding: 1.2rem;
             background: #1a1a1a;
             border: 1px solid var(--border);
             border-radius: 12px;
             color: white;
             font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+            background: #222;
         }
 
         .submit-btn {
             width: 100%;
-            padding: 1rem;
+            padding: 1.2rem;
             background: var(--accent);
             color: white;
             border: none;
@@ -135,18 +146,25 @@
             text-transform: uppercase;
             cursor: pointer;
             transition: var(--transition);
+            letter-spacing: 1px;
         }
 
         .submit-btn:hover { 
             transform: translateY(-3px); 
-            box-shadow: 0 10px 20px rgba(229, 9, 20, 0.3); 
+            box-shadow: 0 10px 20px rgba(229, 9, 20, 0.4); 
+        }
+
+        .submit-btn:disabled {
+            background: #555;
+            cursor: not-allowed;
+            transform: none;
         }
 
         /* --- MOBILE ADJUSTMENTS --- */
         @media (max-width: 850px) {
-            .container { grid-template-columns: 1fr; }
-            .nav-links { gap: 1rem; }
-            .nav-links a { font-size: 0.7rem; }
+            .container { grid-template-columns: 1fr; gap: 2rem; }
+            .contact-info h1 { font-size: 2.5rem; }
+            .contact-card { padding: 2rem; }
         }
     </style>
 </head>
@@ -168,7 +186,9 @@
     <main class="container">
         <div class="contact-info">
             <h1>Get in <br><span>Touch.</span></h1>
-            <p style="color: var(--text-dim); margin-bottom: 2rem;">Send a message to TRAP GAD.</p>
+            <p style="color: var(--text-dim); margin-bottom: 2rem; font-size: 1.1rem;">
+                Have a request or a question? Send a message to TRAP GAD.
+            </p>
             <div class="info-item">
                 <i class="fas fa-envelope"></i> 
                 <p>Email: <span>davidedemquarshie1@gmail.com</span></p>
@@ -190,7 +210,7 @@
                 <div class="form-group">
                     <textarea name="message" placeholder="Your Message" rows="5" required></textarea>
                 </div>
-                <button type="submit" class="submit-btn">Send Message</button>
+                <button type="submit" id="submitBtn" class="submit-btn">Send Message</button>
             </form>
         </div>
     </main>
@@ -201,7 +221,7 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-analytics-compat.js"></script>
 
     <script>
-        // --- Firebase Setup ---
+        // 1. INITIALIZE FIREBASE
         const firebaseConfig = {
             apiKey: "AIzaSyBLHlSlMPvwSS5MB8JqG2JB1R-ANIopQZU",
             authDomain: "trap-270792.firebaseapp.com",
@@ -211,38 +231,39 @@
             appId: "1:248838190395:web:0dd11c0e4427f79470331e",
             measurementId: "G-PG6GXVVKL9"
         };
-
-        // Initialize Firebase
-        const app = firebase.initializeApp(firebaseConfig);
+        firebase.initializeApp(firebaseConfig);
         const analytics = firebase.analytics();
 
-        // --- EmailJS Setup ---
+        // 2. INITIALIZE EMAILJS
         (function(){ 
             emailjs.init("nxHZMBsHUE7DW8m50"); 
         })();
 
-        // --- Form Handling ---
-        document.getElementById("contactForm").addEventListener("submit", function(event){
+        // 3. FORM SUBMISSION LOGIC
+        const contactForm = document.getElementById("contactForm");
+        const btn = document.getElementById("submitBtn");
+
+        contactForm.addEventListener("submit", function(event) {
             event.preventDefault();
-            const btn = this.querySelector("button");
-            const originalText = btn.innerHTML;
+            
             btn.innerHTML = "Sending...";
             btn.disabled = true;
 
+            // Use your confirmed Service ID and Template ID
             emailjs.sendForm("service_3arrlko", "template_6spwewd", this)
                 .then(() => {
-                    alert("✅ Message sent successfully!");
+                    alert("✅ Success! Your message has been sent.");
                     
-                    // Log event to Firebase Analytics
-                    analytics.logEvent('contact_form_submission');
+                    // Log the success to Firebase Analytics
+                    analytics.logEvent('contact_form_success');
                     
-                    this.reset();
-                    btn.innerHTML = originalText;
+                    contactForm.reset();
+                    btn.innerHTML = "Send Message";
                     btn.disabled = false;
                 }, (error) => {
-                    console.error("FAILED...", error);
-                    alert("❌ Error sending message. Please try again.");
-                    btn.innerHTML = originalText;
+                    console.error("EmailJS Error:", error);
+                    alert("❌ Failed to send. Check your connection or Service ID.");
+                    btn.innerHTML = "Send Message";
                     btn.disabled = false;
                 });
         });
