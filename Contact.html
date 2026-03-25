@@ -7,26 +7,47 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root { --accent: #E50914; --bg-dark: #080808; --bg-surface: #121212; --border: rgba(255, 255, 255, 0.1); --text-main: #FFFFFF; --text-dim: #999999; --transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1); }
+        :root { 
+            --accent: #E50914; 
+            --bg-dark: #080808; 
+            --bg-surface: #121212; 
+            --border: rgba(255, 255, 255, 0.1); 
+            --text-main: #FFFFFF; 
+            --text-dim: #999999; 
+            --transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1); 
+        }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
-        body { background-color: var(--bg-dark); color: var(--text-main); padding-top: 100px; }
+        body { background-color: var(--bg-dark); color: var(--text-main); padding-top: 100px; line-height: 1.6; }
+
+        /* Header Navigation */
         .header { position: fixed; top: 0; width: 100%; z-index: 1000; padding: 1.2rem 6%; display: flex; justify-content: space-between; align-items: center; background: rgba(8, 8, 8, 0.95); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); }
         .logo { font-size: 1.5rem; font-weight: 800; text-transform: uppercase; letter-spacing: 3px; color: var(--text-main); text-decoration: none; }
         .logo span { color: var(--accent); }
         .nav-links { display: flex; gap: 1.5rem; list-style: none; }
-        .nav-links a { text-decoration: none; color: var(--text-dim); font-size: 0.8rem; font-weight: 700; text-transform: uppercase; transition: var(--transition); padding-bottom: 5px; }
-        .nav-links a:hover, .nav-links a.active { color: white; border-bottom: 2px solid var(--accent); }
-        .container { max-width: 900px; margin: 4rem auto; padding: 0 6%; display: grid; grid-template-columns: 1fr 1.2fr; gap: 4rem; }
-        .contact-info h1 { font-size: 3rem; font-weight: 800; margin-bottom: 1.5rem; }
-        .info-item { margin-bottom: 1.5rem; display: flex; align-items: center; gap: 15px; color: var(--text-dim); }
-        .info-item i { color: var(--accent); font-size: 1.2rem; }
-        .info-item span { color: white; font-weight: 600; }
-        .contact-card { background: var(--bg-surface); padding: 3rem; border-radius: 24px; border: 1px solid var(--border); }
+        .nav-links a { text-decoration: none; color: var(--text-dim); font-size: 0.8rem; font-weight: 700; text-transform: uppercase; transition: var(--transition); }
+        .nav-links a:hover, .nav-links a.active { color: white; border-bottom: 2px solid var(--accent); padding-bottom: 5px; }
+
+        /* Main Container */
+        .container { max-width: 1100px; margin: 4rem auto; padding: 0 6%; display: grid; grid-template-columns: 1fr 1.2fr; gap: 4rem; }
+        .contact-info h1 { font-size: 4rem; font-weight: 800; margin-bottom: 1rem; line-height: 1.1; }
+        .contact-info h1 span { color: var(--accent); }
+        .info-card { background: rgba(255,255,255,0.03); border: 1px solid var(--border); padding: 1.5rem; border-radius: 20px; margin-bottom: 1rem; display: flex; align-items: center; gap: 15px; }
+        .info-card i { color: var(--accent); font-size: 1.5rem; }
+
+        /* Contact Card & Form */
+        .contact-card { background: var(--bg-surface); padding: 3rem; border-radius: 30px; border: 1px solid var(--border); box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
         .form-group { margin-bottom: 1.5rem; }
-        input, textarea { width: 100%; padding: 1rem; background: #1a1a1a; border: 1px solid var(--border); border-radius: 12px; color: white; font-size: 1rem; }
-        .submit-btn { width: 100%; padding: 1rem; background: var(--accent); color: white; border: none; border-radius: 12px; font-weight: 800; text-transform: uppercase; cursor: pointer; transition: var(--transition); }
-        .submit-btn:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(229, 9, 20, 0.3); }
-        @media (max-width: 850px) { .container { grid-template-columns: 1fr; } .nav-links { gap: 1rem; } }
+        input, textarea { width: 100%; padding: 1.2rem; background: #1a1a1a; border: 1px solid var(--border); border-radius: 15px; color: white; font-size: 1rem; transition: var(--transition); }
+        input:focus, textarea:focus { outline: none; border-color: var(--accent); background: #222; box-shadow: 0 0 15px rgba(229, 9, 20, 0.1); }
+        
+        .submit-btn { width: 100%; padding: 1.2rem; background: var(--accent); color: white; border: none; border-radius: 15px; font-weight: 800; text-transform: uppercase; cursor: pointer; transition: var(--transition); letter-spacing: 2px; }
+        .submit-btn:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(229, 9, 20, 0.4); }
+        .submit-btn:disabled { background: #444; cursor: not-allowed; transform: none; }
+
+        /* Status Message */
+        #result { margin-top: 1.5rem; text-align: center; font-weight: 600; padding: 1rem; border-radius: 10px; display: none; }
+
+        @media (max-width: 850px) { .container { grid-template-columns: 1fr; } .contact-info h1 { font-size: 3rem; } }
     </style>
 </head>
 <body>
@@ -45,64 +66,84 @@
     <main class="container">
         <div class="contact-info">
             <h1>Get in <br><span>Touch.</span></h1>
-            <div class="info-item"><i class="fas fa-envelope"></i> <p>Email: <span>davidedemquarshie1@gmail.com</span></p></div>
-            <div class="info-item"><i class="fas fa-phone"></i> <p>Phone: <span>0500844575</span></p></div>
+            <p style="color: var(--text-dim); margin-bottom: 2rem;">Have a movie request or business inquiry? The TRAP GAD team is ready to respond.</p>
+            
+            <div class="info-card"><i class="fas fa-envelope"></i> <div><p style="font-size: 0.7rem; color: var(--text-dim);">EMAIL</p><p>davidedemquarshie1@gmail.com</p></div></div>
+            <div class="info-card"><i class="fas fa-phone"></i> <div><p style="font-size: 0.7rem; color: var(--text-dim);">WHATSAPP</p><p>+233 50 084 4575</p></div></div>
         </div>
 
         <div class="contact-card">
-            <form id="contactForm">
-                <div class="form-group"><input type="text" name="from_name" placeholder="Full Name" required></div>
-                <div class="form-group"><input type="email" name="user_email" placeholder="Email Address" required></div>
-                <div class="form-group"><textarea name="message" placeholder="Your Message" rows="5" required></textarea></div>
+            <form action="https://api.web3forms.com/submit" method="POST" id="form">
+                <input type="hidden" name="access_key" value="844a59d4-c5d1-455f-8f6f-b8126756afa2">
+                
+                <input type="checkbox" name="botcheck" class="hidden" style="display: none;">
+
+                <div class="form-group">
+                    <input type="text" name="name" placeholder="Your Full Name" required>
+                </div>
+                <div class="form-group">
+                    <input type="email" name="email" placeholder="Email Address" required>
+                </div>
+                <div class="form-group">
+                    <textarea name="message" placeholder="How can we help you today?" rows="5" required></textarea>
+                </div>
+                
                 <button type="submit" class="submit-btn" id="btn">Send Message</button>
+                <div id="result"></div>
             </form>
         </div>
     </main>
 
-    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-analytics-compat.js"></script>
-
     <script>
-        // 1. Firebase Configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyBLHlSlMPvwSS5MB8JqG2JB1R-ANIopQZU",
-            authDomain: "trap-270792.firebaseapp.com",
-            projectId: "trap-270792",
-            storageBucket: "trap-270792.firebasestorage.app",
-            messagingSenderId: "248838190395",
-            appId: "1:248838190395:web:0dd11c0e4427f79470331e",
-            measurementId: "G-PG6GXVVKL9"
-        };
-        firebase.initializeApp(firebaseConfig);
-        const analytics = firebase.analytics();
+        const form = document.getElementById('form');
+        const result = document.getElementById('result');
+        const btn = document.getElementById('btn');
 
-        // 2. EmailJS Initialization (Fixed Public Key from screenshot)
-        (function(){ 
-            emailjs.init("nxHZMBsHUE7DW8m50"); 
-        })();
-
-        // 3. Form Submission
-        document.getElementById("contactForm").addEventListener("submit", function(event){
-            event.preventDefault();
-            const btn = document.getElementById("btn");
-            btn.innerHTML = "Sending...";
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Loading State
+            btn.innerHTML = "<i class='fas fa-spinner fa-spin'></i> SENDING...";
             btn.disabled = true;
+            
+            const formData = new FormData(form);
+            const object = Object.fromEntries(formData);
+            const json = JSON.stringify(object);
 
-            // Updated Service ID from screenshot: service_pw7euxq
-            // Please verify template_6spwewd in your EmailJS dashboard
-            emailjs.sendForm("service_pw7euxq", "template_6spwewd", this)
-                .then(() => {
-                    alert("✅ Success! Message sent to TRAP GAD.");
-                    analytics.logEvent('contact_form_sent');
-                    this.reset();
+            result.style.display = "block";
+            result.style.background = "rgba(255,255,255,0.05)";
+            result.style.color = "white";
+            result.innerHTML = "Processing your request...";
+
+            fetch('https://api.web3forms.com/submit', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: json
+                })
+                .then(async (response) => {
+                    let json = await response.json();
+                    if (response.status == 200) {
+                        result.style.background = "rgba(75, 181, 67, 0.1)";
+                        result.style.color = "#4BB543";
+                        result.innerHTML = "✅ Success! We have received your message.";
+                        form.reset();
+                    } else {
+                        result.style.background = "rgba(229, 9, 20, 0.1)";
+                        result.style.color = "#E50914";
+                        result.innerHTML = "❌ Error: " + json.message;
+                    }
+                })
+                .catch(error => {
+                    result.innerHTML = "Something went wrong. Please try again later.";
+                })
+                .then(function() {
                     btn.innerHTML = "Send Message";
                     btn.disabled = false;
-                }, (error) => {
-                    alert("❌ FAILED: Check your EmailJS dashboard IDs.");
-                    console.log("Error details:", error);
-                    btn.innerHTML = "Send Message";
-                    btn.disabled = false;
+                    // Auto-hide the message after 6 seconds
+                    setTimeout(() => { result.style.display = "none"; }, 6000);
                 });
         });
     </script>
