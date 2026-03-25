@@ -77,8 +77,10 @@
         firebase.initializeApp(firebaseConfig);
         const analytics = firebase.analytics();
 
-        // 2. EmailJS Initialization
-        (function(){ emailjs.init("NxHZMBsHUE7DW8m50"); })();
+        // 2. EmailJS Initialization (Fixed Public Key from screenshot)
+        (function(){ 
+            emailjs.init("nxHZMBsHUE7DW8m50"); 
+        })();
 
         // 3. Form Submission
         document.getElementById("contactForm").addEventListener("submit", function(event){
@@ -87,7 +89,9 @@
             btn.innerHTML = "Sending...";
             btn.disabled = true;
 
-            emailjs.sendForm("service_3arrlko", "template_6spwewd", this)
+            // Updated Service ID from screenshot: service_pw7euxq
+            // Please verify template_6spwewd in your EmailJS dashboard
+            emailjs.sendForm("service_pw7euxq", "template_6spwewd", this)
                 .then(() => {
                     alert("✅ Success! Message sent to TRAP GAD.");
                     analytics.logEvent('contact_form_sent');
@@ -95,7 +99,7 @@
                     btn.innerHTML = "Send Message";
                     btn.disabled = false;
                 }, (error) => {
-                    alert("❌ FAILED: Check your EmailJS Service ID or Template ID.");
+                    alert("❌ FAILED: Check your EmailJS dashboard IDs.");
                     console.log("Error details:", error);
                     btn.innerHTML = "Send Message";
                     btn.disabled = false;
