@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign In | TRAP MOVIES</title>
+    <title>TRAP MOVIES | Sign In</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -59,28 +59,8 @@
         }
         .logo span { color: var(--accent); }
 
-        .nav-links {
-            display: flex;
-            gap: 1.5rem;
-            list-style: none;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: var(--text-dim);
-            font-size: 0.8rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            transition: var(--transition);
-        }
-
-        .nav-links a:hover, .nav-links a.active { 
-            color: white; 
-            border-bottom: 2px solid var(--accent);
-        }
-
-        /* --- LOGIN CONTAINER --- */
-        .login-wrapper {
+        /* --- FORM CONTAINER --- */
+        .signin-wrapper {
             flex: 1;
             display: flex;
             justify-content: center;
@@ -90,7 +70,7 @@
 
         .container {
             width: 100%;
-            max-width: 400px;
+            max-width: 420px;
             background: var(--bg-surface);
             padding: 40px;
             border-radius: 24px;
@@ -105,7 +85,6 @@
             margin-bottom: 2rem;
         }
 
-        /* --- INPUTS --- */
         .form-group { position: relative; margin-bottom: 20px; text-align: left; }
         
         input {
@@ -141,7 +120,6 @@
             font-weight: 700;
         }
 
-        /* --- BUTTONS --- */
         .primary-btn {
             width: 100%;
             padding: 16px;
@@ -154,6 +132,7 @@
             text-transform: uppercase;
             cursor: pointer;
             transition: var(--transition);
+            margin-top: 10px;
         }
 
         .primary-btn:hover {
@@ -180,66 +159,97 @@
 
         .google-btn:hover { background: rgba(255,255,255,0.05); }
 
-        .links-wrap {
-            margin-top: 20px;
-            font-size: 0.9rem;
-            color: var(--text-dim);
-        }
+        .signup-link { margin-top: 25px; font-size: 0.9rem; color: var(--text-dim); }
+        .signup-link a { color: var(--accent); text-decoration: none; font-weight: 700; }
 
-        .links-wrap a {
-            color: var(--accent);
-            text-decoration: none;
-            font-weight: 600;
-        }
-
-        @media (max-width: 768px) {
-            .nav-links { display: none; }
-        }
     </style>
 </head>
 <body>
 
     <header class="header">
         <a href="index.html" class="logo">TRAP<span>MOVIES</span></a>
-        <nav>
-            <ul class="nav-links">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="movies.html">Movies</a></li>
-                <li><a href="series.html">Series</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="contact.html">Contact</a></li>
-                <li><a href="account.html" class="active">Account</a></li>
-            </ul>
-        </nav>
     </header>
 
-    <div class="login-wrapper">
+    <div class="signin-wrapper">
         <div class="container">
-            <h2>Welcome Back</h2>
+            <h2><i class="fas fa-sign-in-alt"></i> Sign In</h2>
 
-            <div class="form-group">
-                <input id="email" type="email" placeholder=" " required>
-                <label for="email">Email</label>
-            </div>
+            <form id="loginForm">
+                <div class="form-group">
+                    <input id="email" type="email" placeholder=" " required>
+                    <label for="email">Email Address</label>
+                </div>
 
-            <div class="form-group">
-                <input id="password" type="password" placeholder=" " required>
-                <label for="password">Password</label>
-            </div>
+                <div class="form-group">
+                    <input id="password" type="password" placeholder=" " required>
+                    <label for="password">Password</label>
+                </div>
 
-            <button id="loginBtn" class="primary-btn">Sign In</button>
-            <button class="google-btn"><i class="fab fa-google"></i> Continue with Google</button>
+                <button type="submit" id="loginBtn" class="primary-btn">Sign In</button>
+            </form>
 
-            <div class="links-wrap">
-                <p><a href="#" id="forgotPassword">Forgot password?</a></p>
-                <p style="margin-top: 10px;">New here? <a href="signup.html">Create Account</a></p>
+            <button class="google-btn" id="googleBtn">
+                <i class="fab fa-google"></i> Continue with Google
+            </button>
+            
+            <div class="signup-link">
+                New to TRAP MOVIES? <a href="signup.html">Sign Up Now</a>
             </div>
         </div>
     </div>
 
     <script type="module">
-        // [Keep your existing Firebase config and logic here]
-    </script>
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
 
+        const firebaseConfig = {
+            apiKey: "AIzaSyBLHlSlMPvwSS5MB8JqG2JB1R-ANIopQZU",
+            authDomain: "trap-270792.firebaseapp.com",
+            projectId: "trap-270792",
+            storageBucket: "trap-270792.appspot.com",
+            messagingSenderId: "248838190395",
+            appId: "1:248838190395:web:0dd11c0e4427f79470331e",
+            measurementId: "G-PG6GXVVKL9"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const provider = new GoogleAuthProvider();
+
+        // --- EMAIL LOGIN ---
+        const loginForm = document.getElementById("loginForm");
+        loginForm.addEventListener("submit", (e) => {
+            e.preventDefault();
+            const email = document.getElementById("email").value;
+            const pass = document.getElementById("password").value;
+            const btn = document.getElementById("loginBtn");
+
+            btn.disabled = true;
+            btn.innerText = "Authenticating...";
+
+            signInWithEmailAndPassword(auth, email, pass)
+                .then(() => {
+                    window.location.href = "Home.html";
+                })
+                .catch(err => {
+                    alert("❌ Login Failed: " + err.message);
+                    btn.disabled = false;
+                    btn.innerText = "Sign In";
+                });
+        });
+
+        // --- GOOGLE LOGIN ---
+        document.getElementById("googleBtn").addEventListener("click", () => {
+            signInWithPopup(auth, provider)
+                .then(() => {
+                    window.location.href = "Home.html";
+                })
+                .catch(err => {
+                    if(err.code !== 'auth/popup-closed-by-user') {
+                        alert("❌ Google Error: " + err.message);
+                    }
+                });
+        });
+    </script>
 </body>
 </html>
